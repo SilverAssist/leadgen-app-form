@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "leadgen/form-block",
+  "version": "1.0.0",
+  "title": "LeadGen Form Shortcode Block",
+  "category": "widgets",
+  "icon": "feedback",
+  "description": "Insert a responsive LeadGen form with desktop and mobile configurations.",
+  "keywords": [
+    "form",
+    "leadgen",
+    "lead generation",
+    "responsive"
+  ],
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"],
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "__experimentalDefaultControls": {
+        "margin": false,
+        "padding": false
+      }
+    },
+    "color": {
+      "background": false,
+      "text": false,
+      "gradients": false
+    },
+    "typography": {
+      "fontSize": false,
+      "lineHeight": false
+    }
+  },
+  "attributes": {
+    "desktopId": {
+      "type": "string",
+      "default": ""
+    },
+    "mobileId": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "leadgen-app-form",
+  "editorScript": "file:./block.js",
+  "editorStyle": "file:./editor.css",
+  "example": {
+    "attributes": {
+      "desktopId": "demo-desktop-form",
+      "mobileId": "demo-mobile-form"
+    }
+  }
+}

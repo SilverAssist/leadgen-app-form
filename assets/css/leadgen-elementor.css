@@ -1,0 +1,192 @@
+/**
+ * LeadGen App Form Plugin - Elementor Styles
+ *
+ * CSS styles specific to Elementor integration and editor interface.
+ * Provides enhanced styling for widget previews and editor experience.
+ *
+ * @package LeadGenAppForm
+ * @since 1.0.0
+ * @author Silver Assist
+ * @copyright Copyright (c) 2025, Silver Assist
+ * @license GPL v2 or later
+ * @version 1.0.0
+ */
+
+/* ==========================================================================
+  Elementor Editor Specific Styles
+   ========================================================================== */
+.elementor-editor-active .leadgen-form-container {
+  min-height: 100px;
+  position: relative;
+}
+
+/* ==========================================================================
+  Elementor Widget Preview Styles
+   ========================================================================== */
+
+/* Elementor Widget Preview Styles */
+.elementor-leadgen-preview {
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leadgen-form-preview-info {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+}
+
+.leadgen-form-preview-info h4 {
+  margin: 0 0 10px 0;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.leadgen-form-preview-info p {
+  margin: 5px 0;
+  color: #6c757d;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.leadgen-form-preview-info em {
+  color: #868e96;
+  font-size: 12px;
+}
+
+/* ==========================================================================
+  Elementor Error Styling
+   ========================================================================== */
+
+/* Elementor Error Styling */
+.leadgen-form-error.elementor-alert {
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.leadgen-form-error .elementor-alert-title {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.leadgen-form-error .elementor-alert-description {
+  display: block;
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+  Elementor Control Field Enhancement
+   ========================================================================== */
+
+/* Elementor Control Field Enhancement */
+.elementor-control-field-description {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Widget Icon in Elementor Panel */
+.elementor-element .icon .eicon-form-horizontal {
+  font-size: 18px;
+}
+
+/* ==========================================================================
+  Responsive Design for Elementor
+   ========================================================================== */
+
+/* Responsive Adjustments for Elementor */
+@media (max-width: 768px) {
+  .elementor-leadgen-preview {
+    padding: 15px;
+    min-height: 120px;
+  }
+
+  .leadgen-form-preview-info {
+    padding: 12px;
+  }
+
+  .leadgen-form-preview-info h4 {
+    font-size: 14px;
+  }
+
+  .leadgen-form-preview-info p {
+    font-size: 13px;
+  }
+}
+
+/* ==========================================================================
+  Elementor Preview Animations
+   ========================================================================== */
+
+/* Animation for Elementor Preview */
+.elementor-leadgen-preview .leadgen-pulse-animation {
+  width: 40px;
+  height: 40px;
+  background: #007cba;
+  border-radius: 50%;
+  animation: leadgen-pulse-elementor 1.5s infinite;
+  margin: 0 auto 15px auto;
+}
+
+@keyframes leadgen-pulse-elementor {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+  Elementor Editor Enhancements
+   ========================================================================== */
+
+/* Elementor Widget Title Styling - Inherits from main plugin styles */
+
+/* Override Elementor default margins if needed */
+.elementor-widget-leadgen-form .leadgen-form-container {
+  margin: 0;
+}
+
+/* Elementor Editor Live Preview Enhancement */
+.elementor-editor-active .leadgen-form-container[data-current-id=""] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.elementor-editor-active .leadgen-form-container::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px dashed transparent;
+  border-radius: 4px;
+  pointer-events: none;
+  transition: border-color 0.3s ease;
+}
+
+.elementor-editor-active .leadgen-form-container:hover::before {
+  border-color: #007cba;
+}

@@ -1,0 +1,172 @@
+{
+	"env": {
+		"browser": true,
+		"es6": true,
+		"jquery": true,
+		"node": false
+	},
+	"extends": ["eslint:recommended"],
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "script"
+	},
+	"globals": {
+		"wp": "readonly",
+		"wpApiSettings": "readonly",
+		"ajaxurl": "readonly",
+		"leadGenAppSettings": "readonly",
+		"jQuery": "readonly",
+		"$": "readonly",
+		"console": "readonly",
+		"window": "readonly",
+		"document": "readonly",
+		"setTimeout": "readonly",
+		"clearTimeout": "readonly",
+		"setInterval": "readonly",
+		"clearInterval": "readonly",
+		"ResizeObserver": "readonly",
+		"MutationObserver": "readonly",
+		"IntersectionObserver": "readonly",
+		"Element": "readonly",
+		"HTMLElement": "readonly",
+		"Event": "readonly",
+		"CustomEvent": "readonly",
+		"FormData": "readonly",
+		"XMLHttpRequest": "readonly",
+		"fetch": "readonly",
+		"Promise": "readonly",
+		"Set": "readonly",
+		"Map": "readonly",
+		"WeakMap": "readonly",
+		"WeakSet": "readonly"
+	},
+	"rules": {
+		"indent": ["error", 2],
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "double"],
+		"semi": ["error", "always"],
+		"no-unused-vars": [
+			"warn",
+			{
+				"vars": "all",
+				"args": "after-used",
+				"ignoreRestSiblings": true
+			}
+		],
+		"no-console": "warn",
+		"no-debugger": "error",
+		"no-alert": "warn",
+		"no-var": "error",
+		"prefer-const": "error",
+		"prefer-arrow-callback": "error",
+		"arrow-spacing": "error",
+		"comma-dangle": ["error", "never"],
+		"comma-spacing": ["error", { "before": false, "after": true }],
+		"comma-style": ["error", "last"],
+		"brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+		"curly": ["error", "all"],
+		"eqeqeq": ["error", "always"],
+		"func-call-spacing": ["error", "never"],
+		"key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
+		"keyword-spacing": ["error", { "before": true, "after": true }],
+		"no-trailing-spaces": "error",
+		"no-whitespace-before-property": "error",
+		"object-curly-spacing": ["error", "always"],
+		"space-before-blocks": "error",
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "always",
+				"named": "never",
+				"asyncArrow": "always"
+			}
+		],
+		"space-in-parens": ["error", "never"],
+		"space-infix-ops": "error",
+		"spaced-comment": ["error", "always"],
+		"no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
+		"eol-last": ["error", "always"],
+		"camelcase": ["error", { "properties": "always" }],
+		"new-cap": ["error", { "newIsCap": true, "capIsNew": false }],
+		"no-array-constructor": "error",
+		"no-new-object": "error",
+		"no-new-wrappers": "error",
+		"no-undef": "error",
+		"no-undefined": "error",
+		"no-implicit-globals": "error",
+		"strict": ["error", "function"],
+		"prefer-template": "warn",
+		"template-curly-spacing": ["error", "never"],
+		"block-scoped-var": "error",
+		"consistent-return": "error",
+		"default-case": "error",
+		"dot-notation": "error",
+		"guard-for-in": "error",
+		"no-else-return": "error",
+		"no-empty-function": "warn",
+		"no-eval": "error",
+		"no-extend-native": "error",
+		"no-extra-bind": "error",
+		"no-floating-decimal": "error",
+		"no-implied-eval": "error",
+		"no-iterator": "error",
+		"no-labels": "error",
+		"no-lone-blocks": "error",
+		"no-loop-func": "error",
+		"no-multi-spaces": "error",
+		"no-multi-str": "error",
+		"no-new": "error",
+		"no-new-func": "error",
+		"no-octal-escape": "error",
+		"no-param-reassign": "warn",
+		"no-proto": "error",
+		"no-return-assign": "error",
+		"no-script-url": "error",
+		"no-self-compare": "error",
+		"no-sequences": "error",
+		"no-throw-literal": "error",
+		"no-unmodified-loop-condition": "error",
+		"no-unused-expressions": "error",
+		"no-useless-call": "error",
+		"no-useless-concat": "error",
+		"no-void": "error",
+		"no-with": "error",
+		"radix": "error",
+		"wrap-iife": ["error", "any"],
+		"yoda": "error"
+	},
+	"overrides": [
+		{
+			"files": ["blocks/**/*.js"],
+			"env": {
+				"browser": true,
+				"es6": true
+			},
+			"parserOptions": {
+				"ecmaVersion": 2020,
+				"sourceType": "module",
+				"ecmaFeatures": {
+					"jsx": true
+				}
+			},
+			"globals": {
+				"wp": "readonly",
+				"React": "readonly",
+				"ReactDOM": "readonly"
+			},
+			"rules": {
+				"strict": "off"
+			}
+		},
+		{
+			"files": ["assets/js/leadgen-app-form.js"],
+			"env": {
+				"browser": true,
+				"jquery": true
+			},
+			"rules": {
+				"no-console": "off"
+			}
+		}
+	]
+}
