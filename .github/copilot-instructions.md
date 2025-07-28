@@ -348,6 +348,22 @@ wp eval "if (class_exists('\\Elementor\\Plugin')) { echo 'Elementor is active'; 
 
 # Check package size locally
 ./scripts/calculate-size.sh
+
+# Check version consistency across all files
+./scripts/check-versions.sh
+
+# Update version across all plugin files
+./scripts/update-version.sh 1.0.2
+```
+
+### Version Management
+```bash
+# Complete version update workflow
+./scripts/check-versions.sh              # Check current consistency
+./scripts/update-version.sh 1.0.2       # Update all files to new version
+git diff                                 # Review changes
+git add . && git commit -m "🔧 Update version to 1.0.2"
+git tag v1.0.2 && git push origin main && git push origin v1.0.2
 ```
 
 ### Release Management

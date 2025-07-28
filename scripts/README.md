@@ -12,6 +12,8 @@ This system completely automates the release creation process for the LeadGen Ap
 
 ### Local Scripts
 - **`scripts/calculate-size.sh`** - Local package size calculation
+- **`scripts/update-version.sh`** - Automated version updating across all files
+- **`scripts/check-versions.sh`** - Version consistency verification
 
 ## 🔄 Automated Workflow
 
@@ -96,7 +98,6 @@ assets/
 README.md
 CHANGELOG.md
 LICENSE
-readme.txt (if exists)
 ```
 
 ### ❌ Excluded from Package
@@ -175,7 +176,74 @@ zip -r leadgen-app-form-v1.0.1.zip leadgen-app-form-v1.0.1/
 # 3. Upload manually to GitHub Releases
 ```
 
-## 🚨 Troubleshooting
+## � Version Management Scripts
+
+### Check Current Versions
+
+```bash
+# Display version consistency report across all files
+./scripts/check-versions.sh
+```
+
+**Output includes:**
+- ✅ Main plugin file versions (header, constant, docblock)
+- ✅ All PHP files (@version tags)
+- ✅ All CSS files (@version tags)
+- ✅ All JavaScript files (@version tags)
+- ✅ Block metadata (block.json)
+- ✅ Consistency warnings and errors
+
+### Update All Versions
+
+```bash
+# Update version across all plugin files
+./scripts/update-version.sh <new-version>
+
+# Examples:
+./scripts/update-version.sh 1.0.2    # Patch release
+./scripts/update-version.sh 1.1.0    # Minor release
+./scripts/update-version.sh 2.0.0    # Major release
+```
+
+**The script updates:**
+- 📄 Main plugin file (header, constant, @version)
+- 📄 All PHP files (@version tags)
+- 📄 All CSS files (@version tags)
+- 📄 All JavaScript files (@version tags)
+- 📄 Block metadata files (block.json)
+
+**Important Notes:**
+- ⚠️ Script only updates `@version` tags, not `@since` tags
+- ⚠️ New files need `@since` tag set manually
+- ✅ Validates semantic version format
+- ✅ Shows confirmation before making changes
+- ✅ Provides next steps after completion
+
+### Complete Release Workflow
+
+```bash
+# 1. Check current version consistency
+./scripts/check-versions.sh
+
+# 2. Update to new version
+./scripts/update-version.sh 1.0.2
+
+# 3. Review changes
+git diff
+
+# 4. Update CHANGELOG.md manually (add new version section)
+
+# 5. Commit version update
+git add .
+git commit -m "🔧 Update version to 1.0.2"
+
+# 6. Create tag and trigger automated release
+git tag v1.0.2
+git push origin main
+git push origin v1.0.2
+```
+
+## �🚨 Troubleshooting
 
 ### If GitHub Actions Fails
 1. Verify tag has format `v1.0.1`
