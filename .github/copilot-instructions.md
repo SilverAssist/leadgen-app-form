@@ -191,7 +191,7 @@ All files in this plugin must follow standardized header documentation patterns:
 ```php
 /**
  * Plugin Name: LeadGen App Form Plugin
- * Plugin URI: http://silverassist.com/leadgen-app-form
+ * Plugin URI: https://github.com/SilverAssist/leadgen-app-form
  * Description: WordPress plugin that adds a shortcode to display forms with desktop-id and mobile-id parameters.
  * Version: 1.0.0
  * Author: Silver Assist
@@ -263,6 +263,63 @@ All files in this plugin must follow standardized header documentation patterns:
 - **New files in v1.0.1**: Use `@since 1.0.1` and `@version 1.0.1`
 - **Existing files**: Keep original `@since`, update `@version` to 1.0.1
 - See `HEADER-STANDARDS.md` for complete reference and examples
+
+## Commit Message Standards
+
+Follow these emoji conventions for clear and consistent commit history:
+
+### Commit Types with Emojis
+
+#### **🐛 Bug Fixes**
+```bash
+# For fixing bugs, errors, or issues
+git commit -m "🐛 Fix form loading issue on mobile devices"
+git commit -m "🐛 Resolve update notification display bug"
+git commit -m "🐛 Fix Elementor widget configuration validation"
+```
+
+#### **✨ New Features**
+```bash
+# For adding new features or functionality
+git commit -m "✨ Add automatic GitHub update system"
+git commit -m "✨ Implement admin settings page for updates"
+git commit -m "✨ Add real-time AJAX update checking"
+```
+
+#### **🔧 Fixes & Improvements**
+```bash
+# For general fixes, improvements, or maintenance
+git commit -m "🔧 Improve error handling in update system"
+git commit -m "🔧 Optimize script loading performance"
+git commit -m "🔧 Update documentation with new features"
+```
+
+### Additional Commit Types
+- **📚 Documentation**: `📚 Update README with v1.0.1 features`
+- **🎨 Style/Format**: `🎨 Improve code formatting and structure`
+- **♻️ Refactor**: `♻️ Refactor update system for better modularity`
+- **⚡ Performance**: `⚡ Optimize form loading with smart caching`
+- **🔒 Security**: `🔒 Enhance input validation and sanitization`
+- **🚀 Release**: `🚀 Release v1.0.1 with automatic update system`
+
+### Commit Message Format
+```bash
+<emoji> <type>: <description>
+
+# Examples:
+🐛 Fix mobile form detection logic
+✨ Add Elementor widget support  
+🔧 Improve admin interface styling
+📚 Update installation documentation
+🚀 Release v1.0.1 with GitHub integration
+```
+
+### Best Practices
+- **Clear descriptions**: Explain what was changed and why
+- **Present tense**: "Add feature" not "Added feature"
+- **Concise but descriptive**: Keep under 50 characters when possible
+- **Reference issues**: Include issue numbers when applicable
+- **Consistent emoji usage**: Follow the established pattern
 
 ## Development Commands
 
