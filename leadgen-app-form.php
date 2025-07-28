@@ -3,7 +3,7 @@
  * Plugin Name: LeadGen App Form Plugin
  * Plugin URI: http://silverassist.com/leadgen-app-form
  * Description: WordPress plugin that adds a shortcode to display LeadGen App forms with desktop-id and mobile-id parameters.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Silver Assist
  * Author URI: http://silverassist.com/
  * Text Domain: leadgen-app-form
@@ -13,7 +13,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package LeadGenAppForm
- * @version 1.0.0
+ * @version 1.0.1
  * @author Silver Assist
  */
 
@@ -31,7 +31,7 @@ if (!defined("ABSPATH")) {
 }
 
 // Define plugin constants
-define("LEADGEN_APP_FORM_VERSION", "1.0.0");
+define("LEADGEN_APP_FORM_VERSION", "1.0.1");
 define("LEADGEN_APP_FORM_PLUGIN_URL", plugin_dir_url(__FILE__));
 define("LEADGEN_APP_FORM_PLUGIN_PATH", plugin_dir_path(__FILE__));
 define("LEADGEN_APP_FORM_PLUGIN_BASENAME", plugin_basename(__FILE__));
@@ -137,7 +137,7 @@ class LeadGen_App_Form
    * Load plugin dependencies
    *
    * Include additional PHP files from the includes directory.
-   * Loads the Gutenberg block handler and Elementor widgets loader.
+   * Loads the Gutenberg block handler, Elementor widgets loader, and updater system.
    *
    * @since 1.0.0
    * @access private
@@ -152,13 +152,20 @@ class LeadGen_App_Form
     if (\did_action("elementor/loaded") || \class_exists("\\Elementor\\Plugin")) {
       require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/class-widgets-loader.php";
     }
+
+    // Load updater system (only in admin)
+    if (\is_admin()) {
+      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/class-leadgen-app-form-updater.php";
+      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/class-leadgen-app-form-admin.php";
+    }
   }
 
   /**
    * Initialize plugin after WordPress is loaded
    *
    * Loads the plugin textdomain for internationalization support,
-   * initializes the Gutenberg block handler, and sets up Elementor integration.
+   * initializes the Gutenberg block handler, sets up Elementor integration,
+   * and initializes the updater system.
    * This method is called on the "init" hook.
    *
    * @since 1.0.0
@@ -182,6 +189,17 @@ class LeadGen_App_Form
     // Initialize Elementor widgets loader
     if (\class_exists("LeadGenAppForm\\Elementor\\Widgets_Loader")) {
       Elementor\Widgets_Loader::get_instance();
+    }
+
+    // Initialize updater system (only in admin)
+    if (\is_admin() && \class_exists("LeadGenAppForm\\LeadGen_App_Form_Updater")) {
+      // Public repository - no authentication required
+      $updater = new LeadGen_App_Form_Updater(__FILE__, "SilverAssist/leadgen-app-form");
+
+      // Initialize admin page
+      if (\class_exists("LeadGenAppForm\\LeadGen_App_Form_Admin")) {
+        new LeadGen_App_Form_Admin($updater);
+      }
     }
   }
 

@@ -10,6 +10,8 @@ leadgen-app-form/
 ├── leadgen-app-form.php     # Main plugin file (Singleton pattern)
 ├── includes/                # Additional PHP classes
 │   ├── class-leadgen-form-block.php # Gutenberg block handler
+│   ├── class-leadgen-app-form-updater.php # Custom GitHub update system
+│   ├── class-leadgen-app-form-admin.php # WordPress admin interface
 │   └── elementor/          # Elementor integration
 │       ├── class-widgets-loader.php # Elementor widgets loader
 │       └── widgets/        # Elementor widgets
@@ -24,7 +26,8 @@ leadgen-app-form/
 │   │   ├── leadgen-app-form.css # Main plugin styles
 │   │   └── leadgen-elementor.css # Elementor-specific styles
 │   └── js/                 # Vanilla JS with minimal user interaction
-│       └── leadgen-app-form.js
+│       ├── leadgen-app-form.js # Frontend form loading
+│       └── leadgen-admin.js # Admin update interface
 ├── .github/                # GitHub Actions automation
 │   └── workflows/          # Release automation workflows
 │       ├── release.yml     # Main release workflow
@@ -36,6 +39,7 @@ leadgen-app-form/
 ├── README.md               # Plugin documentation
 ├── CHANGELOG.md            # Version change history
 ├── RELEASE-NOTES.md        # Generated release information
+├── UPDATE-SYSTEM.md        # Update system documentation
 └── HEADER-STANDARDS.md     # File header documentation standards
 ```
 
@@ -59,6 +63,60 @@ leadgen-app-form/
 - **Return Type Declarations**: `: void`, `: string`, `: array`, `: LeadGen_App_Form`
 - **Null Coalescing Operator**: `$atts["desktop-id"] ?? ""`
 - **Void Return Types**: Methods that don't return values explicitly marked `: void`
+- **String Interpolation**: Use `"API URL: {$this->api_url}"` instead of concatenation for readability
+
+### Automatic Update System
+- **Public Repository Integration**: Works seamlessly with public GitHub repositories without authentication
+- **WordPress Native Experience**: Updates appear in standard WordPress admin interface
+- **Version Caching**: 12-hour intelligent caching to minimize API calls
+- **Manual Update Checks**: Admin interface for immediate update verification
+- **Background Processing**: Non-blocking update detection and processing
+- **Error Handling**: Graceful fallback when GitHub API is unavailable
+- **Professional Distribution**: GitHub Actions automate release package creation (~38KB)
+
+#### Update System Components
+```php
+// Core updater class - handles GitHub API integration
+LeadGen_App_Form_Updater::class
+// Admin interface - manual update checks and status display
+LeadGen_App_Form_Admin::class
+// JavaScript handler - AJAX update checking
+leadgen-admin.js
+```
+
+#### Update Flow Pattern
+```
+WordPress Admin → GitHub API → Version Check → Cache (12h) → Update Notification → One-Click Install
+```
+
+### String Interpolation Best Practices
+- **API URLs**: `"https://api.github.com/repos/{$this->github_repo}/releases/latest"`
+- **Download URLs**: `"https://github.com/{$this->github_repo}/releases/download/v{$version}/leadgen-app-form-v{$version}.zip"`
+- **CSS Selectors**: `"#leadgen-form-wrap-{$form_id}"`
+- **HTML Attributes**: `"data-desktop-id=\"{$desktop_id}\" data-mobile-id=\"{$mobile_id}\""`
+- **Log Messages**: `"Loading form {$form_id} for {$device_type} device"`
+- **Error Messages**: `"New version {$remote_version} is available! Current version: {$current_version}"`
+- **Transient Names**: `"{$this->plugin_basename}_version_check"`
+
+#### String Interpolation Examples
+```php
+// ✅ GOOD: Use string interpolation for readability
+$api_url = "https://api.github.com/repos/{$this->github_repo}/releases/latest";
+$message = "Version {$new_version} available (current: {$current_version})";
+$selector = "#leadgen-form-{$form_id}";
+
+// ❌ AVOID: String concatenation is harder to read
+$api_url = "https://api.github.com/repos/" . $this->github_repo . "/releases/latest";
+$message = "Version " . $new_version . " available (current: " . $current_version . ")";
+$selector = "#leadgen-form-" . $form_id;
+
+// ✅ GOOD: Complex interpolation with escaping
+$html = "<div id=\"{$element_id}\" class=\"{$css_class}\" data-version=\"{$version}\"></div>";
+
+// ✅ GOOD: JavaScript template literals (similar concept)
+const apiUrl = `https://api.github.com/repos/${this.githubRepo}/releases/latest`;
+const message = `Loading form ${formId} for ${deviceType} device`;
+```
 
 ### JavaScript Architecture
 - **Minimal User Interaction**: Forms load only on focus/mousemove/scroll/touchstart events
@@ -75,7 +133,7 @@ leadgen-app-form/
 // Gutenberg Block - Preferred for block editor users
 // Search "LeadGen Form" in block library, configure in sidebar
 
-// Elementor Widget - For Elementor page builder users  
+// Elementor Widget - For Elementor page builder users
 // Drag "LeadGen Form" widget from "LeadGen Forms" category
 
 // Flexible - works with one or both IDs
@@ -196,11 +254,14 @@ All files in this plugin must follow standardized header documentation patterns:
 
 **Header Standards Notes**:
 - All files must include clear functionality descriptions
-- Maintain version consistency (1.0.0) across all files
+- Maintain current version (1.0.1) in @version across all files
 - Use proper namespaces for PHP files according to file location
 - CSS files should use copyright year 2025
 - Author must always be "Silver Assist"
 - License should be "GPL v2 or later" where applicable
+- **@since vs @version**: `@since` indicates when introduced, `@version` indicates current version
+- **New files in v1.0.1**: Use `@since 1.0.1` and `@version 1.0.1`
+- **Existing files**: Keep original `@since`, update `@version` to 1.0.1
 - See `HEADER-STANDARDS.md` for complete reference and examples
 
 ## Development Commands
@@ -212,11 +273,18 @@ wp plugin activate leadgen-app-form
 
 # Check for PHP syntax errors (main files)
 php -l leadgen-app-form.php
+php -l includes/class-leadgen-app-form-updater.php
+php -l includes/class-leadgen-app-form-admin.php
 php -l includes/elementor/class-widgets-loader.php
 php -l includes/elementor/widgets/class-leadgen-form-widget.php
 
 # Validate JavaScript
 npx eslint assets/js/leadgen-app-form.js
+npx eslint assets/js/leadgen-admin.js
+
+# Test update system functionality
+# - Go to WordPress Admin → Settings → LeadGen Forms
+# - Click "Check for Updates" to test manual update checking
 
 # Test Elementor integration (requires Elementor plugin active)
 wp eval "if (class_exists('\\Elementor\\Plugin')) { echo 'Elementor is active'; } else { echo 'Elementor not found'; }"
@@ -348,12 +416,15 @@ npx eslint assets/js/leadgen-app-form.js
 ## Key Files Reference
 - **Entry Point**: `leadgen-app-form.php` (Singleton class)
 - **Gutenberg Block**: `includes/class-leadgen-form-block.php` (Block handler)
+- **Update System**: `includes/class-leadgen-app-form-updater.php` (GitHub API integration)
+- **Admin Interface**: `includes/class-leadgen-app-form-admin.php` (Update management)
 - **Elementor Loader**: `includes/elementor/class-widgets-loader.php` (Widgets manager)
 - **Elementor Widget**: `includes/elementor/widgets/class-leadgen-form-widget.php` (LeadGen Form widget)
 - **Frontend Logic**: `assets/js/leadgen-app-form.js` (Vanilla JS + jQuery)
+- **Admin JavaScript**: `assets/js/leadgen-admin.js` (Update status handling)
 - **Main Styles**: `assets/css/leadgen-app-form.css` (Responsive + animations)
 - **Elementor Styles**: `assets/css/leadgen-elementor.css` (Elementor-specific styling)
-- **Documentation**: `README.md` (User-facing docs)
+- **Documentation**: `README.md` (User-facing docs), `UPDATE-SYSTEM.md` (Update system guide)
 
 ## Release Management & Automation
 

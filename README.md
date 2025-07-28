@@ -68,6 +68,29 @@ After installation, you should see:
 - **Elementor Widget**: "LeadGen Form" widget in the "LeadGen Forms" category (if Elementor is installed)
 - **Shortcode Support**: `[leadgen_form]` shortcode ready to use
 
+## Automatic Updates
+
+The plugin includes a professional automatic update system that connects directly to this GitHub repository:
+
+### ✅ **Zero Configuration Required**
+- **Automatic Detection**: WordPress checks for new versions every 12 hours
+- **Native Experience**: Updates appear in the standard WordPress Plugins page
+- **One-Click Updates**: Install updates with a single click
+- **Update Notifications**: Get notified when new versions are available
+
+### 🔧 **Manual Update Check**
+```
+WordPress Admin → Settings → LeadGen Forms → Check for Updates
+```
+
+### 📋 **Update Features**
+- **Version Caching**: Efficient API usage with smart caching
+- **Error Handling**: Graceful fallback if updates are unavailable
+- **Background Processing**: Non-blocking update checks
+- **Release Notes**: Automatic changelog integration
+
+The update system works seamlessly with public GitHub repositories and requires no additional configuration.
+
 ## Usage
 
 ### Gutenberg Block (Recommended)

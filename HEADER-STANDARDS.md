@@ -6,7 +6,7 @@
 Plugin Name: LeadGen App Form Plugin
 Plugin URI: http://silverassist.com/leadgen-app-form
 Description: WordPress plugin that adds a shortcode to display forms with desktop-id and mobile-id parameters.
-Version: 1.0.0
+Version: 1.0.1
 Author: Silver Assist
 Author URI: http://silverassist.com/
 Text Domain: leadgen-app-form
@@ -27,7 +27,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Plugin Name: LeadGen App Form Plugin
  * Plugin URI: http://silverassist.com/leadgen-app-form
  * Description: WordPress plugin that adds a shortcode to display forms with desktop-id and mobile-id parameters.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Silver Assist
  * Author URI: http://silverassist.com/
  * Text Domain: leadgen-app-form
@@ -37,7 +37,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package LeadGenAppForm
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  * @author Silver Assist
  */
@@ -52,7 +52,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * [Detailed description of file functionality]
  *
  * @package LeadGenAppForm[/SubNamespace if applicable]
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  * @author Silver Assist
  */
@@ -71,7 +71,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * @author Silver Assist
  * @copyright Copyright (c) 2025, Silver Assist
  * @license GPL v2 or later
- * @version 1.0.0
+ * @version 1.0.1
  */
 ```
 
@@ -84,7 +84,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * [Detailed description of JavaScript functionality]
  *
  * @file [filename.js]
- * @version 1.0.0
+ * @version 1.0.1
  * @author Silver Assist
  * @requires jQuery
  * @since 1.0.0
@@ -105,6 +105,37 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * @package LeadGenAppForm\Elementor
  * @since 1.0.0
  * @author Silver Assist
+ * @version 1.0.1
+ */
+```
+
+### Example for class-leadgen-app-form-updater.php (New in v1.0.1):
+```php
+/**
+ * LeadGen App Form Updater - Custom GitHub Updates Handler
+ *
+ * Handles automatic updates from public GitHub releases for the LeadGen App Form Plugin.
+ * Provides seamless WordPress admin updates without requiring authentication tokens.
+ *
+ * @package LeadGenAppForm
+ * @since 1.0.1
+ * @author Silver Assist
+ * @version 1.0.1
+ */
+```
+
+### Example for class-leadgen-app-form-admin.php (New in v1.0.1):
+```php
+/**
+ * LeadGen App Form Admin Page - Plugin Settings and Update Status
+ *
+ * Provides admin interface for plugin settings and update status display.
+ * Shows current version, available updates, and manual update check functionality.
+ *
+ * @package LeadGenAppForm
+ * @since 1.0.1
+ * @author Silver Assist
+ * @version 1.0.1
  */
 ```
 
@@ -121,7 +152,23 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * @author Silver Assist
  * @copyright Copyright (c) 2025, Silver Assist
  * @license GPL v2 or later
- * @version 1.0.0
+ * @version 1.0.1
+ */
+```
+
+### Example for leadgen-admin.js (New in v1.0.1):
+```javascript
+/**
+ * LeadGen App Form Admin JavaScript - Update Status Handler
+ *
+ * Handles AJAX requests for checking plugin updates manually and displaying
+ * real-time update status in the WordPress admin interface.
+ *
+ * @file leadgen-admin.js
+ * @version 1.0.1
+ * @author Silver Assist
+ * @requires jQuery
+ * @since 1.0.1
  */
 ```
 
@@ -134,44 +181,18 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * in the LeadGen App Form plugin.
  *
  * @file leadgen-app-form.js
- * @version 1.0.0
+ * @version 1.0.1
  * @author Silver Assist
  * @requires jQuery
  * @since 1.0.0
  */
 ```
 
-## Development Commands
-
-### Plugin Testing
-```bash
-# Activate plugin via WP-CLI
-wp plugin activate leadgen-app-form
-
-# Check for PHP syntax errors (main files)
-php -l leadgen-app-form.php
-php -l includes/elementor/class-widgets-loader.php
-php -l includes/elementor/widgets/class-leadgen-form-widget.php
-
-# Validate JavaScript with ESLint (if ESLint is installed globally)
-eslint assets/js/leadgen-app-form.js
-eslint blocks/leadgen-form/block.js
-
-# Test Elementor integration (requires Elementor plugin active)
-wp eval "if (class_exists('\\Elementor\\Plugin')) { echo 'Elementor is active'; } else { echo 'Elementor not found'; }"
-```
-
-### Code Quality
-- **ESLint Configuration**: `.eslintrc.json` configured for WordPress development
-- **JavaScript Standards**: Double quotes, semicolons, 2-space indentation
-- **WordPress Globals**: `wp`, `jQuery`, `leadGenAppSettings` pre-configured
-- **IDE Integration**: Most IDEs will automatically detect and use ESLint configuration
-
 ## Important Notes
 
 1. **Mandatory description**: All files must include a clear description of their content and functionality.
 
-2. **Version consistency**: Maintain version 1.0.0 in all files until next release.
+2. **Version consistency**: Maintain current version (1.0.1) in @version across all files.
 
 3. **Proper namespace**: PHP files must include correct namespace according to their location (LeadGenAppForm, LeadGenAppForm\Elementor, etc.).
 
@@ -180,3 +201,14 @@ wp eval "if (class_exists('\\Elementor\\Plugin')) { echo 'Elementor is active'; 
 5. **Author consistency**: Always use "Silver Assist" as author.
 
 6. **License uniformity**: Maintain "GPL v2 or later" in all applicable files.
+
+7. **Versioning standards**:
+   - **@since**: Indicates when the file/feature was first introduced (never changes retroactively)
+   - **@version**: Indicates current version of the file (updates with each release)
+   - **New files in v1.0.1**: Use both `@since 1.0.1` and `@version 1.0.1`
+   - **Existing files**: Keep original `@since`, update `@version` to current release
+
+8. **Update system files**: New files introduced in v1.0.1 for automatic updates:
+   - `class-leadgen-app-form-updater.php`
+   - `class-leadgen-app-form-admin.php`
+   - `leadgen-admin.js`
