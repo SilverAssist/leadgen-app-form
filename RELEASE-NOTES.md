@@ -4,7 +4,7 @@
 - **Plugin Name**: LeadGen App Form Plugin
 - **Version**: 1.0.1
 - **File**: leadgen-app-form-v1.0.1.zip
-- **Size**: ~50KB
+- **Size**: ~49KB
 - **Release Date**: July 27, 2025
 - **License**: GPL v2 or later
 - **Repository**: https://github.com/SilverAssist/leadgen-app-form

@@ -5,7 +5,7 @@
  * real-time update status in the WordPress admin interface.
  *
  * @file leadgen-admin.js
- * @version 1.0.1
+ * @version 1.0.2
  * @author Silver Assist
  * @requires jQuery
  * @since 1.0.1

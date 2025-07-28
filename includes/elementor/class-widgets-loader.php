@@ -7,7 +7,7 @@
  * when Elementor is active and provides proper integration.
  *
  * @package LeadGenAppForm\Elementor
- * @version 1.0.1
+ * @version 1.0.2
  * @since 1.0.0
  * @author Silver Assist
  */

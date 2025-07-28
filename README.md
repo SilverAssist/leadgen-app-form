@@ -4,10 +4,13 @@ WordPress plugin that adds a shortcode to display forms with different configura
 
 ## Features
 
-- **🚀 NEW in v1.0.1**: Professional automatic update system with GitHub integration
-- **⚙️ NEW**: WordPress admin settings page for update management and status
-- **🔄 NEW**: Real-time AJAX update checking with manual update functionality
-- **📦 NEW**: GitHub Actions automation for professional release management
+- **🚀 NEW in v1.0.2**: Complete automated version management system with bash scripts
+- **⚙️ NEW**: Advanced version consistency checking and validation tools
+- **🔧 NEW**: Streamlined development workflow with automated version updates
+- **🚀 Updated in v1.0.1**: Professional automatic update system with GitHub integration
+- **⚙️ Updated in v1.0.1**: WordPress admin settings page for update management and status
+- **🔄 Updated in v1.0.1**: Real-time AJAX update checking with manual update functionality
+- **📦 Updated in v1.0.1**: GitHub Actions automation for professional release management
 - **Gutenberg Block Integration**: Visual block editor for easy form insertion
 - **Elementor Widget Support**: Native Elementor widget for page builder users
 - **Intuitive User Interface**: Sidebar controls with live preview
@@ -31,10 +34,10 @@ WordPress plugin that adds a shortcode to display forms with different configura
 ## Download
 
 The plugin is available as a ready-to-install ZIP file:
-- **File**: `leadgen-app-form-v1.0.1.zip` (~50KB)
-- **Version**: 1.0.1
+- **File**: `leadgen-app-form-v1.0.2.zip` (~49KB)
+- **Version**: 1.0.2
 - **Compatibility**: WordPress 5.0+ with PHP 8.0+
-- **New in v1.0.1**: Automatic update system with GitHub integration
+- **New in v1.0.2**: Automated version management system with consistency validation
 
 ## Installation
 

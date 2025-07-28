@@ -5,7 +5,7 @@
  * Provides an intuitive interface for users to configure form IDs directly in the editor.
  *
  * @file block.js
- * @version 1.0.1
+ * @version 1.0.2
  * @author Silver Assist
  * @requires wp.blocks, wp.element, wp.components, wp.i18n, wp.blockEditor
  * @since 1.0.0
