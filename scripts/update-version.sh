@@ -16,7 +16,7 @@
 # @package LeadGenAppForm
 # @since 1.0.1
 # @author Silver Assist
-# @version 1.0.1
+# @version 1.0.2
 ###############################################################################
 
 set -e  # Exit on any error
@@ -113,80 +113,159 @@ fi
 echo ""
 print_status "Starting version update process..."
 
+# Function to update version in file with backup
+update_version_in_file() {
+    local file="$1"
+    local pattern="$2"
+    local replacement="$3"
+    local description="$4"
+    
+    if [ -f "$file" ]; then
+        # Create backup
+        cp "$file" "$file.bak"
+        
+        # Perform replacement
+        if sed -i '' "$pattern" "$file" 2>/dev/null; then
+            # Verify the change was made
+            if ! cmp -s "$file" "$file.bak"; then
+                print_status "  Updated $description"
+                rm "$file.bak"
+                return 0
+            else
+                print_warning "  No changes made to $description (pattern not found)"
+                mv "$file.bak" "$file"
+                return 1
+            fi
+        else
+            print_error "  Failed to update $description"
+            mv "$file.bak" "$file"
+            return 1
+        fi
+    else
+        print_warning "  File not found: $file"
+        return 1
+    fi
+}
+
 # 1. Update main plugin file
 print_status "Updating main plugin file..."
 
 # Update plugin header version
-sed -i '' "s/Version: ${CURRENT_VERSION}/Version: ${NEW_VERSION}/g" "${PROJECT_ROOT}/leadgen-app-form.php"
+update_version_in_file "${PROJECT_ROOT}/leadgen-app-form.php" \
+    "s/Version: [0-9]\+\.[0-9]\+\.[0-9]\+/Version: ${NEW_VERSION}/g" \
+    "${NEW_VERSION}" \
+    "plugin header"
 
 # Update constant
-sed -i '' "s/define(\"LEADGEN_APP_FORM_VERSION\", \"${CURRENT_VERSION}\")/define(\"LEADGEN_APP_FORM_VERSION\", \"${NEW_VERSION}\")/g" "${PROJECT_ROOT}/leadgen-app-form.php"
+update_version_in_file "${PROJECT_ROOT}/leadgen-app-form.php" \
+    "s/define(\"LEADGEN_APP_FORM_VERSION\", \"[0-9]\+\.[0-9]\+\.[0-9]\+\")/define(\"LEADGEN_APP_FORM_VERSION\", \"${NEW_VERSION}\")/g" \
+    "${NEW_VERSION}" \
+    "plugin constant"
 
 # Update @version tag in main file
-sed -i '' "s/@version ${CURRENT_VERSION}/@version ${NEW_VERSION}/g" "${PROJECT_ROOT}/leadgen-app-form.php"
+update_version_in_file "${PROJECT_ROOT}/leadgen-app-form.php" \
+    "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" \
+    "${NEW_VERSION}" \
+    "main file @version tag"
 
 print_success "Main plugin file updated"
 
 # 2. Update all PHP files in includes/
 print_status "Updating PHP files..."
 
+updated_count=0
 find "${PROJECT_ROOT}/includes" -name "*.php" -type f | while read -r file; do
     if grep -q "@version" "$file"; then
-        sed -i '' "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" "$file"
-        print_status "  Updated $(basename "$file")"
+        if update_version_in_file "$file" \
+            "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" \
+            "${NEW_VERSION}" \
+            "$(basename "$file")"; then
+            ((updated_count++))
+        fi
+    else
+        print_warning "  No @version tag found in $(basename "$file")"
     fi
 done
 
-print_success "PHP files updated"
+print_success "PHP files updated ($updated_count files)"
 
 # 3. Update all CSS files
 print_status "Updating CSS files..."
 
+updated_count=0
 find "${PROJECT_ROOT}/assets/css" -name "*.css" -type f | while read -r file; do
     if grep -q "@version" "$file"; then
-        sed -i '' "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" "$file"
-        print_status "  Updated $(basename "$file")"
+        if update_version_in_file "$file" \
+            "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" \
+            "${NEW_VERSION}" \
+            "$(basename "$file")"; then
+            ((updated_count++))
+        fi
+    else
+        print_warning "  No @version tag found in $(basename "$file")"
     fi
 done
 
-print_success "CSS files updated"
+print_success "CSS files updated ($updated_count files)"
 
 # 4. Update all JavaScript files
 print_status "Updating JavaScript files..."
 
+updated_count=0
 # Update assets/js/
 find "${PROJECT_ROOT}/assets/js" -name "*.js" -type f | while read -r file; do
     if grep -q "@version" "$file"; then
-        sed -i '' "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" "$file"
-        print_status "  Updated $(basename "$file")"
+        if update_version_in_file "$file" \
+            "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" \
+            "${NEW_VERSION}" \
+            "$(basename "$file")"; then
+            ((updated_count++))
+        fi
+    else
+        print_warning "  No @version tag found in $(basename "$file")"
     fi
 done
 
 # Update blocks/
 find "${PROJECT_ROOT}/blocks" -name "*.js" -type f | while read -r file; do
     if grep -q "@version" "$file"; then
-        sed -i '' "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" "$file"
-        print_status "  Updated $(basename "$file")"
+        if update_version_in_file "$file" \
+            "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" \
+            "${NEW_VERSION}" \
+            "$(basename "$file")"; then
+            ((updated_count++))
+        fi
+    else
+        print_warning "  No @version tag found in $(basename "$file")"
     fi
 done
 
-print_success "JavaScript files updated"
+print_success "JavaScript files updated ($updated_count files)"
 
 # 5. Update block.json files
 print_status "Updating block metadata..."
 
+updated_count=0
 find "${PROJECT_ROOT}/blocks" -name "block.json" -type f | while read -r file; do
     if grep -q "\"version\":" "$file"; then
-        sed -i '' "s/\"version\": \"[0-9]\+\.[0-9]\+\.[0-9]\+\"/\"version\": \"${NEW_VERSION}\"/g" "$file"
-        print_status "  Updated $(basename "$file")"
+        if update_version_in_file "$file" \
+            "s/\"version\": \"[0-9]\+\.[0-9]\+\.[0-9]\+\"/\"version\": \"${NEW_VERSION}\"/g" \
+            "${NEW_VERSION}" \
+            "$(basename "$file")"; then
+            ((updated_count++))
+        fi
+    else
+        print_warning "  No version field found in $(basename "$file")"
     fi
 done
-
-print_success "Block metadata updated"
+print_success "Block metadata updated ($updated_count files)"
 
 # 6. Update this script's version
 print_status "Updating version update script..."
-sed -i '' "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" "${PROJECT_ROOT}/scripts/update-version.sh"
+update_version_in_file "${PROJECT_ROOT}/scripts/update-version.sh" \
+    "s/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version ${NEW_VERSION}/g" \
+    "${NEW_VERSION}" \
+    "update script"
 
 print_success "Version update script updated"
 

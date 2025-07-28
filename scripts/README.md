@@ -7,12 +7,37 @@ This system completely automates the release creation process for the LeadGen Ap
 ## 📁 System Files
 
 ### GitHub Actions Workflows
-- **`.github/workflows/release.yml`** - Main release workflow
+- **`.github/workfl## 🚨 Troubleshooting
+
+### Version Update Script Issues
+
+**Problem:** `update-version.sh` doesn't update all files properly on macOS
+- **Cause:** macOS `sed` command has different behavior than GNU `sed`
+- **Solution:** Use `./scripts/update-version-simple.sh` instead
+- **Details:** The simple version uses Perl which is more consistent across systems
+
+**Symptoms:**
+- Only main plugin file gets updated
+- PHP/CSS/JS files remain at old version
+- `check-versions.sh` shows version mismatches
+
+**Fix:**
+```bash
+# Use the improved script
+./scripts/update-version-simple.sh <version>
+
+# Or manual fix for specific files
+find includes/ assets/ blocks/ -name "*.php" -o -name "*.css" -o -name "*.js" -o -name "*.json" | \
+  xargs sed -i '' 's/@version [0-9]\+\.[0-9]\+\.[0-9]\+/@version 1.0.2/g'
+```
+
+### If GitHub Actions Fails/release.yml`** - Main release workflow
 - **`.github/workflows/check-size.yml`** - Package size verification for PRs
 
 ### Local Scripts
 - **`scripts/calculate-size.sh`** - Local package size calculation
-- **`scripts/update-version.sh`** - Automated version updating across all files
+- **`scripts/update-version.sh`** - Original automated version updating (macOS sed issues)
+- **`scripts/update-version-simple.sh`** - Improved version updater using Perl (recommended)
 - **`scripts/check-versions.sh`** - Version consistency verification
 
 ## 🔄 Automated Workflow
@@ -195,8 +220,40 @@ zip -r leadgen-app-form-v1.0.1.zip leadgen-app-form-v1.0.1/
 
 ### Update All Versions
 
+**⚠️ Important: Use the improved script for better reliability**
+
 ```bash
-# Update version across all plugin files
+# Recommended: Use the improved Perl-based updater (more reliable on macOS)
+./scripts/update-version-simple.sh 1.0.2
+
+# Alternative: Original sed-based updater (may have issues on macOS)
+./scripts/update-version.sh 1.0.2
+```
+
+**Note:** The original `update-version.sh` script may have compatibility issues with macOS `sed` command. The `update-version-simple.sh` script uses Perl for more reliable text replacement across different systems.
+
+**What gets updated:**
+- Plugin header version in `leadgen-app-form.php`
+- Plugin constant `LEADGEN_APP_FORM_VERSION`
+- All `@version` tags in PHP, CSS, and JavaScript files
+- `version` field in `block.json` files
+- The update scripts themselves
+
+### Version Management Workflow
+
+```bash
+# 1. Check current version consistency
+./scripts/check-versions.sh
+
+# 2. Update to new version (recommended method)
+./scripts/update-version-simple.sh 1.0.2
+
+# 3. Verify all versions were updated
+./scripts/check-versions.sh
+
+# 4. Continue with release process
+git add .
+git commit -m "🔧 Update version to 1.0.2"
 ./scripts/update-version.sh <new-version>
 
 # Examples:
