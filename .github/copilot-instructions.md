@@ -34,6 +34,8 @@ leadgen-app-form/
 │       └── check-size.yml  # Package size verification for PRs
 ├── scripts/                # Release automation scripts
 │   ├── calculate-size.sh   # Local package size calculation
+│   ├── update-version.sh   # Automated version updating script
+│   ├── check-versions.sh   # Version consistency verification script
 │   └── README.md           # Complete automation documentation
 ├── .eslintrc.json          # ESLint configuration for WordPress
 ├── README.md               # Plugin documentation
@@ -308,7 +310,7 @@ git commit -m "🔧 Update documentation with new features"
 
 # Examples:
 🐛 Fix mobile form detection logic
-✨ Add Elementor widget support  
+✨ Add Elementor widget support
 🔧 Improve admin interface styling
 📚 Update installation documentation
 🚀 Release v1.0.1 with GitHub integration
