@@ -4,6 +4,10 @@ WordPress plugin that adds a shortcode to display forms with different configura
 
 ## Features
 
+- **🚀 NEW in v1.0.1**: Professional automatic update system with GitHub integration
+- **⚙️ NEW**: WordPress admin settings page for update management and status
+- **🔄 NEW**: Real-time AJAX update checking with manual update functionality
+- **📦 NEW**: GitHub Actions automation for professional release management
 - **Gutenberg Block Integration**: Visual block editor for easy form insertion
 - **Elementor Widget Support**: Native Elementor widget for page builder users
 - **Intuitive User Interface**: Sidebar controls with live preview
@@ -27,9 +31,10 @@ WordPress plugin that adds a shortcode to display forms with different configura
 ## Download
 
 The plugin is available as a ready-to-install ZIP file:
-- **File**: `leadgen-app-form-plugin.zip` (≈37KB)
-- **Version**: 1.0.0
+- **File**: `leadgen-app-form-v1.0.1.zip` (~50KB)
+- **Version**: 1.0.1
 - **Compatibility**: WordPress 5.0+ with PHP 8.0+
+- **New in v1.0.1**: Automatic update system with GitHub integration
 
 ## Installation
 
@@ -177,9 +182,11 @@ You can also use the `[leadgen_form]` shortcode directly:
 
 ```
 leadgen-app-form/
-├── leadgen-app-form.php           # Main plugin file
-├── includes/                      # Additional classes and functions
+├── leadgen-app-form.php           # Main plugin file (Singleton pattern)
+├── includes/                      # Additional PHP classes
 │   ├── class-leadgen-form-block.php # Gutenberg block handler
+│   ├── class-leadgen-app-form-updater.php # Custom GitHub update system
+│   ├── class-leadgen-app-form-admin.php # WordPress admin interface
 │   └── elementor/                 # Elementor integration
 │       ├── class-widgets-loader.php # Elementor widgets loader
 │       └── widgets/               # Elementor widgets
@@ -194,8 +201,20 @@ leadgen-app-form/
 │   │   ├── leadgen-app-form.css  # Main plugin styles
 │   │   └── leadgen-elementor.css # Elementor-specific styles
 │   └── js/                       # JavaScript files
-│       └── leadgen-app-form.js   # Frontend functionality
-└── README.md                      # This file
+│       ├── leadgen-app-form.js   # Frontend functionality
+│       └── leadgen-admin.js      # Admin update interface
+├── .github/                      # GitHub Actions automation
+│   └── workflows/                # Release automation workflows
+│       ├── release.yml           # Main release workflow
+│       └── check-size.yml        # Package size verification for PRs
+├── scripts/                      # Release automation scripts
+│   ├── calculate-size.sh         # Local package size calculation
+│   └── README.md                 # Complete automation documentation
+├── README.md                     # This file - Plugin documentation
+├── CHANGELOG.md                  # Version change history
+├── UPDATE-SYSTEM.md              # Update system documentation
+├── HEADER-STANDARDS.md           # File header documentation standards
+└── LICENSE                       # GPL v2 license
 ```
 
 ## Development
@@ -207,6 +226,7 @@ The plugin is developed following WordPress and modern PHP best practices:
 - **Server-Side Rendering**: Gutenberg block uses PHP rendering for better SEO
 - **Hook-Based Architecture**: Clean separation of concerns using WordPress hooks
 - **Conditional Loading**: Assets only load when needed (shortcode/block present)
+- **Custom Update System**: Professional GitHub-integrated update management
 
 ### Code Quality Standards
 - **Data Sanitization**: All user inputs properly sanitized
@@ -214,6 +234,7 @@ The plugin is developed following WordPress and modern PHP best practices:
 - **Translation Support**: Full i18n support with proper text domain
 - **Error Handling**: Graceful degradation and user-friendly error messages
 - **Documentation**: Complete PHPDoc and JSDoc documentation
+- **Version Control**: Standardized file headers with proper @since/@version tracking
 
 ### Technical Implementation
 - **Modern PHP Syntax**: PHP 8.0+ features for better performance
@@ -223,6 +244,16 @@ The plugin is developed following WordPress and modern PHP best practices:
 - **Block Editor Integration**: Native Gutenberg block with visual interface
 - **Elementor Integration**: Custom widget with native Elementor interface
 - **Namespace Organization**: Clean code organization using PHP namespaces
+- **GitHub Actions**: Automated release and package management
+
+### Update System Features (New in v1.0.1)
+- **GitHub API Integration**: Direct connection to public GitHub releases
+- **WordPress Native Experience**: Updates appear in standard WordPress plugins page
+- **Intelligent Caching**: 12-hour caching system for optimal performance
+- **Manual Update Checks**: Admin interface for immediate update verification
+- **Version Comparison**: Smart semantic version handling and comparison
+- **Error Handling**: Graceful fallback when GitHub API is unavailable
+- **Release Automation**: Complete GitHub Actions workflow for releases
 
 ### Integration Methods
 - **Shortcode**: Direct shortcode usage in any post/page content
@@ -245,7 +276,7 @@ This plugin leverages modern PHP 8.0+ features for improved performance and code
 - **Match Expression**: Cleaner conditional logic replacing complex if/else chains
 - **Array Spread in Array Expression**: More efficient array building using `...` operator
 - **Typed Properties**: Type-safe nullable properties (PHP 7.4+)
-- **Return Type Declarations**: Clear return types for all methods  
+- **Return Type Declarations**: Clear return types for all methods
 - **Null Coalescing Operator (??)**:  Cleaner default value handling
 - **Void Return Type**: Explicit void returns for clarity
 
@@ -315,6 +346,29 @@ To extend functionality, you can:
 3. Implement custom hooks and filters
 4. Add admin configuration options
 5. Extend the JavaScript API
+6. Customize the update system behavior
+
+### Update System API (New in v1.0.1)
+```php
+// Access the updater instance
+$updater = new LeadGen_App_Form_Updater(__FILE__, "SilverAssist/leadgen-app-form");
+
+// Manual version check
+$remote_version = $updater->get_remote_version();
+
+// Get current version
+$current_version = $updater->get_current_version();
+
+// Access admin interface
+$admin = new LeadGen_App_Form_Admin($updater);
+```
+
+### Admin Interface Features
+- **Settings Page**: WordPress Admin → Settings → LeadGen Forms
+- **Update Status**: Real-time update checking with AJAX
+- **Manual Updates**: Force check for updates anytime
+- **Version Display**: Current and available version information
+- **GitHub Integration**: Direct links to repository and releases
 
 ### JavaScript API
 ```javascript
@@ -324,6 +378,14 @@ window.LeadGenForm.unloadForm("container-id");   // Unload and cleanup form
 window.LeadGenForm.getLoadedForms();             // Get array of loaded form IDs
 window.LeadGenForm.isFormLoaded("form-id");      // Check if specific form is loaded
 window.LeadGenForm.reloadForm("container-id");   // Reload form (useful for dynamic content)
+```
+
+### Admin JavaScript API (New in v1.0.1)
+```javascript
+// Admin update checking functionality
+leadgenAdmin.ajax_url;     // WordPress AJAX URL
+leadgenAdmin.nonce;        // Security nonce for AJAX requests
+leadgenAdmin.strings;      // Localized strings for admin interface
 ```
 
 ### Gutenberg Block Development
