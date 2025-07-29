@@ -207,13 +207,13 @@ You can also use the `[leadgen_form]` shortcode directly:
 leadgen-app-form/
 ├── leadgen-app-form.php           # Main plugin file (Singleton pattern)
 ├── includes/                      # Additional PHP classes
-│   ├── class-leadgen-form-block.php # Gutenberg block handler
-│   ├── class-leadgen-app-form-updater.php # Custom GitHub update system
-│   ├── class-leadgen-app-form-admin.php # WordPress admin interface
+│   ├── LeadGenFormBlock.php          # Gutenberg block handler
+│   ├── LeadGenAppFormUpdater.php     # Custom GitHub update system
+│   ├── LeadGenAppFormAdmin.php       # WordPress admin interface
 │   └── elementor/                 # Elementor integration
-│       ├── class-widgets-loader.php # Elementor widgets loader
+│       ├── WidgetsLoader.php         # Elementor widgets loader
 │       └── widgets/               # Elementor widgets
-│           └── class-leadgen-form-widget.php # LeadGen Form widget
+│           └── LeadGenFormWidget.php # LeadGen Form widget
 ├── blocks/                        # Gutenberg blocks
 │   └── leadgen-form/             # LeadGen form block
 │       ├── block.json            # Block metadata

@@ -146,17 +146,17 @@ class LeadGen_App_Form
   private function load_dependencies(): void
   {
     // Load Gutenberg block handler
-    require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/class-leadgen-form-block.php";
+    require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/LeadGenFormBlock.php";
 
     // Load Elementor widgets loader (only if Elementor is active)
     if (\did_action("elementor/loaded") || \class_exists("\\Elementor\\Plugin")) {
-      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/class-widgets-loader.php";
+      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/WidgetsLoader.php";
     }
 
     // Load updater system (only in admin)
     if (\is_admin()) {
-      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/class-leadgen-app-form-updater.php";
-      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/class-leadgen-app-form-admin.php";
+      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/LeadGenAppFormUpdater.php";
+      require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/LeadGenAppFormAdmin.php";
     }
   }
 
@@ -182,23 +182,23 @@ class LeadGen_App_Form
     );
 
     // Initialize Gutenberg block
-    if (\class_exists("LeadGenAppForm\\Block\\LeadGen_Form_Block")) {
-      Block\LeadGen_Form_Block::get_instance();
+    if (\class_exists("LeadGenAppForm\\Block\\LeadGenFormBlock")) {
+      Block\LeadGenFormBlock::get_instance();
     }
 
     // Initialize Elementor widgets loader
-    if (\class_exists("LeadGenAppForm\\Elementor\\Widgets_Loader")) {
-      Elementor\Widgets_Loader::get_instance();
+    if (\class_exists("LeadGenAppForm\\Elementor\\WidgetsLoader")) {
+      Elementor\WidgetsLoader::get_instance();
     }
 
     // Initialize updater system (only in admin)
-    if (\is_admin() && \class_exists("LeadGenAppForm\\LeadGen_App_Form_Updater")) {
+    if (\is_admin() && \class_exists("LeadGenAppForm\\LeadGenAppFormUpdater")) {
       // Public repository - no authentication required
-      $updater = new LeadGen_App_Form_Updater(__FILE__, "SilverAssist/leadgen-app-form");
+      $updater = new LeadGenAppFormUpdater(__FILE__, "SilverAssist/leadgen-app-form");
 
       // Initialize admin page
-      if (\class_exists("LeadGenAppForm\\LeadGen_App_Form_Admin")) {
-        new LeadGen_App_Form_Admin($updater);
+      if (\class_exists("LeadGenAppForm\\LeadGenAppFormAdmin")) {
+        new LeadGenAppFormAdmin($updater);
       }
     }
   }

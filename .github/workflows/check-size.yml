@@ -31,6 +31,9 @@ jobs:
                             --exclude='RELEASE-PROCESS.md' \
                             --exclude='QUICK-RELEASE.md' \
                             --exclude='UPDATE-SYSTEM.md' \
+                            --exclude='composer.json' \
+                            --exclude='composer.lock' \
+                            --exclude='vendor/' \
                             --exclude='node_modules/' \
                             --exclude='*.tmp' \
                             ./ temp-package/

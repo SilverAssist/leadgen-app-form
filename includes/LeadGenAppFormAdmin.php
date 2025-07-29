@@ -18,21 +18,21 @@ if (!defined("ABSPATH")) {
   exit;
 }
 
-class LeadGen_App_Form_Admin
+class LeadGenAppFormAdmin
 {
 
   /**
    * Plugin updater instance
-   * @var LeadGen_App_Form_Updater
+   * @var LeadGenAppFormUpdater
    */
-  private LeadGen_App_Form_Updater $updater;
+  private LeadGenAppFormUpdater $updater;
 
   /**
    * Initialize admin functionality
    *
-   * @param LeadGen_App_Form_Updater $updater Updater instance
+   * @param LeadGenAppFormUpdater $updater Updater instance
    */
-  public function __construct(LeadGen_App_Form_Updater $updater)
+  public function __construct(LeadGenAppFormUpdater $updater)
   {
     $this->updater = $updater;
     $this->init_hooks();

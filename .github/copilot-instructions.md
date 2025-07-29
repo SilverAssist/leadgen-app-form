@@ -9,13 +9,13 @@ This is a **WordPress plugin** for integrating LeadGen App forms with minimal us
 leadgen-app-form/
 ├── leadgen-app-form.php     # Main plugin file (Singleton pattern)
 ├── includes/                # Additional PHP classes
-│   ├── class-leadgen-form-block.php # Gutenberg block handler
-│   ├── class-leadgen-app-form-updater.php # Custom GitHub update system
-│   ├── class-leadgen-app-form-admin.php # WordPress admin interface
+│   ├── LeadGenFormBlock.php          # Gutenberg block handler
+│   ├── LeadGenAppFormUpdater.php     # Custom GitHub update system
+│   ├── LeadGenAppFormAdmin.php       # WordPress admin interface
 │   └── elementor/                 # Elementor integration
-│       ├── class-widgets-loader.php # Elementor widgets loader
+│       ├── WidgetsLoader.php         # Elementor widgets loader
 │       └── widgets/               # Elementor widgets
-│           └── class-leadgen-form-widget.php # LeadGen Form widget
+│           └── LeadGenFormWidget.php # LeadGen Form widget
 ├── blocks/                        # Gutenberg blocks
 │   └── leadgen-form/             # LeadGen form block
 │       ├── block.json            # Block metadata
@@ -38,6 +38,8 @@ leadgen-app-form/
 │   ├── check-versions.sh         # Version consistency verification script
 │   └── README.md                 # Complete automation documentation
 ├── .eslintrc.json                # ESLint configuration for WordPress
+├── .gitignore                    # Git ignore patterns for development files
+├── composer.json                 # Composer package configuration and dev tools
 ├── README.md                     # Plugin documentation
 ├── CHANGELOG.md                  # Version change history
 ├── RELEASE-NOTES.md              # Generated release information
@@ -332,7 +334,73 @@ git commit -m "🔧 Update documentation with new features"
 - **Reference issues**: Include issue numbers when applicable
 - **Consistent emoji usage**: Follow the established pattern
 
+## Composer Integration
+
+### Package Configuration
+The plugin includes a comprehensive `composer.json` configuration for development tools and package management:
+
+#### Key Features
+- **PHP 8.0+ Requirement**: Matches plugin requirements
+- **WordPress Coding Standards**: Automated PHPCS integration
+- **PSR-4 Autoloading**: Proper namespace organization
+- **Development Tools**: PHPUnit, PHPCS, PHPCBF integration
+- **WordPress Plugin Type**: Proper Composer installer configuration
+
+#### Available Scripts
+```bash
+# Install dependencies
+composer install
+
+# Run WordPress Coding Standards check
+composer run phpcs
+
+# Auto-fix coding standards issues
+composer run phpcbf
+
+# Run PHP syntax validation
+composer run lint
+
+# Run unit tests (when implemented)
+composer run test
+```
+
+#### Autoloading Structure
+```php
+"autoload": {
+  "psr-4": {
+    "LeadGenAppForm\\": "includes/",
+    "LeadGenAppForm\\Block\\": "includes/",
+    "LeadGenAppForm\\Elementor\\": "includes/elementor/"
+  }
+}
+```
+
+#### Development Dependencies
+- **PHPCS & WPCS**: WordPress coding standards enforcement
+- **PHPUnit**: Unit testing framework (ready for future tests)
+- **Composer Installers**: WordPress plugin installation support
+
+#### Package Exclusions
+Composer files are automatically excluded from distribution packages:
+- `composer.json` and `composer.lock` excluded from ZIP releases
+- `vendor/` directory excluded from all packages
+- Development tools not included in WordPress plugin distribution
+
 ## Development Commands
+
+### Composer Development Workflow
+```bash
+# Initial setup
+composer install
+
+# Code quality checks
+composer run phpcs                    # Check coding standards
+composer run phpcbf                   # Auto-fix standards issues  
+composer run lint                     # PHP syntax validation
+
+# Development cycle
+composer run phpcs && composer run lint  # Full validation
+```
 
 ### Plugin Testing
 ```bash
@@ -341,10 +409,10 @@ wp plugin activate leadgen-app-form
 
 # Check for PHP syntax errors (main files)
 php -l leadgen-app-form.php
-php -l includes/class-leadgen-app-form-updater.php
-php -l includes/class-leadgen-app-form-admin.php
-php -l includes/elementor/class-widgets-loader.php
-php -l includes/elementor/widgets/class-leadgen-form-widget.php
+php -l includes/LeadGenAppFormUpdater.php
+php -l includes/LeadGenAppFormAdmin.php
+php -l includes/elementor/WidgetsLoader.php
+php -l includes/elementor/widgets/LeadGenFormWidget.php
 
 # Validate JavaScript
 npx eslint assets/js/leadgen-app-form.js
@@ -400,11 +468,11 @@ npx eslint assets/js/ blocks/
 ### Adding New Classes
 ```php
 // In load_dependencies() method
-require_once LEADGEP_APP_FORM_PLUGIN_PATH . "includes/class-admin-settings.php";
+require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/LeadGenAppFormAdmin.php";
 
 // For Elementor integration (conditional loading)
 if (\did_action('elementor/loaded') || \class_exists('\\Elementor\\Plugin')) {
-    require_once LEADGEP_APP_FORM_PLUGIN_PATH . "includes/elementor/class-widgets-loader.php";
+    require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/WidgetsLoader.php";
 }
 ```
 
@@ -496,11 +564,11 @@ npx eslint assets/js/leadgen-app-form.js
 
 ## Key Files Reference
 - **Entry Point**: `leadgen-app-form.php` (Singleton class)
-- **Gutenberg Block**: `includes/class-leadgen-form-block.php` (Block handler)
-- **Update System**: `includes/class-leadgen-app-form-updater.php` (GitHub API integration)
-- **Admin Interface**: `includes/class-leadgen-app-form-admin.php` (Update management)
-- **Elementor Loader**: `includes/elementor/class-widgets-loader.php` (Widgets manager)
-- **Elementor Widget**: `includes/elementor/widgets/class-leadgen-form-widget.php` (LeadGen Form widget)
+- **Gutenberg Block**: `includes/LeadGenFormBlock.php` (Block handler)
+- **Update System**: `includes/LeadGenAppFormUpdater.php` (GitHub API integration)
+- **Admin Interface**: `includes/LeadGenAppFormAdmin.php` (Update management)
+- **Elementor Loader**: `includes/elementor/WidgetsLoader.php` (Widgets manager)
+- **Elementor Widget**: `includes/elementor/widgets/LeadGenFormWidget.php` (LeadGen Form widget)
 - **Frontend Logic**: `assets/js/leadgen-app-form.js` (Vanilla JS + jQuery)
 - **Admin JavaScript**: `assets/js/leadgen-admin.js` (Update status handling)
 - **Main Styles**: `assets/css/leadgen-app-form.css` (Responsive + animations)
