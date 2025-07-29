@@ -61,10 +61,12 @@ jobs:
                   rsync -av --exclude='.git*' \
                             --exclude='.github/' \
                             --exclude='dist/' \
+                            --exclude='scripts/' \
                             --exclude='.eslintrc.json' \
                             --exclude='.eslintignore' \
                             --exclude='HEADER-STANDARDS.md' \
                             --exclude='RELEASE-NOTES.md' \
+                            --exclude='UPDATE-SYSTEM.md' \
                             --exclude='node_modules/' \
                             --exclude='*.tmp' \
                             ./ dist/$PACKAGE_NAME/
@@ -136,12 +138,12 @@ jobs:
                   - **Direct Download**: From developer website
 
                   ## Support & Documentation
-                  - **Installation Guide**: README.md
-                  - **Change History**: CHANGELOG.md
+                  - **Installation Guide**: `README.md`
+                  - **Change History**: `CHANGELOG.md`
                   - **Issues**: GitHub Issues tracker
 
                   ## Installation Instructions
-                  See README.md for complete installation guide.
+                  See `README.md` for complete installation guide.
                   EOF
 
             - name: Generate release notes from CHANGELOG
@@ -151,17 +153,39 @@ jobs:
 
                   # Extract current version changes from CHANGELOG.md
                   if [ -f "CHANGELOG.md" ]; then
-                    # Get changes for current version
-                    CHANGES=$(awk "/^## \[?$VERSION\]?/,/^## \[?[0-9]/ {if (/^## \[?[0-9]/ && !/^## \[?$VERSION\]?/) exit; print}" CHANGELOG.md | head -n -1)
-                    
+                    echo "Looking for version $VERSION in CHANGELOG.md"
+
+                    # Debug: Show the first few lines of CHANGELOG
+                    echo "CHANGELOG.md content preview:"
+                    head -20 CHANGELOG.md
+
+                    # Get changes for current version - improved regex to handle brackets
+                    CHANGES=$(awk "/^## \[?${VERSION}\]?( -|$)/,/^## \[?[0-9]/ {
+                      if (/^## \[?[0-9]/ && !/^## \[?${VERSION}\]?( -|$)/) exit; 
+                      if (!/^## \[?${VERSION}\]?( -|$)/) print
+                    }" CHANGELOG.md)
+
                     if [ -n "$CHANGES" ]; then
                       echo "Found changes in CHANGELOG for version $VERSION"
+                      echo "Changes content:"
+                      echo "$CHANGES"
                       # Save changes to file for release body
-                      echo "$CHANGES" > release_notes.md
+                      echo "## Changes in v$VERSION" > release_notes.md
+                      echo "$CHANGES" >> release_notes.md
                     else
                       echo "No specific changes found for version $VERSION in CHANGELOG"
-                      echo "## Changes in v$VERSION" > release_notes.md
-                      echo "See CHANGELOG.md for detailed changes." >> release_notes.md
+                      echo "Trying alternative search patterns..."
+
+                      # Try alternative patterns
+                      CHANGES_ALT=$(awk "/## .*${VERSION}/,/^## / {if (/^## / && !/## .*${VERSION}/) exit; print}" CHANGELOG.md | head -n -1)
+
+                      if [ -n "$CHANGES_ALT" ]; then
+                        echo "Found changes with alternative pattern"
+                        echo "$CHANGES_ALT" > release_notes.md
+                      else
+                        echo "## Changes in v$VERSION" > release_notes.md
+                        echo "See \`CHANGELOG.md\` for detailed changes." >> release_notes.md
+                      fi
                     fi
                   else
                     echo "CHANGELOG.md not found"
@@ -183,7 +207,7 @@ jobs:
                   3. Choose the downloaded ZIP file and click "Install Now"
                   4. Activate the plugin
 
-                  For detailed installation instructions, see the README.md file.
+                  For detailed installation instructions, see the `README.md` file.
                   EOF
 
             - name: Create GitHub Release
