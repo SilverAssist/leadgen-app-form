@@ -398,3 +398,52 @@ wp.blocks.registerBlockType("leadgen/form-block", {
 - **Viewport Tracking**: Real-time monitoring of responsive form switches
 - **Performance Metrics**: Script loading times and interaction delays
 - **Block Validation**: Editor-time validation of form configurations
+
+## 🛠️ Development & Release Management
+
+### For Developers
+This plugin includes comprehensive development tools and automation:
+
+#### Version Management
+- **Automated Scripts**: `./scripts/update-version-simple.sh` for consistent version updates
+- **Consistency Checking**: `./scripts/check-versions.sh` for validation
+- **Release Process**: Complete workflow documented in `RELEASE-PROCESS.md`
+
+#### Release Workflow
+For detailed release instructions, see **[RELEASE-PROCESS.md](RELEASE-PROCESS.md)**
+
+Quick release checklist:
+1. Update `CHANGELOG.md` with new version changes
+2. Update `README.md` if features changed
+3. Run version update: `./scripts/update-version-simple.sh 1.0.X`
+4. Commit documentation: `git commit -m "📚 Update documentation for vX.X.X"`
+5. Create release tag: `git tag vX.X.X && git push origin vX.X.X`
+6. Monitor [GitHub Actions](https://github.com/SilverAssist/leadgen-app-form/actions) for automated release
+
+#### Development Resources
+- **Plugin Structure**: See `copilot-instructions.md` for complete architecture
+- **Update System**: Documented in `UPDATE-SYSTEM.md`
+- **File Headers**: Standards in `HEADER-STANDARDS.md`
+- **GitHub Actions**: Automated release workflow in `.github/workflows/`
+
+## 📋 Support & Documentation
+
+### Documentation Files
+- **User Guide**: This README.md
+- **Release Process**: `RELEASE-PROCESS.md` (for developers)
+- **Change History**: `CHANGELOG.md`
+- **Update System**: `UPDATE-SYSTEM.md`
+- **Development**: `copilot-instructions.md`
+
+### Support
+- **Issues**: [GitHub Issues](https://github.com/SilverAssist/leadgen-app-form/issues)
+- **Releases**: [GitHub Releases](https://github.com/SilverAssist/leadgen-app-form/releases)
+- **Repository**: [GitHub Repository](https://github.com/SilverAssist/leadgen-app-form)
+
+## 📄 License
+
+This plugin is licensed under the GPL v2 or later.
+
+---
+
+**💡 For complete development workflows and release procedures, see [RELEASE-PROCESS.md](RELEASE-PROCESS.md)**

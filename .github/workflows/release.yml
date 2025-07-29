@@ -66,6 +66,8 @@ jobs:
                             --exclude='.eslintignore' \
                             --exclude='HEADER-STANDARDS.md' \
                             --exclude='RELEASE-NOTES.md' \
+                            --exclude='RELEASE-PROCESS.md' \
+                            --exclude='QUICK-RELEASE.md' \
                             --exclude='UPDATE-SYSTEM.md' \
                             --exclude='node_modules/' \
                             --exclude='*.tmp' \

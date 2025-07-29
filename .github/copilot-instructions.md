@@ -41,6 +41,7 @@ leadgen-app-form/
 ├── README.md               # Plugin documentation
 ├── CHANGELOG.md            # Version change history
 ├── RELEASE-NOTES.md        # Generated release information
+├── RELEASE-PROCESS.md      # Complete manual release workflow documentation
 ├── UPDATE-SYSTEM.md        # Update system documentation
 └── HEADER-STANDARDS.md     # File header documentation standards
 ```
@@ -500,6 +501,8 @@ npx eslint assets/js/leadgen-app-form.js
 - **Main Styles**: `assets/css/leadgen-app-form.css` (Responsive + animations)
 - **Elementor Styles**: `assets/css/leadgen-elementor.css` (Elementor-specific styling)
 - **Documentation**: `README.md` (User-facing docs), `UPDATE-SYSTEM.md` (Update system guide)
+- **Release Process**: `RELEASE-PROCESS.md` (Complete manual release workflow documentation)
+- **Development Guide**: `.github/copilot-instructions.md` (This file - complete development patterns)
 
 ## Release Management & Automation
 
@@ -574,3 +577,37 @@ When creating PRs, GitHub Actions automatically:
 Complete automation documentation available at:
 - **English**: `scripts/README.md`
 - **System Overview**: Comprehensive workflows and troubleshooting
+
+### Manual Release Process
+For complete step-by-step release instructions, see **`RELEASE-PROCESS.md`**
+
+#### Quick Release Reference
+```bash
+# 1. Update documentation
+# - Update CHANGELOG.md with new version changes
+# - Update README.md if features changed
+
+# 2. Version management
+./scripts/update-version-simple.sh 1.0.X
+./scripts/check-versions.sh
+
+# 3. Commit and tag
+git add CHANGELOG.md README.md
+git commit -m "📚 Update documentation for v1.0.X release"
+git tag v1.0.X
+git push origin main && git push origin v1.0.X
+
+# 4. Monitor GitHub Actions for automated release
+```
+
+#### Critical Pre-Release Steps
+1. **Documentation Updates**: Always update `CHANGELOG.md` before creating tags
+2. **Version Consistency**: Use scripts to ensure all files have matching versions
+3. **Testing**: Verify ESLint passes and PHP syntax is valid
+4. **Commit Order**: Documentation first, then tag creation to trigger automation
+
+#### Release Artifacts
+- Distribution ZIP (~38KB) with optimized file structure
+- GitHub Release with complete changelog
+- RELEASE-NOTES.md automatically generated
+- Package artifacts with 90-day retention
