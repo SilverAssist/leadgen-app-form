@@ -280,6 +280,8 @@ All files in this plugin must follow standardized header documentation patterns:
 
 ## Commit Message Standards
 
+**🌍 IMPORTANT: All commit messages must be written in English for international collaboration and consistency.**
+
 Follow these emoji conventions for clear and consistent commit history:
 
 ### Commit Types with Emojis
@@ -329,6 +331,7 @@ git commit -m "🔧 Update documentation with new features"
 ```
 
 ### Best Practices
+- **English Language**: All commit messages MUST be written in English
 - **Clear descriptions**: Explain what was changed and why
 - **Present tense**: "Add feature" not "Added feature"
 - **Concise but descriptive**: Keep under 50 characters when possible
