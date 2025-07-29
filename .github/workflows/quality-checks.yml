@@ -37,13 +37,10 @@ jobs:
 
             - name: Run PHP CodeSniffer
               run: |
-                  # Run basic syntax and security validation instead of strict standards
+                  # Run basic syntax validation
                   echo "🔍 Running PHP syntax validation..."
                   find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
                   echo "✅ PHP syntax validation completed"
-
-            - name: Check PHP syntax
-              run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
 
     security-check:
         runs-on: ubuntu-latest
@@ -62,35 +59,43 @@ jobs:
 
             - name: Run security check
               run: |
-                  # Check for common security issues (only in PHP files)
-                  echo "🔍 Checking for eval() usage..."
-                  if find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "eval(" {} \; | head -1; then
-                    echo "❌ eval() usage found - security risk!"
+                  # Check for common security issues (only in PHP files, excluding this workflow)
+                  echo "🔍 Checking for eval() usage in PHP code..."
+                  EVAL_FILES=$(find . -name "*.php" -not -path "./vendor/*" -exec grep -l "eval(" {} \; 2>/dev/null || true)
+                  if [ -n "$EVAL_FILES" ]; then
+                    echo "❌ eval() usage found in PHP files - security risk!"
+                    echo "$EVAL_FILES"
                     exit 1
                   else
-                    echo "✅ No eval() found"
+                    echo "✅ No eval() found in PHP code"
                   fi
                   
-                  echo "🔍 Checking for direct \$_GET usage..."
-                  if find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "\$_GET\[" {} \; | head -1; then
+                  echo "🔍 Checking for direct \$_GET usage in PHP code..."
+                  GET_FILES=$(find . -name "*.php" -not -path "./vendor/*" -exec grep -l "\$_GET\[" {} \; 2>/dev/null || true)
+                  if [ -n "$GET_FILES" ]; then
                     echo "⚠️ Direct \$_GET usage found - consider using sanitize_text_field()"
+                    echo "$GET_FILES"
                   else
-                    echo "✅ No direct \$_GET usage"
+                    echo "✅ No direct \$_GET usage in PHP code"
                   fi
                   
-                  echo "🔍 Checking for direct \$_POST usage..."
-                  if find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "\$_POST\[" {} \; | head -1; then
+                  echo "🔍 Checking for direct \$_POST usage in PHP code..."
+                  POST_FILES=$(find . -name "*.php" -not -path "./vendor/*" -exec grep -l "\$_POST\[" {} \; 2>/dev/null || true)
+                  if [ -n "$POST_FILES" ]; then
                     echo "⚠️ Direct \$_POST usage found - consider using sanitize_text_field()"
+                    echo "$POST_FILES"
                   else
-                    echo "✅ No direct \$_POST usage"
+                    echo "✅ No direct \$_POST usage in PHP code"
                   fi
                   
-                  echo "🔍 Checking for remote file_get_contents usage..."
-                  if find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "file_get_contents.*http" {} \; | head -1; then
+                  echo "🔍 Checking for remote file_get_contents usage in PHP code..."
+                  HTTP_FILES=$(find . -name "*.php" -not -path "./vendor/*" -exec grep -l "file_get_contents.*http" {} \; 2>/dev/null || true)
+                  if [ -n "$HTTP_FILES" ]; then
                     echo "❌ Remote file_get_contents found - potential SSRF risk!"
+                    echo "$HTTP_FILES"
                     exit 1
                   else
-                    echo "✅ No remote file_get_contents found"
+                    echo "✅ No remote file_get_contents found in PHP code"
                   fi
 
     compatibility-check:
