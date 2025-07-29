@@ -21,7 +21,7 @@ This document outlines the complete manual process for creating a new release of
 
 ## 📝 Manual Documentation Updates
 
-### 3. Update CHANGELOG.md
+### 3. Update [CHANGELOG.md](CHANGELOG.md)
 **Location**: `/CHANGELOG.md`
 
 Add new version section at the top (after line 7):
@@ -63,7 +63,7 @@ Add new version section at the top (after line 7):
 - Resolved CSS conflicts with certain themes
 ```
 
-### 4. Update README.md
+### 4. Update [README.md](README.md)
 **Location**: `/README.md`
 
 Update the following sections:
@@ -83,7 +83,7 @@ Update the following sections:
 - [ ] Update screenshots if UI changed
 - [ ] Update configuration examples
 
-### 5. Pre-Update RELEASE-NOTES.md
+### 5. Pre-Update [RELEASE-NOTES.md](RELEASE-NOTES.md)
 **Location**: `/RELEASE-NOTES.md`
 
 The GitHub Actions workflow will automatically generate this, but you can preview what it should contain:
@@ -144,8 +144,8 @@ git push origin v1.0.3
 After pushing the tag, GitHub Actions will automatically:
 
 - [ ] ✅ Update version numbers in all files
-- [ ] ✅ Extract changes from CHANGELOG.md
-- [ ] ✅ Generate RELEASE-NOTES.md
+- [ ] ✅ Extract changes from [CHANGELOG.md](CHANGELOG.md)
+- [ ] ✅ Generate [RELEASE-NOTES.md](RELEASE-NOTES.md)
 - [ ] ✅ Create distribution package (~38KB)
 - [ ] ✅ Create GitHub Release with download links
 - [ ] ✅ Upload package artifacts
@@ -175,7 +175,7 @@ After pushing the tag, GitHub Actions will automatically:
 
 #### GitHub Actions Fails
 - Check workflow logs for specific errors
-- Verify CHANGELOG.md format is correct
+- Verify [CHANGELOG.md](CHANGELOG.md) format is correct
 - Ensure all required files exist
 
 #### Version Inconsistencies
@@ -198,8 +198,8 @@ Pre-Release:
 - [ ] Version number determined
 - [ ] All features/fixes completed
 - [ ] Code reviewed and tested
-- [ ] CHANGELOG.md updated
-- [ ] README.md updated (if needed)
+- [ ] [CHANGELOG.md](CHANGELOG.md) updated
+- [ ] [README.md](README.md) updated (if needed)
 
 Release Process:
 - [ ] Version updated (script or manual)

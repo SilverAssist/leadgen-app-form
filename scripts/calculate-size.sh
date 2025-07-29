@@ -34,6 +34,9 @@ rsync -av --exclude='.git*' \
           --exclude='.eslintignore' \
           --exclude='HEADER-STANDARDS.md' \
           --exclude='RELEASE-NOTES.md' \
+          --exclude='RELEASE-PROCESS.md' \
+          --exclude='QUICK-RELEASE.md' \
+          --exclude='UPDATE-SYSTEM.md' \
           --exclude='node_modules/' \
           --exclude='*.tmp' \
           --exclude='*.log' \
@@ -70,10 +73,10 @@ echo ""
 echo "📊 Largest files in package:"
 find "$PACKAGE_NAME" -type f -exec ls -lh {} \; | sort -k5 -hr | head -5 | awk '{print "   • " $9 ": " $5}'
 
-# Update RELEASE-NOTES.md if it exists
+# Update RELEASE-NOTES.md if it exists (for development tracking)
 if [ -f "$PROJECT_DIR/RELEASE-NOTES.md" ]; then
     echo ""
-    echo "📝 Updating RELEASE-NOTES.md with current size..."
+    echo "📝 Updating RELEASE-NOTES.md with current size (development file)..."
     
     # Get current version from plugin file
     CURRENT_VERSION=$(grep "Version:" "$PROJECT_DIR/leadgen-app-form.php" | head -1 | sed 's/.*Version: *//' | sed 's/ *$//')
@@ -87,7 +90,7 @@ if [ -f "$PROJECT_DIR/RELEASE-NOTES.md" ]; then
             # Linux
             sed -i "s/- \*\*Size\*\*: ~[0-9]*KB/- **Size**: ~${PACKAGE_SIZE_KB}KB/" "$PROJECT_DIR/RELEASE-NOTES.md"
         fi
-        echo "   ✅ Updated size to ~${PACKAGE_SIZE_KB}KB in RELEASE-NOTES.md"
+        echo "   ✅ Updated size to ~${PACKAGE_SIZE_KB}KB in RELEASE-NOTES.md (excluded from package)"
     else
         echo "   ⚠️  Could not determine current version from plugin file"
     fi

@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
   "name": "leadgen/form-block",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "title": "LeadGen Form Shortcode Block",
   "category": "widgets",
   "icon": "feedback",
@@ -42,6 +42,18 @@
     "mobileId": {
       "type": "string",
       "default": ""
+    },
+    "heightUnit": {
+      "type": "string",
+      "default": "px"
+    },
+    "desktopHeight": {
+      "type": "number",
+      "default": 600
+    },
+    "mobileHeight": {
+      "type": "number",
+      "default": 300
     }
   },
   "textdomain": "leadgen-app-form",

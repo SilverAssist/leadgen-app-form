@@ -6,7 +6,7 @@
  * Integrates with the existing shortcode functionality.
  *
  * @package LeadGenAppForm\Elementor\Widgets
- * @version 1.0.2
+ * @version 1.0.3
  * @since 1.0.0
  * @author Silver Assist
  */
@@ -169,6 +169,66 @@ class LeadGen_Form_Widget extends Widget_Base
     );
 
     $this->add_control(
+      "height_divider",
+      [
+        "type" => Controls_Manager::DIVIDER,
+      ]
+    );
+
+    $this->add_control(
+      "height_section_heading",
+      [
+        "label" => __("Placeholder Height Settings", "leadgen-app-form"),
+        "type" => Controls_Manager::HEADING,
+        "separator" => "before",
+      ]
+    );
+
+    $this->add_control(
+      "height_unit",
+      [
+        "label" => __("Height Unit", "leadgen-app-form"),
+        "type" => Controls_Manager::SELECT,
+        "default" => "px",
+        "options" => [
+          "px" => __("Pixels (px)", "leadgen-app-form"),
+          "em" => __("Em (em)", "leadgen-app-form"),
+          "rem" => __("Rem (rem)", "leadgen-app-form"),
+          "vh" => __("Viewport Height (vh)", "leadgen-app-form"),
+          "vw" => __("Viewport Width (vw)", "leadgen-app-form"),
+          "%" => __("Percentage (%)", "leadgen-app-form"),
+        ],
+        "description" => __("Select the unit for height values", "leadgen-app-form"),
+      ]
+    );
+
+    $this->add_control(
+      "desktop_height",
+      [
+        "label" => __("Desktop Placeholder Height", "leadgen-app-form"),
+        "type" => Controls_Manager::NUMBER,
+        "min" => 1,
+        "max" => 2000,
+        "step" => 1,
+        "default" => 600,
+        "description" => __("Height value for desktop devices (default: 600)", "leadgen-app-form"),
+      ]
+    );
+
+    $this->add_control(
+      "mobile_height",
+      [
+        "label" => __("Mobile Placeholder Height", "leadgen-app-form"),
+        "type" => Controls_Manager::NUMBER,
+        "min" => 1,
+        "max" => 2000,
+        "step" => 1,
+        "default" => 300,
+        "description" => __("Height value for mobile devices (default: 300)", "leadgen-app-form"),
+      ]
+    );
+
+    $this->add_control(
       "form_ids_note",
       [
         "type" => Controls_Manager::RAW_HTML,
@@ -274,6 +334,19 @@ class LeadGen_Form_Widget extends Widget_Base
     // Get the form IDs from widget settings
     $desktop_id = !empty($settings["desktop_id"]) ? \sanitize_text_field($settings["desktop_id"]) : "";
     $mobile_id = !empty($settings["mobile_id"]) ? \sanitize_text_field($settings["mobile_id"]) : "";
+    
+    // Get height settings and combine with unit
+    $height_unit = !empty($settings["height_unit"]) ? $settings["height_unit"] : "px";
+    $desktop_height = "";
+    $mobile_height = "";
+    
+    if (!empty($settings["desktop_height"])) {
+      $desktop_height = intval($settings["desktop_height"]) . $height_unit;
+    }
+    
+    if (!empty($settings["mobile_height"])) {
+      $mobile_height = intval($settings["mobile_height"]) . $height_unit;
+    }
 
     // Validate that at least one ID is present
     if (empty($desktop_id) && empty($mobile_id)) {
@@ -298,6 +371,12 @@ class LeadGen_Form_Widget extends Widget_Base
     if (!empty($mobile_id)) {
       $shortcode_atts["mobile-id"] = $mobile_id;
     }
+    if (!empty($desktop_height)) {
+      $shortcode_atts["desktop-height"] = $desktop_height;
+    }
+    if (!empty($mobile_height)) {
+      $shortcode_atts["mobile-height"] = $mobile_height;
+    }
 
     // Render using the shortcode method for consistency
     echo $plugin_instance->render_shortcode($shortcode_atts);
@@ -316,7 +395,7 @@ class LeadGen_Form_Widget extends Widget_Base
   protected function content_template(): void
   {
     ?>
-    <# var desktopId=settings.desktop_id || "" ; var mobileId=settings.mobile_id || "" ; if (!desktopId && !mobileId) { #>
+    <# var desktopId=settings.desktop_id || "" ; var mobileId=settings.mobile_id || "" ; var heightUnit=settings.height_unit || "px" ; var desktopHeight=settings.desktop_height || 600; var mobileHeight=settings.mobile_height || 300; if (!desktopId && !mobileId) { #>
       <div class="leadgen-form-error elementor-alert elementor-alert-warning">
         <span class="elementor-alert-title"><?php echo esc_js(__("LeadGen Form Widget", "leadgen-app-form")); ?></span>
         <span
@@ -336,9 +415,15 @@ class LeadGen_Form_Widget extends Widget_Base
                   <# if (mobileId) { #>
                     <p><strong><?php echo esc_js(__("Mobile ID:", "leadgen-app-form")); ?></strong> {{mobileId}}</p>
                     <# } #>
-                      <p>
-                        <em><?php echo esc_js(__("The actual form will be displayed on the frontend.", "leadgen-app-form")); ?></em>
-                      </p>
+                      <# if (desktopHeight || mobileHeight) { #>
+                        <p><strong><?php echo esc_js(__("Heights:", "leadgen-app-form")); ?></strong> 
+                          <?php echo esc_js(__("Desktop:", "leadgen-app-form")); ?> {{desktopHeight}}{{heightUnit}}, 
+                          <?php echo esc_js(__("Mobile:", "leadgen-app-form")); ?> {{mobileHeight}}{{heightUnit}}
+                        </p>
+                        <# } #>
+                          <p>
+                            <em><?php echo esc_js(__("The actual form will be displayed on the frontend.", "leadgen-app-form")); ?></em>
+                          </p>
             </div>
           </div>
         </div>

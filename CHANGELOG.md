@@ -5,6 +5,36 @@ All notable changes to the LeadGen App Form Plugin will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-07-28
+
+### Added - Professional Height Control UI
+- **Shortcode Height Customization**: Added `desktop-height` and `mobile-height` attributes to `[leadgen_form]` shortcode
+- **Professional UI Controls**: Advanced controls with SelectControl for units and NumberControl/RangeControl inputs
+- **Organized Control Panels**: Clean separation with dividers, headings, and logical grouping in both Gutenberg and Elementor
+- **Live Preview Enhancement**: Real-time preview showing configured heights in editor interfaces
+- **Smart Shortcode Generation**: Intelligent shortcode output that only includes height attributes when customized
+- **Enhanced Validation**: Range controls and NumberControl inputs prevent invalid height values automatically
+- **Cross-Platform Consistency**: Identical functionality between Gutenberg blocks and Elementor widgets
+- **Multiple Unit Support**: Support for px, em, rem, vh, vw, and percentage units with descriptive labels
+- **Responsive Height Support**: Automatic height adjustment based on device viewport with smooth transitions
+- **CSS Transitions**: Smooth height changes with 0.3s ease transitions for professional appearance
+
+### Enhanced - User Experience Improvements
+- **Gutenberg Block UI**: Separate "Placeholder Height Settings" panel with professional SelectControl and RangeControl
+- **Elementor Widget UI**: Organized controls with separators, headings, and NumberControl inputs for precision
+- **Visual Feedback**: Live preview showing current height configuration in both editor interfaces
+- **Error Prevention**: Range validation prevents extreme values (1-2000 range) with automatic defaults
+- **Smart Defaults**: Height controls show meaningful defaults (600px desktop, 300px mobile)
+- **Intelligent Organization**: Visual grouping with separators and descriptive headings for better UX
+
+### Enhanced - Technical Improvements
+- **SelectControl Integration**: Professional unit selector with descriptive labels for better clarity
+- **RangeControl Implementation**: Smooth slider controls for precise height adjustment in Gutenberg
+- **NumberControl Addition**: Direct numeric input for Elementor widget precision and validation
+- **Smart Attribute Handling**: Only outputs height attributes when they differ from defaults for clean shortcodes
+- **Enhanced JavaScript**: Improved client-side validation with regex pattern matching for units
+- **Updated Documentation**: Complete examples and usage guide for all new professional controls
+
 ## [1.0.2] - 2025-07-28
 
 ### Added - Version Management Automation

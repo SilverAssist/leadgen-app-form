@@ -3,7 +3,7 @@
  * Plugin Name: LeadGen App Form Plugin
  * Plugin URI: https://github.com/SilverAssist/leadgen-app-form
  * Description: WordPress plugin that adds a shortcode to display LeadGen App forms with desktop-id and mobile-id parameters.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Silver Assist
  * Author URI: http://silverassist.com/
  * Text Domain: leadgen-app-form
@@ -13,7 +13,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package LeadGenAppForm
- * @version 1.0.2
+ * @version 1.0.3
  * @author Silver Assist
  */
 
@@ -31,7 +31,7 @@ if (!defined("ABSPATH")) {
 }
 
 // Define plugin constants
-define("LEADGEN_APP_FORM_VERSION", "1.0.2");
+define("LEADGEN_APP_FORM_VERSION", "1.0.3");
 define("LEADGEN_APP_FORM_PLUGIN_URL", plugin_dir_url(__FILE__));
 define("LEADGEN_APP_FORM_PLUGIN_PATH", plugin_dir_path(__FILE__));
 define("LEADGEN_APP_FORM_PLUGIN_BASENAME", plugin_basename(__FILE__));
@@ -276,8 +276,10 @@ class LeadGen_App_Form
    * @param array|string $atts {
    *     Shortcode attributes.
    *
-   *     @type string $desktop-id Optional. Form ID for desktop devices.
-   *     @type string $mobile-id  Optional. Form ID for mobile devices.
+   *     @type string $desktop-id     Optional. Form ID for desktop devices.
+   *     @type string $mobile-id      Optional. Form ID for mobile devices.
+   *     @type string $desktop-height Optional. Placeholder height for desktop devices (e.g., "500px").
+   *     @type string $mobile-height  Optional. Placeholder height for mobile devices (e.g., "350px").
    * }
    * @return string HTML output for the shortcode
    */
@@ -286,7 +288,9 @@ class LeadGen_App_Form
     // Default attributes
     $atts = shortcode_atts([
       "desktop-id" => "",
-      "mobile-id" => ""
+      "mobile-id" => "",
+      "desktop-height" => "",
+      "mobile-height" => ""
     ], $atts, "leadgen_form");
 
     // Validate that at least one ID is present
@@ -299,6 +303,8 @@ class LeadGen_App_Form
     // Sanitize attributes using null coalescing
     $desktop_id = \sanitize_text_field($atts["desktop-id"] ?? "");
     $mobile_id = \sanitize_text_field($atts["mobile-id"] ?? "");
+    $desktop_height = \sanitize_text_field($atts["desktop-height"] ?? "");
+    $mobile_height = \sanitize_text_field($atts["mobile-height"] ?? "");
 
     // Detect if mobile device
     $is_mobile = \wp_is_mobile();
@@ -319,6 +325,7 @@ class LeadGen_App_Form
     ?>
     <div class="leadgen-form-container" id="<?php echo \esc_attr($instance_id); ?>"
       data-desktop-id="<?php echo \esc_attr($desktop_id); ?>" data-mobile-id="<?php echo \esc_attr($mobile_id); ?>"
+      data-desktop-height="<?php echo \esc_attr($desktop_height); ?>" data-mobile-height="<?php echo \esc_attr($mobile_height); ?>"
       data-current-id="<?php echo \esc_attr($current_id); ?>" data-is-mobile="<?php echo $is_mobile ? "1" : "0"; ?>">
 
       <div class="leadgen-form-wrapper">
@@ -353,9 +360,11 @@ class LeadGen_App_Form
    *     @type array ...$0 {
    *         Individual shortcode instance.
    *
-   *         @type string $desktop_id Desktop form ID.
-   *         @type string $mobile_id  Mobile form ID.
-   *         @type int    $index      Index of the shortcode instance.
+   *         @type string $desktop_id     Desktop form ID.
+   *         @type string $mobile_id      Mobile form ID.
+   *         @type string $desktop_height Desktop placeholder height.
+   *         @type string $mobile_height  Mobile placeholder height.
+   *         @type int    $index          Index of the shortcode instance.
    *     }
    * }
    */
@@ -374,12 +383,16 @@ class LeadGen_App_Form
         if ($atts) {
           $desktop_id = \sanitize_text_field($atts["desktop-id"] ?? "");
           $mobile_id = \sanitize_text_field($atts["mobile-id"] ?? "");
+          $desktop_height = \sanitize_text_field($atts["desktop-height"] ?? "");
+          $mobile_height = \sanitize_text_field($atts["mobile-height"] ?? "");
 
           // Only add if at least one ID is present
           if (!empty($desktop_id) || !empty($mobile_id)) {
             $instances[] = [
               "desktop_id" => $desktop_id,
               "mobile_id" => $mobile_id,
+              "desktop_height" => $desktop_height,
+              "mobile_height" => $mobile_height,
               "index" => $index
             ];
           }

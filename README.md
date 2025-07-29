@@ -4,14 +4,15 @@ WordPress plugin that adds a shortcode to display forms with different configura
 
 ## Features
 
-- **🚀 NEW in v1.0.2**: Complete automated version management system with bash scripts
-- **⚙️ NEW**: Advanced version consistency checking and validation tools
-- **🔧 NEW**: Streamlined development workflow with automated version updates
+- **🚀 NEW in v1.0.3**: Advanced height controls with professional UI for Gutenberg and Elementor
+- **⚙️ NEW**: Numeric input controls with unit selector (px, em, rem, vh, vw, %) for precise height configuration
+- **🔧 NEW**: Smart shortcode generation that only includes height attributes when they differ from defaults
+- **🎨 NEW**: Organized control panels with separators, headings, and live preview feedback
 - **🚀 Updated in v1.0.1**: Professional automatic update system with GitHub integration
 - **⚙️ Updated in v1.0.1**: WordPress admin settings page for update management and status
 - **🔄 Updated in v1.0.1**: Real-time AJAX update checking with manual update functionality
 - **📦 Updated in v1.0.1**: GitHub Actions automation for professional release management
-- **Gutenberg Block Integration**: Visual block editor for easy form insertion
+- **Gutenberg Block Integration**: Visual block editor with advanced height controls
 - **Elementor Widget Support**: Native Elementor widget for page builder users
 - **Intuitive User Interface**: Sidebar controls with live preview
 - **Multiple Integration Methods**: Shortcode, Gutenberg block, and Elementor widget
@@ -34,10 +35,10 @@ WordPress plugin that adds a shortcode to display forms with different configura
 ## Download
 
 The plugin is available as a ready-to-install ZIP file:
-- **File**: `leadgen-app-form-v1.0.2.zip` (~49KB)
-- **Version**: 1.0.2
+- **File**: `leadgen-app-form-v1.0.3.zip` (~51KB)
+- **Version**: 1.0.3
 - **Compatibility**: WordPress 5.0+ with PHP 8.0+
-- **New in v1.0.2**: Automated version management system with consistency validation
+- **New in v1.0.3**: Custom placeholder height attributes with responsive design
 
 ## Installation
 
@@ -115,10 +116,13 @@ The easiest and most user-friendly way to add a LeadGen form is using the Gutenb
 
 #### Block Features
 - **Visual Configuration**: No need to remember shortcode syntax
+- **Professional Height Controls**: Separate panel with SelectControl for units and RangeControl sliders
 - **Live Validation**: Real-time validation ensures at least one ID is configured
-- **Configuration Preview**: Shows current settings and device targeting
-- **Responsive Indicators**: Visual hints about desktop/mobile behavior
-- **Error Prevention**: Prevents invalid configurations
+- **Intelligent Preview**: Shows current settings including custom heights only when they differ from defaults
+- **Smart Shortcode Generation**: Optimized shortcode output that excludes unnecessary default values
+- **Responsive Indicators**: Visual hints about desktop/mobile behavior and custom heights
+- **Error Prevention**: Range controls prevent invalid height values automatically
+- **Organized UI**: Clean panel separation between form IDs and height settings
 
 ### Elementor Widget Integration
 
@@ -141,10 +145,12 @@ For sites using Elementor page builder instead of Gutenberg, the plugin includes
 #### Elementor Widget Features
 - **Native Elementor Integration**: Fully integrated with Elementor's interface
 - **Visual Preview**: Shows configuration preview directly in the editor
-- **Style Controls**: Additional styling options for alignment and sizing  
+- **Professional Height Controls**: SelectControl for units + NumberControl inputs with validation
+- **Organized UI**: Separators, headings, and logical grouping of controls
+- **Live Configuration Preview**: Shows configured heights in the editor preview panel
 - **Error Prevention**: Visual validation ensures proper configuration
-- **Responsive Options**: Control appearance on different devices
-- **Consistency**: Uses the same shortcode logic for reliable behavior
+- **Responsive Options**: Control appearance on different devices including custom heights
+- **Consistency**: Uses the same shortcode logic for reliable behavior across all methods
 - **Category Organization**: Grouped under "LeadGen Forms" category
 
 ### Shortcode Usage
@@ -152,34 +158,48 @@ For sites using Elementor page builder instead of Gutenberg, the plugin includes
 You can also use the `[leadgen_form]` shortcode directly:
 
 ```
-[leadgen_form desktop-id="form-desktop-001" mobile-id="form-mobile-001"]
+[leadgen_form desktop-id="form-desktop-001" mobile-id="form-mobile-001" desktop-height="600px" mobile-height="300px"]
 ```
 
 ### Parameters
 
 - `desktop-id` (optional): Form ID for desktop devices
 - `mobile-id` (optional): Form ID for mobile devices
+- `desktop-height` (optional): Custom placeholder height for desktop devices (default: 600px)
+- `mobile-height` (optional): Custom placeholder height for mobile devices (default: 300px)
 
-**Note**: At least one parameter is required. The plugin intelligently handles fallbacks.
+**Note**: At least one form ID parameter is required. The plugin intelligently handles fallbacks.
 
 ### Usage Examples
 
 ```php
-// Both IDs (recommended for optimal responsive experience)
+// Full configuration with custom heights
+[leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile" desktop-height="800px" mobile-height="400px"]
+
+// Both IDs with default heights
 [leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile"]
 
-// Desktop only (will fallback to desktop on mobile)
-[leadgen_form desktop-id="uuid-desktop"]
+// Desktop only with custom height
+[leadgen_form desktop-id="uuid-desktop" desktop-height="700px"]
 
-// Mobile only (will use mobile for all devices)
-[leadgen_form mobile-id="uuid-mobile"]
+// Custom heights with different units
+[leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile" desktop-height="50vh" mobile-height="300px"]
+
+// Using percentage heights
+[leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile" desktop-height="80%" mobile-height="60%"]
 ```
 
 #### Device Logic
 - **Both IDs provided**: Uses mobile ID on mobile devices, desktop ID on desktop/tablet
-- **Desktop ID only**: Uses desktop ID for all devices
+- **Desktop ID only**: Uses desktop ID for all devices  
 - **Mobile ID only**: Uses mobile ID for all devices
 - **No IDs**: Shows error message (block prevents this)
+
+#### Height Customization
+- **Supported units**: px, em, rem, vh, vw, % (e.g., "600px", "50vh", "80%")
+- **Default heights**: 600px for desktop, 300px for mobile
+- **Responsive behavior**: Heights automatically adjust based on device viewport
+- **Validation**: Invalid height values fallback to defaults with console warnings
 
 ## Plugin Structure
 
@@ -407,33 +427,33 @@ This plugin includes comprehensive development tools and automation:
 #### Version Management
 - **Automated Scripts**: `./scripts/update-version-simple.sh` for consistent version updates
 - **Consistency Checking**: `./scripts/check-versions.sh` for validation
-- **Release Process**: Complete workflow documented in `RELEASE-PROCESS.md`
+- **Release Process**: Complete workflow documented in [RELEASE-PROCESS.md](RELEASE-PROCESS.md)
 
 #### Release Workflow
 For detailed release instructions, see **[RELEASE-PROCESS.md](RELEASE-PROCESS.md)**
 
 Quick release checklist:
-1. Update `CHANGELOG.md` with new version changes
-2. Update `README.md` if features changed
+1. Update [CHANGELOG.md](CHANGELOG.md) with new version changes
+2. Update [README.md](README.md) if features changed
 3. Run version update: `./scripts/update-version-simple.sh 1.0.X`
 4. Commit documentation: `git commit -m "📚 Update documentation for vX.X.X"`
 5. Create release tag: `git tag vX.X.X && git push origin vX.X.X`
 6. Monitor [GitHub Actions](https://github.com/SilverAssist/leadgen-app-form/actions) for automated release
 
 #### Development Resources
-- **Plugin Structure**: See `copilot-instructions.md` for complete architecture
-- **Update System**: Documented in `UPDATE-SYSTEM.md`
-- **File Headers**: Standards in `HEADER-STANDARDS.md`
+- **Plugin Structure**: See [copilot-instructions.md](copilot-instructions.md) for complete architecture
+- **Update System**: Documented in [UPDATE-SYSTEM.md](UPDATE-SYSTEM.md)
+- **File Headers**: Standards in [HEADER-STANDARDS.md](HEADER-STANDARDS.md)
 - **GitHub Actions**: Automated release workflow in `.github/workflows/`
 
 ## 📋 Support & Documentation
 
 ### Documentation Files
 - **User Guide**: This README.md
-- **Release Process**: `RELEASE-PROCESS.md` (for developers)
-- **Change History**: `CHANGELOG.md`
-- **Update System**: `UPDATE-SYSTEM.md`
-- **Development**: `copilot-instructions.md`
+- **Release Process**: [RELEASE-PROCESS.md](RELEASE-PROCESS.md) (for developers)
+- **Change History**: [CHANGELOG.md](CHANGELOG.md)
+- **Update System**: [UPDATE-SYSTEM.md](UPDATE-SYSTEM.md)
+- **Development**: [copilot-instructions.md](copilot-instructions.md)
 
 ### Support
 - **Issues**: [GitHub Issues](https://github.com/SilverAssist/leadgen-app-form/issues)

@@ -1,64 +1,120 @@
-# LeadGen App Form Plugin - Release v1.0.2
+# LeadGen App Form Plugin - Release v1.0.3
 
 ## Package Information
 - **Plugin Name**: LeadGen App Form Plugin
-- **Version**: 1.0.2
-- **File**: leadgen-app-form-v1.0.2.zip
-- **Size**: ~49KB
+- **Version**: 1.0.3
+- **File**: leadgen-app-form-v1.0.3.zip
+- **Size**: ~51KB
 - **Release Date**: July 28, 2025
 - **License**: GPL v2 or later
 - **Repository**: https://github.com/SilverAssist/leadgen-app-form
 
-## New in v1.0.2 - Automated Version Management System
-� **Major Enhancement**: Complete automated version management with professional development tools
+## New in v1.0.3 - Advanced Height Controls
+🎨 **Major Enhancement**: Professional UI controls for height customization with enhanced user experience
 
 ### Key Features Added
-- **Automated Version Update Script**: `update-version-simple.sh` - Comprehensive version updating across all plugin files
-- **Version Consistency Checker**: `check-versions.sh` - Validation tool ensuring version consistency
-- **Interactive Confirmation System**: Safety prompts and detailed progress reporting during updates
-- **Cross-Platform Compatibility**: Perl-based solution works reliably on macOS and Linux
-- **Comprehensive File Coverage**: Updates PHP, CSS, JavaScript, and block metadata files automatically
-- **Smart Validation**: Semantic version format checking and error prevention
-- **Enhanced Documentation**: Complete troubleshooting guide for development workflows
+- **Professional Height Controls**: Advanced UI with SelectControl for units and NumberControl/RangeControl inputs
+- **Organized Control Panels**: Clean separation with dividers, headings, and logical grouping
+- **Live Preview Enhancement**: Real-time preview showing configured heights in both Gutenberg and Elementor editors
+- **Smart Shortcode Generation**: Intelligent shortcode output that only includes height attributes when they differ from defaults (600px/300px)
+- **Enhanced Validation**: Range controls and NumberControl inputs prevent invalid height values automatically
+- **Cross-Platform Consistency**: Identical functionality between Gutenberg blocks and Elementor widgets
+- **Unit Flexibility**: Support for px, em, rem, vh, vw, and percentage units with clear descriptive labels
+
+### Enhanced User Experience
+- **Gutenberg Block Improvements**: Separate "Placeholder Height Settings" panel with professional controls
+- **Elementor Widget Enhancements**: Organized controls with separators and visual grouping
+- **Intelligent Defaults**: Height controls show meaningful defaults (600px desktop, 300px mobile)
+- **Visual Feedback**: Live preview showing current height configuration in editor interfaces
+- **Error Prevention**: Range validation prevents extreme values (1-2000 range)
 
 ### Technical Improvements
-- **Fixed macOS Compatibility**: Resolved sed command issues with improved Perl-based solution
-- **Reduced Human Error**: Automated validation prevents version inconsistencies
-- **Streamlined Development**: One-command version updates for efficient release cycles
-- **Professional Workflow**: Integrated into release automation and documentation
+- **SelectControl Integration**: Professional unit selector with descriptive labels
+- **RangeControl Implementation**: Smooth slider controls for precise height adjustment
+- **NumberControl Addition**: Direct numeric input for Elementor widget precision
+- **Smart Attribute Handling**: Only outputs height attributes when customized from defaults
+- **Enhanced JavaScript**: Improved client-side validation with regex pattern matching
+- **CSS Transitions**: Smooth height changes with 0.3s ease transitions for professional appearance
 
-## Installation Package Contents
-- Main plugin file (`leadgen-app-form.php`)
-- Custom update system (`includes/class-leadgen-app-form-updater.php`)
-- Admin interface (`includes/class-leadgen-app-form-admin.php`)
-- Admin JavaScript (`assets/js/leadgen-admin.js`)
-- **NEW**: Automated version updater (`scripts/update-version-simple.sh`)
-- **NEW**: Version consistency checker (`scripts/check-versions.sh`)
-- **NEW**: Enhanced documentation (`scripts/README.md`)
-- Gutenberg block integration (`blocks/leadgen-form/`)
-- Elementor widget support (`includes/elementor/`)
-- Frontend assets (`assets/css/`, `assets/js/`)
-- Documentation (`README.md`, `CHANGELOG.md`, `UPDATE-SYSTEM.md`)
-- Development standards (`HEADER-STANDARDS.md`)
-- License file (`LICENSE`)
+## Usage Examples
 
-## Installation Methods
-1. **WordPress Admin Dashboard** (Recommended)
-2. **Manual FTP Upload**
-3. **WP-CLI Installation**
+### Gutenberg Block Usage
+1. **Add Block**: Search for "LeadGen Form" in block inserter
+2. **Configure Form IDs**: Set desktop and mobile form IDs in main panel
+3. **Customize Heights**: Open "Placeholder Height Settings" panel
+4. **Select Unit**: Choose from px, em, rem, vh, vw, %
+5. **Adjust Heights**: Use range sliders for precise control
+6. **Live Preview**: See current configuration in block preview
 
-## Requirements
-- WordPress 5.0+
-- PHP 8.0+
+### Elementor Widget Usage
+1. **Drag Widget**: Add "LeadGen Form" widget to your page
+2. **Set Form IDs**: Configure desktop and mobile IDs
+3. **Height Configuration**: Use organized height controls section
+4. **Unit Selection**: Professional dropdown for unit selection
+5. **Numeric Input**: Direct input with validation
+6. **Real-time Preview**: See configuration in editor preview
+
+### Shortcode Examples
+```php
+// Smart generation - only includes customized heights
+[leadgen_form desktop-id="form123" mobile-id="form456" desktop-height="800px" mobile-height="400px"]
+
+// Default heights - clean shortcode
+[leadgen_form desktop-id="form123" mobile-id="form456"]
+
+// Viewport units
+[leadgen_form desktop-id="form123" mobile-id="form456" desktop-height="50vh" mobile-height="40vh"]
+
+// Percentage heights
+[leadgen_form desktop-id="form123" mobile-id="form456" desktop-height="80%" mobile-height="60%"]
+```
+
+## System Requirements
+- **WordPress**: 5.0 or higher
+- **PHP**: 8.0 or higher
+- **Browser Support**: Modern browsers with ES6 support
+- **Optional**: Elementor 3.0+ for Elementor widget functionality
+
+## Installation Instructions
+
+### WordPress Admin (Recommended)
+1. Download `leadgen-app-form-v1.0.3.zip`
+2. Go to **Plugins → Add New → Upload Plugin**
+3. Choose the ZIP file and click **Install Now**
+4. Click **Activate Plugin**
+
+### Manual Installation
+1. Extract the ZIP file
+2. Upload the `leadgen-app-form` folder to `/wp-content/plugins/`
+3. Activate the plugin through WordPress admin
+
+## Update Information
+This plugin includes an **automatic update system** that checks for new versions via GitHub API:
+
+- **Automatic Checks**: Every 12 hours in WordPress admin
+- **Manual Checks**: Settings → LeadGen Forms → "Check for Updates"
+- **One-Click Updates**: Standard WordPress update experience
+- **Version Caching**: Intelligent caching to minimize API calls
+
+## Upgrade Notes from v1.0.2
+- **Enhanced UI**: Both Gutenberg and Elementor now have professional height controls
+- **Better Organization**: Controls are logically grouped with clear visual separation
+- **Smart Generation**: Shortcodes are optimized and only include necessary attributes
+- **Improved Validation**: Range controls prevent invalid height values
+- **Cross-Platform Parity**: Identical functionality between all integration methods
+- **Backward Compatibility**: All existing shortcodes and blocks continue to work
 
 ## Features Included
-- ✅ **NEW**: Automated Version Management System
-- ✅ **NEW**: Cross-Platform Development Tools
-- ✅ **NEW**: Enhanced Developer Workflow Automation
-- ✅ **Updated**: Automatic GitHub Update System
-- ✅ **Updated**: WordPress Admin Settings Page
-- ✅ **Updated**: Real-Time Update Status with AJAX
-- ✅ **Updated**: GitHub Actions Release Automation
+- ✅ **NEW**: Professional Height Control UI (Gutenberg + Elementor)
+- ✅ **NEW**: Smart Shortcode Generation with Optimization
+- ✅ **NEW**: Enhanced Visual Organization with Separators and Headings
+- ✅ **NEW**: Range and Number Controls for Precise Input
+- ✅ **NEW**: Live Preview with Height Information Display
+- ✅ **Updated**: Cross-Platform Consistency Between All Methods
+- ✅ Automatic GitHub Update System
+- ✅ WordPress Admin Settings Page
+- ✅ Real-Time Update Status with AJAX
+- ✅ GitHub Actions Release Automation
 - ✅ Gutenberg Block Integration
 - ✅ Elementor Widget Support
 - ✅ Responsive Form Handling
@@ -68,84 +124,70 @@
 - ✅ ESLint Code Quality Standards
 - ✅ GPL v2 Licensed
 
-## What's New in v1.0.2
-### Automated Version Management System
-- **Complete Automation**: Single-command version updates across all plugin files
-- **Smart Validation**: Semantic version checking with confirmation prompts
-- **Cross-Platform Compatibility**: Perl-based solution for macOS and Linux reliability
-- **File Coverage**: Automatic updates for PHP, CSS, JavaScript, and block metadata
-- **Error Prevention**: Backup system and verification during updates
-- **Developer Experience**: Enhanced workflow with visual feedback and progress reporting
-
-### Development Tools Enhancement
-- **Version Consistency Checking**: `check-versions.sh` provides comprehensive version reports
-- **Improved Reliability**: Fixed macOS sed compatibility issues with Perl implementation
-- **Enhanced Documentation**: Complete troubleshooting guide in `scripts/README.md`
-- **Professional Workflow**: Integrated version management into release procedures
-
-### Bug Fixes
-- **Fixed Version Update Script**: Resolved sed command issues that prevented proper version updates on macOS
-- **Improved Error Handling**: Better validation and user feedback during version updates
-- **Enhanced Compatibility**: More reliable cross-platform operation for development tools
-
-## What's New in v1.0.1 (Previous Release)
-### Automatic Update System
-- **Professional Updates**: Updates appear alongside WordPress core updates
-- **GitHub Integration**: Direct integration with GitHub releases API
-- **Admin Interface**: Dedicated settings page for update management
-- **Smart Caching**: 12-hour intelligent caching system
-- **Error Handling**: Graceful degradation and user-friendly error messages
-- **Performance**: Non-blocking background update checks
-
-### GitHub Actions Automation
-- **Automated Releases**: Complete release workflow automation
-- **Package Optimization**: Excludes development files from distribution
-- **Size Verification**: Automatic package size calculation (~38KB)
-- **Version Management**: Automatic version updates across all files
-- **Quality Assurance**: Automated syntax checking and validation
-
-### Developer Experience
-- **Complete Documentation**: UPDATE-SYSTEM.md with implementation details
-- **Header Standards**: HEADER-STANDARDS.md for consistent file documentation
-- **Development Tools**: ESLint configuration and testing commands
-- **String Interpolation**: Modern PHP patterns for improved readability
-- **Version Management**: Automated version updating and consistency checking
-
-## Distribution Channels
-- **GitHub Releases**: Source code and compiled packages
-- **Direct Download**: From developer website
-
-## Support & Documentation
-- **Installation Guide**: `README.md`
-- **Update System Guide**: `UPDATE-SYSTEM.md`
-- **Developer Standards**: `HEADER-STANDARDS.md`
-- **Automation Guide**: `scripts/README.md`
-- **Change History**: `CHANGELOG.md`
-- **Issues**: GitHub Issues tracker
-- **Admin Interface**: WordPress Admin → Settings → LeadGen Forms
-
-## Upgrade from v1.0.1
-- **Automatic Detection**: Plugin will automatically detect and offer updates
-- **One-Click Upgrade**: Standard WordPress update process
-- **No Configuration Required**: Update system works out of the box
-- **Backward Compatible**: All existing shortcodes and blocks continue working
-- **Enhanced Tools**: New version management scripts available for developers
-
-## Developer Workflow (New in v1.0.2)
-```bash
-# Check current version consistency
-./scripts/check-versions.sh
-
-# Update to new version (recommended method)
-./scripts/update-version-simple.sh 1.0.3
-
-# Verify all versions updated correctly
-./scripts/check-versions.sh
-
-# Commit and release
-git add . && git commit -m "🔧 Update version to 1.0.3"
-git tag v1.0.3 && git push origin main && git push origin v1.0.3
+## Installation Package Contents
+```
+leadgen-app-form/
+├── leadgen-app-form.php           # Main plugin file (Enhanced shortcode handling)
+├── includes/                      # Additional PHP classes
+│   ├── class-leadgen-form-block.php # Gutenberg block handler
+│   ├── class-leadgen-app-form-updater.php # Custom GitHub update system
+│   ├── class-leadgen-app-form-admin.php # WordPress admin interface
+│   └── elementor/                 # Elementor integration
+│       ├── class-widgets-loader.php # Elementor widgets loader
+│       └── widgets/               # Elementor widgets
+│           └── class-leadgen-form-widget.php # Enhanced LeadGen Form widget
+├── blocks/                        # Gutenberg blocks
+│   └── leadgen-form/              # Enhanced LeadGen form block
+│       ├── block.json             # Updated block metadata with height attributes
+│       ├── block.js               # Enhanced block JavaScript with height controls
+│       └── editor.css             # Block editor styles
+├── assets/
+│   ├── css/                       # Styles with responsive design
+│   │   ├── leadgen-app-form.css   # Main plugin styles with transitions
+│   │   └── leadgen-elementor.css  # Elementor-specific styles
+│   └── js/                        # Vanilla JS with responsive handling
+│       ├── leadgen-app-form.js    # Enhanced frontend form loading with height support
+│       └── leadgen-admin.js       # Admin update interface
+├── README.md                      # Updated plugin documentation
+├── CHANGELOG.md                   # Updated version change history
+└── LICENSE                        # GPL v2 license
 ```
 
-## Installation Instructions
-See README.md for complete installation guide.
+## Control Reference
+
+### Gutenberg Block Controls
+- **Main Panel**: "Form Configuration"
+  - Desktop Form ID (TextControl)
+  - Mobile Form ID (TextControl)
+  - Information note
+- **Height Panel**: "Placeholder Height Settings"
+  - Height Unit (SelectControl): px, em, rem, vh, vw, %
+  - Desktop Height (RangeControl): 1-2000, default 600
+  - Mobile Height (RangeControl): 1-2000, default 300
+  - Live preview with current values
+
+### Elementor Widget Controls
+- **Form Settings Section**:
+  - Desktop Form ID (TextControl)
+  - Mobile Form ID (TextControl)
+  - Divider
+  - Height Settings Heading
+  - Height Unit (SelectControl): px, em, rem, vh, vw, %
+  - Desktop Height (NumberControl): 1-2000, default 600
+  - Mobile Height (NumberControl): 1-2000, default 300
+  - Information note
+
+## Support and Documentation
+- **GitHub Repository**: https://github.com/SilverAssist/leadgen-app-form
+- **Issues**: Report bugs and feature requests on GitHub
+- **Documentation**: Complete usage guide in README.md
+- **Changelog**: Full version history in CHANGELOG.md
+
+## License
+This plugin is licensed under the GPL v2 or later license. See LICENSE file for details.
+
+---
+
+**Release Package Generated**: July 28, 2025  
+**Package Size**: ~49KB  
+**GitHub Release**: v1.0.3

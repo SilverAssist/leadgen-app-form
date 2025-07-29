@@ -114,7 +114,7 @@ jobs:
                   - Gutenberg block integration (\`blocks/leadgen-form/\`)
                   - Elementor widget support (\`includes/elementor/\`)
                   - Frontend assets (\`assets/css/\`, \`assets/js/\`)
-                  - Documentation (\`README.md\`, \`CHANGELOG.md\`)
+                  - Documentation ([README.md](README.md), [CHANGELOG.md](CHANGELOG.md))
                   - License file (\`LICENSE\`)
 
                   ## Installation Methods
@@ -140,12 +140,12 @@ jobs:
                   - **Direct Download**: From developer website
 
                   ## Support & Documentation
-                  - **Installation Guide**: \`README.md\`
-                  - **Change History**: \`CHANGELOG.md\`
+                    - **Installation Guide**: [README.md](README.md)
+                  - **Change History**: [CHANGELOG.md](CHANGELOG.md)
                   - **Issues**: GitHub Issues tracker
 
                   ## Installation Instructions
-                  See \`README.md\` for complete installation guide.
+                  See [README.md](README.md) for complete installation guide.
                   EOF
 
             - name: Generate release notes from CHANGELOG
@@ -192,12 +192,12 @@ jobs:
                           else
                             echo "❌ All methods failed"
                             echo "## Changes in v$VERSION" > release_notes.md
-                            echo "See \`CHANGELOG.md\` for detailed changes." >> release_notes.md
+                            echo "See [CHANGELOG.md](CHANGELOG.md) for detailed changes." >> release_notes.md
                           fi
                         else
                           echo "❌ Version not found in CHANGELOG"
                           echo "## Changes in v$VERSION" > release_notes.md
-                          echo "See \`CHANGELOG.md\` for detailed changes." >> release_notes.md
+                          echo "See [CHANGELOG.md](CHANGELOG.md) for detailed changes." >> release_notes.md
                         fi
                       fi
                     fi
@@ -219,7 +219,7 @@ jobs:
                   3. Choose the downloaded ZIP file and click "Install Now"
                   4. Activate the plugin
 
-                  For detailed installation instructions, see the \`README.md\` file.
+                  For detailed installation instructions, see the [README.md](README.md) file.
                   EOF
 
             - name: Create GitHub Release

@@ -8,7 +8,7 @@
  * @package LeadGenAppForm
  * @since 1.0.1
  * @author Silver Assist
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 namespace LeadGenAppForm;
@@ -159,16 +159,24 @@ class LeadGen_App_Form_Admin
       <div class="card" style="max-width: 600px;">
         <h2><?php \esc_html_e("Plugin Usage", "leadgen-app-form"); ?></h2>
         <h3><?php \esc_html_e("Shortcode", "leadgen-app-form"); ?></h3>
+        <p><?php \esc_html_e("Basic usage:", "leadgen-app-form"); ?></p>
         <code>[leadgen_form desktop-id="your-desktop-id" mobile-id="your-mobile-id"]</code>
+        
+        <p><?php \esc_html_e("With custom height (new in v1.0.3):", "leadgen-app-form"); ?></p>
+        <code>[leadgen_form desktop-id="your-desktop-id" mobile-id="your-mobile-id" desktop-height="800px" mobile-height="400px"]</code>
+        
+        <p class="description">
+          <?php \esc_html_e("Supports multiple units: px, em, rem, vh, vw, % (e.g., \"50vh\", \"80%\")", "leadgen-app-form"); ?>
+        </p>
 
         <h3><?php \esc_html_e("Gutenberg Block", "leadgen-app-form"); ?></h3>
         <p>
-          <?php \esc_html_e("Search for 'LeadGen Form' in the block editor and configure your form IDs in the sidebar.", "leadgen-app-form"); ?>
+          <?php \esc_html_e("Search for 'LeadGen Form' in the block editor and configure your form IDs and custom heights in the sidebar.", "leadgen-app-form"); ?>
         </p>
 
         <h3><?php \esc_html_e("Elementor Widget", "leadgen-app-form"); ?></h3>
         <p>
-          <?php \esc_html_e("Drag the 'LeadGen Form' widget from the 'LeadGen Forms' category in Elementor.", "leadgen-app-form"); ?>
+          <?php \esc_html_e("Drag the 'LeadGen Form' widget from the 'LeadGen Forms' category in Elementor. Configure height settings with professional controls.", "leadgen-app-form"); ?>
         </p>
       </div>
     </div>

@@ -12,38 +12,38 @@ leadgen-app-form/
 │   ├── class-leadgen-form-block.php # Gutenberg block handler
 │   ├── class-leadgen-app-form-updater.php # Custom GitHub update system
 │   ├── class-leadgen-app-form-admin.php # WordPress admin interface
-│   └── elementor/          # Elementor integration
+│   └── elementor/                 # Elementor integration
 │       ├── class-widgets-loader.php # Elementor widgets loader
-│       └── widgets/        # Elementor widgets
+│       └── widgets/               # Elementor widgets
 │           └── class-leadgen-form-widget.php # LeadGen Form widget
-├── blocks/                  # Gutenberg blocks
-│   └── leadgen-form/       # LeadGen form block
-│       ├── block.json      # Block metadata
-│       ├── block.js        # Block JavaScript
-│       └── editor.css      # Block editor styles
-├── assets/
-│   ├── css/                # Styles with pulse animations
-│   │   ├── leadgen-app-form.css # Main plugin styles
+├── blocks/                        # Gutenberg blocks
+│   └── leadgen-form/             # LeadGen form block
+│       ├── block.json            # Block metadata
+│       ├── block.js              # Block JavaScript
+│       └── editor.css            # Block editor styles
+├── assets/                        # Static resources
+│   ├── css/                      # Stylesheets
+│   │   ├── leadgen-app-form.css  # Main plugin styles
 │   │   └── leadgen-elementor.css # Elementor-specific styles
-│   └── js/                 # Vanilla JS with minimal user interaction
-│       ├── leadgen-app-form.js # Frontend form loading
-│       └── leadgen-admin.js # Admin update interface
-├── .github/                # GitHub Actions automation
-│   └── workflows/          # Release automation workflows
-│       ├── release.yml     # Main release workflow
-│       └── check-size.yml  # Package size verification for PRs
-├── scripts/                # Release automation scripts
-│   ├── calculate-size.sh   # Local package size calculation
-│   ├── update-version.sh   # Automated version updating script
-│   ├── check-versions.sh   # Version consistency verification script
-│   └── README.md           # Complete automation documentation
-├── .eslintrc.json          # ESLint configuration for WordPress
-├── README.md               # Plugin documentation
-├── CHANGELOG.md            # Version change history
-├── RELEASE-NOTES.md        # Generated release information
-├── RELEASE-PROCESS.md      # Complete manual release workflow documentation
-├── UPDATE-SYSTEM.md        # Update system documentation
-└── HEADER-STANDARDS.md     # File header documentation standards
+│   └── js/                       # JavaScript files
+│       ├── leadgen-app-form.js   # Frontend functionality
+│       └── leadgen-admin.js      # Admin update interface
+├── .github/                      # GitHub Actions automation
+│   └── workflows/                # Release automation workflows
+│       ├── release.yml           # Main release workflow
+│       └── check-size.yml        # Package information verification for PRs
+├── scripts/                      # Release automation scripts
+│   ├── calculate-size.sh         # Local package analysis calculation
+│   ├── update-version.sh         # Automated version updating script
+│   ├── check-versions.sh         # Version consistency verification script
+│   └── README.md                 # Complete automation documentation
+├── .eslintrc.json                # ESLint configuration for WordPress
+├── README.md                     # Plugin documentation
+├── CHANGELOG.md                  # Version change history
+├── RELEASE-NOTES.md              # Generated release information
+├── UPDATE-SYSTEM.md              # Update system documentation
+├── HEADER-STANDARDS.md           # File header documentation standards
+└── LICENSE                       # GPL v2 license
 ```
 
 ## Development Patterns
@@ -75,7 +75,7 @@ leadgen-app-form/
 - **Manual Update Checks**: Admin interface for immediate update verification
 - **Background Processing**: Non-blocking update detection and processing
 - **Error Handling**: Graceful fallback when GitHub API is unavailable
-- **Professional Distribution**: GitHub Actions automate release package creation (~38KB)
+- **Professional Distribution**: GitHub Actions automate release package creation
 
 #### Update System Components
 ```php
@@ -133,11 +133,19 @@ const message = `Loading form ${formId} for ${deviceType} device`;
 // Basic usage - Shortcode
 [leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile"]
 
-// Gutenberg Block - Preferred for block editor users
-// Search "LeadGen Form" in block library, configure in sidebar
+// NEW in v1.0.3: Custom height attributes with responsive design
+[leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile" desktop-height="800px" mobile-height="400px"]
 
-// Elementor Widget - For Elementor page builder users
+// Height customization with different units (NEW in v1.0.3)
+[leadgen_form desktop-id="uuid-desktop" mobile-id="uuid-mobile" desktop-height="50vh" mobile-height="300px"]
+
+// Gutenberg Block - Preferred for block editor users (Enhanced in v1.0.3)
+// Search "LeadGen Form" in block library, configure in sidebar
+// NEW: Professional height controls with SelectControl for units and RangeControl sliders
+
+// Elementor Widget - For Elementor page builder users (Enhanced in v1.0.3)
 // Drag "LeadGen Form" widget from "LeadGen Forms" category
+// NEW: SelectControl for units + NumberControl inputs with validation
 
 // Flexible - works with one or both IDs
 [leadgen_form desktop-id="uuid-desktop"]
@@ -145,9 +153,9 @@ const message = `Loading form ${formId} for ${deviceType} device`;
 ```
 
 ### Integration Methods
-1. **Shortcode**: Direct shortcode usage in any post/page content
-2. **Gutenberg Block**: Visual block editor with sidebar controls and live preview
-3. **Elementor Widget**: Native Elementor widget with drag-and-drop interface and styling controls
+1. **Shortcode**: Direct shortcode usage in any post/page content with custom height support (v1.0.3)
+2. **Gutenberg Block**: Visual block editor with professional height controls and live preview (Enhanced v1.0.3)
+3. **Elementor Widget**: Native Elementor widget with organized height controls and validation (Enhanced v1.0.3)
 
 ## Critical Implementation Details
 
@@ -257,7 +265,7 @@ All files in this plugin must follow standardized header documentation patterns:
 
 **Header Standards Notes**:
 - All files must include clear functionality descriptions
-- Maintain current version (1.0.1) in @version across all files
+- Maintain current version (1.0.3) in @version across all files
 - Use proper namespaces for PHP files according to file location
 - CSS files should use copyright year 2025
 - Author must always be "Silver Assist"
@@ -349,9 +357,6 @@ npx eslint assets/js/leadgen-admin.js
 # Test Elementor integration (requires Elementor plugin active)
 wp eval "if (class_exists('\\Elementor\\Plugin')) { echo 'Elementor is active'; } else { echo 'Elementor not found'; }"
 
-# Check package size locally
-./scripts/calculate-size.sh
-
 # Check version consistency across all files
 ./scripts/check-versions.sh
 
@@ -388,7 +393,7 @@ npx eslint assets/js/ blocks/
 - Console logging enabled for form initialization
 - `window.LeadGenForm` API for manual control
 - Error boundaries for failed script loads
-- Package size tracking via GitHub Actions
+- GitHub Actions automation for releases
 
 ## Extension Patterns
 
@@ -511,10 +516,10 @@ The plugin includes a comprehensive automated release system with GitHub Actions
 
 #### GitHub Actions Workflows
 - **`.github/workflows/release.yml`** - Main release automation workflow
-- **`.github/workflows/check-size.yml`** - Package size verification for PRs
+- **`.github/workflows/check-size.yml`** - Package information verification for PRs
 
 #### Local Scripts
-- **`scripts/calculate-size.sh`** - Local package size calculation script
+- **`scripts/calculate-size.sh`** - Local package analysis calculation script
 - **`scripts/README.md`** - Complete automation documentation
 
 ### Release Process
@@ -532,7 +537,7 @@ git push origin v1.0.1
 
 # GitHub Actions automatically:
 # - Updates versions in all files (@version fields)
-# - Calculates package size (~38KB)
+# - Creates optimized distribution ZIP
 # - Creates optimized distribution ZIP
 # - Updates RELEASE-NOTES.md
 # - Creates GitHub Release with attachments
@@ -545,7 +550,7 @@ git push origin v1.0.1
 4. Click "Run workflow"
 
 ### Package Management
-#### Distribution Package (~38KB)
+#### Distribution Package
 **Included Files:**
 - `leadgen-app-form.php`
 - `includes/` (PHP classes)
@@ -556,8 +561,12 @@ git push origin v1.0.1
 **Excluded Files:**
 - `.git/`, `.github/` (development)
 - `.eslintrc.json`, `.eslintignore` (linting)
-- `scripts/`, `HEADER-STANDARDS.md` (development tools)
+- `scripts/` (development tools)
+- `HEADER-STANDARDS.md` (development documentation)
 - `RELEASE-NOTES.md` (generated file)
+- `RELEASE-PROCESS.md` (development documentation)
+- `QUICK-RELEASE.md` (development documentation)
+- `UPDATE-SYSTEM.md` (development documentation)
 
 #### Automatic Version Management
 The release system automatically updates `@version` fields in:
@@ -568,10 +577,10 @@ The release system automatically updates `@version` fields in:
 
 ### Pull Request Integration
 When creating PRs, GitHub Actions automatically:
-- Calculates current package size
-- Comments on PR with size information
+- Calculates current package information
+- Comments on PR with package details
 - Updates comments when changes are made
-- Provides size comparison for review
+- Provides package comparison for review
 
 ### Release Documentation
 Complete automation documentation available at:
@@ -607,7 +616,7 @@ git push origin main && git push origin v1.0.X
 4. **Commit Order**: Documentation first, then tag creation to trigger automation
 
 #### Release Artifacts
-- Distribution ZIP (~38KB) with optimized file structure
+- Distribution ZIP with optimized file structure
 - GitHub Release with complete changelog
 - RELEASE-NOTES.md automatically generated
 - Package artifacts with 90-day retention

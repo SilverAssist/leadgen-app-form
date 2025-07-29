@@ -9,7 +9,7 @@
  * @author Silver Assist
  * @copyright Copyright (c) 2025, Silver Assist
  * @license GPL v2 or later
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 /* ==========================================================================
@@ -41,6 +41,7 @@
   border-radius: 8px;
   position: relative;
   overflow: hidden;
+  transition: min-height 0.3s ease;
 }
 
 /* Pulse animation effect */
@@ -76,19 +77,26 @@
   Responsive Design
    ========================================================================== */
 
-/* Mobile devices */
+/* Mobile devices - Default placeholder height */
 @media (max-width: 768px) {
   .leadgen-form-placeholder {
     min-height: 300px;
   }
 }
 
-/* Desktop devices */
+/* Desktop devices - Default placeholder height */
 @media (min-width: 769px) {
   .leadgen-form-placeholder {
     min-height: 600px;
   }
 }
+
+/* 
+ * Custom Heights:
+ * When desktop-height or mobile-height attributes are specified in the shortcode,
+ * JavaScript will override these default heights with inline styles.
+ * The transition property provides smooth height changes during responsive switches.
+ */
 
 /* ==========================================================================
   Error States

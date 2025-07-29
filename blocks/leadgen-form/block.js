@@ -5,7 +5,7 @@
  * Provides an intuitive interface for users to configure form IDs directly in the editor.
  *
  * @file block.js
- * @version 1.0.2
+ * @version 1.0.3
  * @author Silver Assist
  * @requires wp.blocks, wp.element, wp.components, wp.i18n, wp.blockEditor
  * @since 1.0.0
@@ -20,7 +20,9 @@
     TextControl,
     PanelBody,
     Placeholder,
-    Icon
+    Icon,
+    SelectControl,
+    RangeControl
   } = components;
   const { __ } = i18n;
   const { InspectorControls, useBlockProps } = blockEditor;
@@ -64,6 +66,18 @@
       mobileId: {
         type: "string",
         default: ""
+      },
+      heightUnit: {
+        type: "string",
+        default: "px"
+      },
+      desktopHeight: {
+        type: "number",
+        default: 600
+      },
+      mobileHeight: {
+        type: "number",
+        default: 300
       }
     },
 
@@ -84,7 +98,7 @@
      */
     edit: function (props) {
       const { attributes, setAttributes } = props;
-      const { desktopId, mobileId } = attributes;
+      const { desktopId, mobileId, heightUnit, desktopHeight, mobileHeight } = attributes;
       const blockProps = useBlockProps();
 
       /**
@@ -103,6 +117,33 @@
        */
       const onChangeMobileId = function (value) {
         setAttributes({ mobileId: value });
+      };
+
+      /**
+       * Update height unit attribute
+       *
+       * @param {string} value New height unit
+       */
+      const onChangeHeightUnit = function (value) {
+        setAttributes({ heightUnit: value });
+      };
+
+      /**
+       * Update desktop height attribute
+       *
+       * @param {number} value New desktop height
+       */
+      const onChangeDesktopHeight = function (value) {
+        setAttributes({ desktopHeight: value });
+      };
+
+      /**
+       * Update mobile height attribute
+       *
+       * @param {number} value New mobile height
+       */
+      const onChangeMobileHeight = function (value) {
+        setAttributes({ mobileHeight: value });
       };
 
       /**
@@ -166,6 +207,58 @@
           )
         ),
 
+        // Height Configuration Panel
+        el(InspectorControls, {},
+          el(PanelBody, {
+            title: __("Placeholder Height Settings", "leadgen-app-form"),
+            initialOpen: false
+          },
+            el(SelectControl, {
+              label: __("Height Unit", "leadgen-app-form"),
+              help: __("Select the unit for height values", "leadgen-app-form"),
+              value: heightUnit,
+              onChange: onChangeHeightUnit,
+              options: [
+                { label: __("Pixels (px)", "leadgen-app-form"), value: "px" },
+                { label: __("Em (em)", "leadgen-app-form"), value: "em" },
+                { label: __("Rem (rem)", "leadgen-app-form"), value: "rem" },
+                { label: __("Viewport Height (vh)", "leadgen-app-form"), value: "vh" },
+                { label: __("Viewport Width (vw)", "leadgen-app-form"), value: "vw" },
+                { label: __("Percentage (%)", "leadgen-app-form"), value: "%" }
+              ]
+            }),
+            el(RangeControl, {
+              label: __("Desktop Placeholder Height", "leadgen-app-form"),
+              help: __("Height value for desktop devices", "leadgen-app-form"),
+              value: desktopHeight,
+              onChange: onChangeDesktopHeight,
+              min: 1,
+              max: 2000,
+              step: 1
+            }),
+            el(RangeControl, {
+              label: __("Mobile Placeholder Height", "leadgen-app-form"),
+              help: __("Height value for mobile devices", "leadgen-app-form"),
+              value: mobileHeight,
+              onChange: onChangeMobileHeight,
+              min: 1,
+              max: 2000,
+              step: 1
+            }),
+            el("p", {
+              style: {
+                fontSize: "12px",
+                fontStyle: "italic",
+                marginTop: "10px",
+                color: "#666",
+                backgroundColor: "#f8f9fa",
+                padding: "8px",
+                borderRadius: "4px"
+              }
+            }, __("Current heights: Desktop ", "leadgen-app-form") + desktopHeight + heightUnit + __(", Mobile ", "leadgen-app-form") + mobileHeight + heightUnit)
+          )
+        ),
+
         // Block Content
         el("div", blockProps,
           el(Placeholder, {
@@ -191,6 +284,13 @@
               ),
               mobileId && el("div", {},
                 el("strong", {}, __("Mobile:", "leadgen-app-form")), " ", mobileId
+              ),
+              (desktopHeight !== 600 || mobileHeight !== 300) && el("div", {
+                style: { marginTop: "5px", fontSize: "11px", color: "#888" }
+              },
+                el("strong", {}, __("Heights:", "leadgen-app-form")), " ",
+                __("Desktop ", "leadgen-app-form"), desktopHeight, heightUnit, ", ",
+                __("Mobile ", "leadgen-app-form"), mobileHeight, heightUnit
               )
             )
           )
@@ -206,7 +306,7 @@
      */
     save: function (props) {
       const { attributes } = props;
-      const { desktopId, mobileId } = attributes;
+      const { desktopId, mobileId, heightUnit, desktopHeight, mobileHeight } = attributes;
 
       // Don't render if no IDs are configured
       if (!desktopId.trim() && !mobileId.trim()) {
@@ -222,6 +322,15 @@
 
       if (mobileId.trim()) {
         shortcodeAtts.push(`mobile-id="${mobileId.trim()}"`);
+      }
+
+      // Add height attributes if they differ from defaults
+      if (desktopHeight && desktopHeight !== 600) {
+        shortcodeAtts.push(`desktop-height="${desktopHeight}${heightUnit}"`);
+      }
+
+      if (mobileHeight && mobileHeight !== 300) {
+        shortcodeAtts.push(`mobile-height="${mobileHeight}${heightUnit}"`);
       }
 
       const shortcode = `[leadgen_form ${shortcodeAtts.join(" ")}]`;

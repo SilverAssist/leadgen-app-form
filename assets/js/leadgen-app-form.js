@@ -6,7 +6,7 @@
  * and dynamic form loading inspired by Next.js component logic.
  *
  * @file leadgen-app-form.js
- * @version 1.0.2
+ * @version 1.0.3
  * @author Silver Assist
  * @requires jQuery
  * @since 1.0.0
@@ -107,6 +107,8 @@
       const $container = $(this);
       const containerDesktopId = $container.data("desktop-id");
       const containerMobileId = $container.data("mobile-id");
+      const containerDesktopHeight = $container.data("desktop-height");
+      const containerMobileHeight = $container.data("mobile-height");
 
       /**
        * Configuration object for form container
@@ -114,6 +116,8 @@
        * @property {jQuery} container - jQuery object of the container element
        * @property {string} desktopId - Desktop form ID
        * @property {string} mobileId - Mobile form ID
+       * @property {string} desktopHeight - Desktop placeholder height
+       * @property {string} mobileHeight - Mobile placeholder height
        * @property {string|null} currentId - Currently active form ID
        * @property {boolean} isLoaded - Whether the form script is loaded
        * @property {boolean} hasInteracted - Whether user has interacted
@@ -122,6 +126,8 @@
         container: $container,
         desktopId: containerDesktopId,
         mobileId: containerMobileId,
+        desktopHeight: containerDesktopHeight,
+        mobileHeight: containerMobileHeight,
         currentId: getCurrentFormId(containerDesktopId, containerMobileId),
         isLoaded: false,
         hasInteracted: false
@@ -129,10 +135,15 @@
 
       formContainers.set($container.attr("id") || `form-${index}`, config);
 
+      // Apply custom placeholder height if specified
+      applyCustomPlaceholderHeight(config);
+
       // Debug logging
       console.log("LeadGen Form initialized:", {
         desktopId: containerDesktopId,
         mobileId: containerMobileId,
+        desktopHeight: containerDesktopHeight,
+        mobileHeight: containerMobileHeight,
         currentId: config.currentId,
         deviceType: deviceType
       });
@@ -163,6 +174,53 @@
       return mobileId; // Fallback to mobile if no desktop
     }
     return null;
+  }
+
+  /**
+   * Apply custom placeholder height based on device type
+   *
+   * Sets custom height for the placeholder based on desktop-height and mobile-height
+   * attributes. Falls back to CSS defaults if no custom height is specified.
+   *
+   * @since 1.0.3
+   * @function
+   * @param {Object} config - The form container configuration object
+   * @param {jQuery} config.container - Container jQuery object
+   * @param {string} config.desktopHeight - Desktop placeholder height
+   * @param {string} config.mobileHeight - Mobile placeholder height
+   */
+  function applyCustomPlaceholderHeight(config) {
+    const { container, desktopHeight, mobileHeight } = config;
+    const $placeholder = container.find(".leadgen-form-placeholder");
+
+    if (!$placeholder.length) {
+      return;
+    }
+
+    // Determine current height based on device type and available values
+    const isMobile = window.innerWidth <= 768;
+    let customHeight = "";
+
+    if (isMobile && mobileHeight) {
+      customHeight = mobileHeight;
+    } else if (!isMobile && desktopHeight) {
+      customHeight = desktopHeight;
+    }
+
+    // Apply custom height if specified
+    if (customHeight) {
+      // Validate height format (should include units like px, em, rem, etc.)
+      if (/^\d+(\.\d+)?(px|em|rem|vh|vw|%)?$/.test(customHeight)) {
+        // Add 'px' if no unit is specified
+        const heightWithUnit = /\d$/.test(customHeight) ? `${customHeight}px` : customHeight;
+        
+        $placeholder.css("min-height", heightWithUnit);
+        
+        console.log(`Applied custom height: ${heightWithUnit} (${isMobile ? "mobile" : "desktop"})`);
+      } else {
+        console.warn(`Invalid height format: ${customHeight}. Expected format: "400px", "20em", "50vh", etc.`);
+      }
+    }
   }
 
   /**
@@ -374,11 +432,17 @@
             setupMinimalUserInteraction(config);
           }
 
+          // Reapply custom placeholder height for new device type
+          applyCustomPlaceholderHeight(config);
+
           console.log("Viewport changed, updated form:", {
             containerId,
             newDeviceType,
             newCurrentId
           });
+        } else {
+          // Even if form ID doesn't change, reapply heights for new device type
+          applyCustomPlaceholderHeight(config);
         }
       });
     }

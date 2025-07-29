@@ -8,7 +8,7 @@
  * @package LeadGenAppForm
  * @since 1.0.1
  * @author Silver Assist
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 namespace LeadGenAppForm;

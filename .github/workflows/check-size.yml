@@ -23,10 +23,14 @@ jobs:
                   rsync -av --exclude='.git*' \
                             --exclude='.github/' \
                             --exclude='temp-package/' \
+                            --exclude='scripts/' \
                             --exclude='.eslintrc.json' \
                             --exclude='.eslintignore' \
                             --exclude='HEADER-STANDARDS.md' \
                             --exclude='RELEASE-NOTES.md' \
+                            --exclude='RELEASE-PROCESS.md' \
+                            --exclude='QUICK-RELEASE.md' \
+                            --exclude='UPDATE-SYSTEM.md' \
                             --exclude='node_modules/' \
                             --exclude='*.tmp' \
                             ./ temp-package/
@@ -91,4 +95,4 @@ jobs:
                   echo "## 📦 Package Size Analysis" >> $GITHUB_STEP_SUMMARY
                   echo "- **Current size**: ~${{ steps.size.outputs.package_size_kb }}" >> $GITHUB_STEP_SUMMARY
                   echo "- **Compressed**: Yes (ZIP format)" >> $GITHUB_STEP_SUMMARY
-                  echo "- **Excludes**: Development files (.eslintrc.json, HEADER-STANDARDS.md, etc.)" >> $GITHUB_STEP_SUMMARY
+                  echo "- **Excludes**: Development files (scripts/, .eslintrc.json, HEADER-STANDARDS.md, RELEASE-PROCESS.md, etc.)" >> $GITHUB_STEP_SUMMARY
