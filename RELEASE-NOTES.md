@@ -116,11 +116,11 @@
 - **Direct Download**: From developer website
 
 ## Support & Documentation
-- **Installation Guide**: README.md
-- **Update System Guide**: UPDATE-SYSTEM.md
-- **Developer Standards**: HEADER-STANDARDS.md
-- **Automation Guide**: scripts/README.md
-- **Change History**: CHANGELOG.md
+- **Installation Guide**: `README.md`
+- **Update System Guide**: `UPDATE-SYSTEM.md`
+- **Developer Standards**: `HEADER-STANDARDS.md`
+- **Automation Guide**: `scripts/README.md`
+- **Change History**: `CHANGELOG.md`
 - **Issues**: GitHub Issues tracker
 - **Admin Interface**: WordPress Admin → Settings → LeadGen Forms
 
