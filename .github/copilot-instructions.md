@@ -29,9 +29,10 @@ leadgen-app-form/
 │       ├── leadgen-app-form.js   # Frontend functionality
 │       └── leadgen-admin.js      # Admin update interface
 ├── .github/                      # GitHub Actions automation
-│   └── workflows/                # Release automation workflows
+│   └── workflows/                # Automated workflows
 │       ├── release.yml           # Main release workflow
-│       └── check-size.yml        # Package information verification for PRs
+│       ├── check-size.yml        # Package information verification for PRs
+│       └── quality-checks.yml    # Code quality and security validation
 ├── scripts/                      # Release automation scripts
 │   ├── calculate-size.sh         # Local package analysis calculation
 │   ├── update-version.sh         # Automated version updating script
@@ -385,6 +386,47 @@ Composer files are automatically excluded from distribution packages:
 - `composer.json` and `composer.lock` excluded from ZIP releases
 - `vendor/` directory excluded from all packages
 - Development tools not included in WordPress plugin distribution
+
+## GitHub Actions Quality Checks
+
+### Automated Quality Assurance
+The plugin includes a comprehensive quality check workflow (`.github/workflows/quality-checks.yml`) that runs automatically on:
+- **Push to main/develop**: Validates code quality on every commit
+- **Pull Requests**: Ensures contributions meet standards before merge
+
+#### Quality Check Matrix
+- **PHP Versions**: 8.0, 8.1, 8.2, 8.3 (full compatibility testing)
+- **WordPress Versions**: 6.5, 6.6, latest (forward/backward compatibility)
+- **Multi-environment**: Ubuntu Latest with comprehensive testing
+
+#### Security Validation
+```bash
+# Automated security checks for:
+- eval() usage detection (blocks dangerous code)
+- Direct $_GET/$_POST usage (encourages sanitization)
+- Remote file_get_contents (prevents SSRF vulnerabilities)
+- WordPress security best practices validation
+```
+
+#### Code Quality Standards
+```bash
+# Automated validation includes:
+- composer.json syntax and dependencies validation
+- WordPress Coding Standards (WPCS) compliance
+- PHP syntax validation across all supported versions
+- PSR-4 autoloading structure verification
+```
+
+#### Compatibility Verification
+- **PHP 8.0+ Features**: Validates modern PHP usage
+- **WordPress Integration**: Ensures proper hook usage
+- **Cross-version Testing**: Multi-PHP and WordPress version matrix
+
+### Quality Gates
+All checks must pass before:
+- **Code Merge**: Pull requests require passing quality checks
+- **Release Process**: Automated releases depend on quality validation
+- **Deployment**: Ensures production-ready code quality
 
 ## Development Commands
 
