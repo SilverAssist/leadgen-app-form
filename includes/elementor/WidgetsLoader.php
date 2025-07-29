@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LeadGen App Form Plugin - Elementor Widgets Loader
  *
@@ -30,7 +31,6 @@ use Elementor\Elements_Manager;
  */
 class WidgetsLoader
 {
-
   /**
    * Single instance of the widgets loader
    *
@@ -38,26 +38,26 @@ class WidgetsLoader
    * @access private
    * @static
    */
-  private static ?WidgetsLoader $instance = null;
+    private static ?WidgetsLoader $instance = null;
 
   /**
    * Private constructor to prevent direct instantiation
    *
    * @access private
    */
-  private function __construct()
-  {
-    $this->init();
-  }
+    private function __construct()
+    {
+        $this->init();
+    }
 
   /**
    * Prevent object cloning
    *
    * @access private
    */
-  private function __clone(): void
-  {
-  }
+    private function __clone(): void
+    {
+    }
 
   /**
    * Prevent object unserialization
@@ -65,10 +65,10 @@ class WidgetsLoader
    * @access public
    * @throws \Exception
    */
-  public function __wakeup(): void
-  {
-    throw new \Exception("Cannot unserialize singleton");
-  }
+    public function __wakeup(): void
+    {
+        throw new \Exception("Cannot unserialize singleton");
+    }
 
   /**
    * Get the single instance of the widgets loader
@@ -77,13 +77,13 @@ class WidgetsLoader
    * @static
    * @return WidgetsLoader
    */
-  public static function get_instance(): WidgetsLoader
-  {
-    if (self::$instance === null) {
-      self::$instance = new self();
+    public static function get_instance(): WidgetsLoader
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
-    return self::$instance;
-  }
 
   /**
    * Initialize the widgets loader
@@ -94,16 +94,16 @@ class WidgetsLoader
    * @access private
    * @return void
    */
-  private function init(): void
-  {
-    // Check if Elementor is installed and active
-    if (!$this->is_elementor_loaded()) {
-      return;
-    }
+    private function init(): void
+    {
+      // Check if Elementor is installed and active
+        if (!$this->is_elementor_loaded()) {
+            return;
+        }
 
-    // Initialize when Elementor is ready
-    \add_action("elementor/init", [$this, "elementor_init"]);
-  }
+      // Initialize when Elementor is ready
+        \add_action("elementor/init", [$this, "elementor_init"]);
+    }
 
   /**
    * Check if Elementor is loaded
@@ -113,10 +113,10 @@ class WidgetsLoader
    * @access private
    * @return bool True if Elementor is loaded, false otherwise
    */
-  private function is_elementor_loaded(): bool
-  {
-    return \did_action("elementor/loaded") || \class_exists("\\Elementor\\Plugin");
-  }
+    private function is_elementor_loaded(): bool
+    {
+        return \did_action("elementor/loaded") || \class_exists("\\Elementor\\Plugin");
+    }
 
   /**
    * Initialize Elementor integration
@@ -127,20 +127,20 @@ class WidgetsLoader
    * @access public
    * @return void
    */
-  public function elementor_init(): void
-  {
-    // Register widget category
-    \add_action("elementor/elements/categories_registered", [$this, "register_widget_category"]);
+    public function elementor_init(): void
+    {
+      // Register widget category
+        \add_action("elementor/elements/categories_registered", [$this, "register_widget_category"]);
 
-    // Register widgets
-    \add_action("elementor/widgets/register", [$this, "register_widgets"]);
+      // Register widgets
+        \add_action("elementor/widgets/register", [$this, "register_widgets"]);
 
-    // Enqueue Elementor-specific styles
-    \add_action("elementor/frontend/after_enqueue_styles", [$this, "enqueue_elementor_styles"]);
+      // Enqueue Elementor-specific styles
+        \add_action("elementor/frontend/after_enqueue_styles", [$this, "enqueue_elementor_styles"]);
 
-    // Enqueue editor scripts (for better UX in Elementor editor)
-    \add_action("elementor/editor/before_enqueue_scripts", [$this, "enqueue_editor_scripts"]);
-  }
+      // Enqueue editor scripts (for better UX in Elementor editor)
+        \add_action("elementor/editor/before_enqueue_scripts", [$this, "enqueue_editor_scripts"]);
+    }
 
   /**
    * Register custom widget category
@@ -151,13 +151,13 @@ class WidgetsLoader
    * @param Elements_Manager $elements_manager Elementor elements manager
    * @return void
    */
-  public function register_widget_category(Elements_Manager $elements_manager): void
-  {
-    $elements_manager->add_category("leadgen-forms", [
-      "title" => \esc_html__("LeadGen Forms", "leadgen-app-form"),
-      "icon" => "fa fa-plug"
-    ]);
-  }
+    public function register_widget_category(Elements_Manager $elements_manager): void
+    {
+        $elements_manager->add_category("leadgen-forms", [
+        "title" => \esc_html__("LeadGen Forms", "leadgen-app-form"),
+        "icon" => "fa fa-plug"
+        ]);
+    }
 
   /**
    * Register widgets
@@ -168,16 +168,16 @@ class WidgetsLoader
    * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager
    * @return void
    */
-  public function register_widgets(\Elementor\Widgets_Manager $widgets_manager): void
-  {
-    // Load widget files
-    $this->load_widget_files();
+    public function register_widgets(\Elementor\Widgets_Manager $widgets_manager): void
+    {
+      // Load widget files
+        $this->load_widget_files();
 
-    // Register LeadGen Form Widget
-    if (\class_exists("LeadGenAppForm\\Elementor\\Widgets\\LeadGenFormWidget")) {
-      $widgets_manager->register(new Widgets\LeadGenFormWidget());
+      // Register LeadGen Form Widget
+        if (\class_exists("LeadGenAppForm\\Elementor\\Widgets\\LeadGenFormWidget")) {
+            $widgets_manager->register(new Widgets\LeadGenFormWidget());
+        }
     }
-  }
 
   /**
    * Load widget files
@@ -187,11 +187,11 @@ class WidgetsLoader
    * @access private
    * @return void
    */
-  private function load_widget_files(): void
-  {
-    // Load LeadGen Form Widget
-    require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/widgets/LeadGenFormWidget.php";
-  }
+    private function load_widget_files(): void
+    {
+      // Load LeadGen Form Widget
+        require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/widgets/LeadGenFormWidget.php";
+    }
 
   /**
    * Enqueue Elementor-specific styles
@@ -202,15 +202,15 @@ class WidgetsLoader
    * @access public
    * @return void
    */
-  public function enqueue_elementor_styles(): void
-  {
-    \wp_enqueue_style(
-      "leadgen-elementor-css",
-      LEADGEN_APP_FORM_PLUGIN_URL . "assets/css/leadgen-elementor.css",
-      [],
-      LEADGEN_APP_FORM_VERSION
-    );
-  }
+    public function enqueue_elementor_styles(): void
+    {
+        \wp_enqueue_style(
+            "leadgen-elementor-css",
+            LEADGEN_APP_FORM_PLUGIN_URL . "assets/css/leadgen-elementor.css",
+            [],
+            LEADGEN_APP_FORM_VERSION
+        );
+    }
 
   /**
    * Enqueue editor scripts
@@ -221,11 +221,11 @@ class WidgetsLoader
    * @access public
    * @return void
    */
-  public function enqueue_editor_scripts(): void
-  {
-    // Enqueue any editor-specific scripts if needed
-    // Currently, the main plugin JS handles most functionality
-  }
+    public function enqueue_editor_scripts(): void
+    {
+      // Enqueue any editor-specific scripts if needed
+      // Currently, the main plugin JS handles most functionality
+    }
 
   /**
    * Get registered widgets list
@@ -236,12 +236,12 @@ class WidgetsLoader
    * @access public
    * @return array List of registered widget class names
    */
-  public function get_registered_widgets(): array
-  {
-    return [
-      "LeadGenAppForm\\Elementor\\Widgets\\LeadGenFormWidget"
-    ];
-  }
+    public function get_registered_widgets(): array
+    {
+        return [
+        "LeadGenAppForm\\Elementor\\Widgets\\LeadGenFormWidget"
+        ];
+    }
 
   /**
    * Check if widget exists
@@ -252,10 +252,10 @@ class WidgetsLoader
    * @param string $widget_class Widget class name to check
    * @return bool True if widget exists, false otherwise
    */
-  public function widget_exists(string $widget_class): bool
-  {
-    return \class_exists($widget_class);
-  }
+    public function widget_exists(string $widget_class): bool
+    {
+        return \class_exists($widget_class);
+    }
 
   /**
    * Get widget configuration
@@ -266,15 +266,15 @@ class WidgetsLoader
    * @access public
    * @return array Widget configuration array
    */
-  public function get_widget_config(): array
-  {
-    return [
-      "category" => "leadgen-forms",
-      "base_url" => LEADGEN_APP_FORM_PLUGIN_URL,
-      "version" => LEADGEN_APP_FORM_VERSION,
-      "widgets" => $this->get_registered_widgets()
-    ];
-  }
+    public function get_widget_config(): array
+    {
+        return [
+        "category" => "leadgen-forms",
+        "base_url" => LEADGEN_APP_FORM_PLUGIN_URL,
+        "version" => LEADGEN_APP_FORM_VERSION,
+        "widgets" => $this->get_registered_widgets()
+        ];
+    }
 
   /**
    * Force reload widgets
@@ -285,10 +285,10 @@ class WidgetsLoader
    * @access public
    * @return void
    */
-  public function force_reload_widgets(): void
-  {
-    if (\class_exists("\\Elementor\\Plugin")) {
-      Plugin::$instance->widgets_manager->ajax_register_widget_type();
+    public function force_reload_widgets(): void
+    {
+        if (\class_exists("\\Elementor\\Plugin")) {
+            Plugin::$instance->widgets_manager->ajax_register_widget_type();
+        }
     }
-  }
 }

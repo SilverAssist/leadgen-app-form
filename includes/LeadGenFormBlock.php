@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LeadGen Form Gutenberg Block Handler
  *
@@ -15,7 +16,7 @@ namespace LeadGenAppForm\Block;
 
 // Prevent direct access
 if (!defined("ABSPATH")) {
-  exit;
+    exit;
 }
 
 /**
@@ -29,7 +30,6 @@ if (!defined("ABSPATH")) {
  */
 class LeadGenFormBlock
 {
-
   /**
    * Single instance of the block handler
    *
@@ -38,7 +38,7 @@ class LeadGenFormBlock
    * @access private
    * @static
    */
-  private static ?LeadGenFormBlock $instance = null;
+    private static ?LeadGenFormBlock $instance = null;
 
   /**
    * Private constructor to prevent direct instantiation
@@ -46,10 +46,10 @@ class LeadGenFormBlock
    * @since 1.0.0
    * @access private
    */
-  private function __construct()
-  {
-    $this->init();
-  }
+    private function __construct()
+    {
+        $this->init();
+    }
 
   /**
    * Prevent object cloning
@@ -57,9 +57,9 @@ class LeadGenFormBlock
    * @since 1.0.0
    * @access private
    */
-  private function __clone(): void
-  {
-  }
+    private function __clone(): void
+    {
+    }
 
   /**
    * Prevent object unserialization
@@ -68,10 +68,10 @@ class LeadGenFormBlock
    * @access public
    * @throws \Exception
    */
-  public function __wakeup(): void
-  {
-    throw new \Exception("Cannot unserialize singleton");
-  }
+    public function __wakeup(): void
+    {
+        throw new \Exception("Cannot unserialize singleton");
+    }
 
   /**
    * Get the single instance of the block handler
@@ -84,13 +84,13 @@ class LeadGenFormBlock
    * @static
    * @return LeadGenFormBlock The single instance of the block handler
    */
-  public static function get_instance(): LeadGenFormBlock
-  {
-    if (self::$instance === null) {
-      self::$instance = new self();
+    public static function get_instance(): LeadGenFormBlock
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
-    return self::$instance;
-  }
 
   /**
    * Initialize the block handler
@@ -102,11 +102,11 @@ class LeadGenFormBlock
    * @access private
    * @return void
    */
-  private function init(): void
-  {
-    \add_action("init", [$this, "register_block"]);
-    \add_action("enqueue_block_editor_assets", [$this, "enqueue_block_editor_assets"]);
-  }
+    private function init(): void
+    {
+        \add_action("init", [$this, "register_block"]);
+        \add_action("enqueue_block_editor_assets", [$this, "enqueue_block_editor_assets"]);
+    }
 
   /**
    * Register the Gutenberg block
@@ -118,16 +118,16 @@ class LeadGenFormBlock
    * @access public
    * @return void
    */
-  public function register_block(): void
-  {
-    // Register the block using block.json
-    \register_block_type(
-      LEADGEN_APP_FORM_PLUGIN_PATH . "blocks/leadgen-form/block.json",
-      [
-        "render_callback" => [$this, "render_block"]
-      ]
-    );
-  }
+    public function register_block(): void
+    {
+      // Register the block using block.json
+        \register_block_type(
+            LEADGEN_APP_FORM_PLUGIN_PATH . "blocks/leadgen-form/block.json",
+            [
+            "render_callback" => [$this, "render_block"]
+            ]
+        );
+    }
 
   /**
    * Enqueue block editor assets
@@ -139,25 +139,25 @@ class LeadGenFormBlock
    * @access public
    * @return void
    */
-  public function enqueue_block_editor_assets(): void
-  {
-    // Enqueue block editor CSS
-    \wp_enqueue_style(
-      "leadgen-form-block-editor",
-      LEADGEN_APP_FORM_PLUGIN_URL . "blocks/leadgen-form/editor.css",
-      [],
-      LEADGEN_APP_FORM_VERSION
-    );
+    public function enqueue_block_editor_assets(): void
+    {
+      // Enqueue block editor CSS
+        \wp_enqueue_style(
+            "leadgen-form-block-editor",
+            LEADGEN_APP_FORM_PLUGIN_URL . "blocks/leadgen-form/editor.css",
+            [],
+            LEADGEN_APP_FORM_VERSION
+        );
 
-    // Enqueue block JavaScript
-    \wp_enqueue_script(
-      "leadgen-form-block-js",
-      LEADGEN_APP_FORM_PLUGIN_URL . "blocks/leadgen-form/block.js",
-      ["wp-blocks", "wp-element", "wp-components", "wp-editor"],
-      LEADGEN_APP_FORM_VERSION,
-      true
-    );
-  }
+      // Enqueue block JavaScript
+        \wp_enqueue_script(
+            "leadgen-form-block-js",
+            LEADGEN_APP_FORM_PLUGIN_URL . "blocks/leadgen-form/block.js",
+            ["wp-blocks", "wp-element", "wp-components", "wp-editor"],
+            LEADGEN_APP_FORM_VERSION,
+            true
+        );
+    }
 
   /**
    * Render the block on the frontend
@@ -177,51 +177,51 @@ class LeadGenFormBlock
    * }
    * @return string HTML output for the block
    */
-  public function render_block(array $attributes): string
-  {
-    // Extract and sanitize attributes
-    $desktop_id = \sanitize_text_field($attributes["desktopId"] ?? "");
-    $mobile_id = \sanitize_text_field($attributes["mobileId"] ?? "");
-    $desktop_height = \sanitize_text_field($attributes["desktopHeight"] ?? "");
-    $mobile_height = \sanitize_text_field($attributes["mobileHeight"] ?? "");
+    public function render_block(array $attributes): string
+    {
+      // Extract and sanitize attributes
+        $desktop_id = \sanitize_text_field($attributes["desktopId"] ?? "");
+        $mobile_id = \sanitize_text_field($attributes["mobileId"] ?? "");
+        $desktop_height = \sanitize_text_field($attributes["desktopHeight"] ?? "");
+        $mobile_height = \sanitize_text_field($attributes["mobileHeight"] ?? "");
 
-    // Validate that at least one ID is present
-    if (empty($desktop_id) && empty($mobile_id)) {
-      return "<div class=\"leadgen-form-error\">" .
-        \esc_html__("Error: At least one of the desktop or mobile form ID is required", "leadgen-app-form") .
-        "</div>";
+      // Validate that at least one ID is present
+        if (empty($desktop_id) && empty($mobile_id)) {
+            return "<div class=\"leadgen-form-error\">" .
+            \esc_html__("Error: At least one of the desktop or mobile form ID is required", "leadgen-app-form") .
+            "</div>";
+        }
+
+      // Build shortcode attributes array
+        $shortcode_atts = [];
+
+        if (!empty($desktop_id)) {
+            $shortcode_atts["desktop-id"] = $desktop_id;
+        }
+
+        if (!empty($mobile_id)) {
+            $shortcode_atts["mobile-id"] = $mobile_id;
+        }
+
+        if (!empty($desktop_height)) {
+            $shortcode_atts["desktop-height"] = $desktop_height;
+        }
+
+        if (!empty($mobile_height)) {
+            $shortcode_atts["mobile-height"] = $mobile_height;
+        }
+
+      // Convert attributes array to shortcode string
+        $shortcode_parts = [];
+        foreach ($shortcode_atts as $key => $value) {
+            $shortcode_parts[] = "{$key}=\"{$value}\"";
+        }
+
+        $shortcode_string = "[leadgen_form " . implode(" ", $shortcode_parts) . "]";
+
+      // Use WordPress do_shortcode to render
+        return \do_shortcode($shortcode_string);
     }
-
-    // Build shortcode attributes array
-    $shortcode_atts = [];
-
-    if (!empty($desktop_id)) {
-      $shortcode_atts["desktop-id"] = $desktop_id;
-    }
-
-    if (!empty($mobile_id)) {
-      $shortcode_atts["mobile-id"] = $mobile_id;
-    }
-
-    if (!empty($desktop_height)) {
-      $shortcode_atts["desktop-height"] = $desktop_height;
-    }
-
-    if (!empty($mobile_height)) {
-      $shortcode_atts["mobile-height"] = $mobile_height;
-    }
-
-    // Convert attributes array to shortcode string
-    $shortcode_parts = [];
-    foreach ($shortcode_atts as $key => $value) {
-      $shortcode_parts[] = "{$key}=\"{$value}\"";
-    }
-
-    $shortcode_string = "[leadgen_form " . implode(" ", $shortcode_parts) . "]";
-
-    // Use WordPress do_shortcode to render
-    return \do_shortcode($shortcode_string);
-  }
 
   /**
    * Get block configuration for JavaScript
@@ -233,18 +233,18 @@ class LeadGenFormBlock
    * @access public
    * @return array Block configuration array
    */
-  public function get_block_config(): array
-  {
-    return [
-      "name" => "leadgen-app-form/leadgen-form",
-      "title" => \__("LeadGen Form", "leadgen-app-form"),
-      "description" => \__("Display a LeadGen App form with responsive design", "leadgen-app-form"),
-      "category" => "widgets",
-      "supports" => [
+    public function get_block_config(): array
+    {
+        return [
+        "name" => "leadgen-app-form/leadgen-form",
+        "title" => \__("LeadGen Form", "leadgen-app-form"),
+        "description" => \__("Display a LeadGen App form with responsive design", "leadgen-app-form"),
+        "category" => "widgets",
+        "supports" => [
         "html" => false,
         "multiple" => true,
         "reusable" => true
-      ]
-    ];
-  }
+        ]
+        ];
+    }
 }
