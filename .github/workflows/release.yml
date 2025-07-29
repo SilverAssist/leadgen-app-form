@@ -155,26 +155,48 @@ jobs:
                   if [ -f "CHANGELOG.md" ]; then
                     echo "Looking for version $VERSION in CHANGELOG.md"
                     
-                    # Method 1: Using sed - most reliable for our CHANGELOG format
-                    CHANGES=$(sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$d' | tail -n +2)
+                    # Debug: Show CHANGELOG structure
+                    echo "Debug: Lines containing version pattern:"
+                    grep -n "\[${VERSION}\]" CHANGELOG.md || echo "No direct match found"
+                    
+                    # Method 1: Using sed with escaped brackets (most reliable)
+                    CHANGES=$(sed -n "/## \\[${VERSION}\\]/,/## \\[/p" CHANGELOG.md | sed '$d' | tail -n +2)
                     
                     if [ -n "$CHANGES" ]; then
-                      echo "Found changes in CHANGELOG for version $VERSION"
-                      # Save changes to file for release body
+                      echo "✅ Found changes with sed method"
                       echo "## Changes in v$VERSION" > release_notes.md
                       echo "$CHANGES" >> release_notes.md
                     else
-                      echo "No specific changes found for version $VERSION in CHANGELOG"
-                      # Fallback: try to find any reference to the version
-                      CHANGES_FALLBACK=$(grep -A 20 "## \[${VERSION}\]" CHANGELOG.md | tail -n +2)
+                      echo "❌ Sed method failed, trying awk method"
+                      # Method 2: Using awk (more reliable across different systems)
+                      CHANGES_AWK=$(awk "/^## \\[${VERSION}\\]/{flag=1; next} /^## \\[/{flag=0} flag" CHANGELOG.md)
                       
-                      if [ -n "$CHANGES_FALLBACK" ]; then
-                        echo "Found changes with fallback method"
+                      if [ -n "$CHANGES_AWK" ]; then
+                        echo "✅ Found changes with awk method"
                         echo "## Changes in v$VERSION" > release_notes.md
-                        echo "$CHANGES_FALLBACK" >> release_notes.md
+                        echo "$CHANGES_AWK" >> release_notes.md
                       else
-                        echo "## Changes in v$VERSION" > release_notes.md
-                        echo "See \`CHANGELOG.md\` for detailed changes." >> release_notes.md
+                        echo "❌ Awk method failed, trying grep method"
+                        # Method 3: Using grep with line numbers (fallback)
+                        LINE_START=$(grep -n "## \\[${VERSION}\\]" CHANGELOG.md | cut -d: -f1)
+                        if [ -n "$LINE_START" ]; then
+                          echo "✅ Found version at line: $LINE_START"
+                          # Extract from start line to next version or end of file
+                          CHANGES_GREP=$(tail -n +$((LINE_START + 1)) CHANGELOG.md | sed '/^## \[/q' | sed '$d')
+                          if [ -n "$CHANGES_GREP" ]; then
+                            echo "✅ Found changes with grep method"
+                            echo "## Changes in v$VERSION" > release_notes.md
+                            echo "$CHANGES_GREP" >> release_notes.md
+                          else
+                            echo "❌ All methods failed"
+                            echo "## Changes in v$VERSION" > release_notes.md
+                            echo "See \`CHANGELOG.md\` for detailed changes." >> release_notes.md
+                          fi
+                        else
+                          echo "❌ Version not found in CHANGELOG"
+                          echo "## Changes in v$VERSION" > release_notes.md
+                          echo "See \`CHANGELOG.md\` for detailed changes." >> release_notes.md
+                        fi
                       fi
                     fi
                   else
