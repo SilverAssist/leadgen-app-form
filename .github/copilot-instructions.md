@@ -8,7 +8,7 @@ This is a **WordPress plugin** for integrating LeadGen App forms with minimal us
 ```
 leadgen-app-form/
 ├── leadgen-app-form.php     # Main plugin file (Singleton pattern)
-├── includes/                # Additional PHP classes
+├── includes/                # PSR-4 compliant PHP classes
 │   ├── LeadGenFormBlock.php          # Gutenberg block handler
 │   ├── LeadGenAppFormUpdater.php     # Custom GitHub update system
 │   ├── LeadGenAppFormAdmin.php       # WordPress admin interface
@@ -338,12 +338,12 @@ git commit -m "🔧 Update documentation with new features"
 ## Composer Integration
 
 ### Package Configuration
-The plugin includes a comprehensive `composer.json` configuration for development tools and package management:
+The plugin includes a comprehensive `composer.json` configuration for development tools and PSR-4 autoloading:
 
 #### Key Features
 - **PHP 8.0+ Requirement**: Matches plugin requirements
+- **PSR-4 Autoloading**: Modern namespace organization with proper class loading
 - **WordPress Coding Standards**: Automated PHPCS integration
-- **PSR-4 Autoloading**: Proper namespace organization
 - **Development Tools**: PHPUnit, PHPCS, PHPCBF integration
 - **WordPress Plugin Type**: Proper Composer installer configuration
 
@@ -365,7 +365,7 @@ composer run lint
 composer run test
 ```
 
-#### Autoloading Structure
+#### PSR-4 Autoloading Structure
 ```php
 "autoload": {
   "psr-4": {
@@ -377,8 +377,8 @@ composer run test
 ```
 
 #### Development Dependencies
-- **PHPCS & WPCS**: WordPress coding standards enforcement
-- **PHPUnit**: Unit testing framework (ready for future tests)
+- **PHPCS & WPCS**: WordPress coding standards enforcement (v3.13.2 & v2.3.0)
+- **PHPUnit**: Unit testing framework ready for future tests (v9.6.23)
 - **Composer Installers**: WordPress plugin installation support
 
 #### Package Exclusions
@@ -386,6 +386,12 @@ Composer files are automatically excluded from distribution packages:
 - `composer.json` and `composer.lock` excluded from ZIP releases
 - `vendor/` directory excluded from all packages
 - Development tools not included in WordPress plugin distribution
+
+#### Quality Assurance Integration
+- **Multi-environment Testing**: Automated testing across PHP 8.0-8.3
+- **WordPress Compatibility**: Testing with WordPress 6.5-latest
+- **Security Validation**: Automated vulnerability scanning
+- **Standards Enforcement**: Automated PHPCS validation in CI/CD
 
 ## GitHub Actions Quality Checks
 
@@ -432,31 +438,34 @@ All checks must pass before:
 
 ### Composer Development Workflow
 ```bash
-# Initial setup
+# Initial setup with PSR-4 autoloading
 composer install
 
 # Code quality checks
-composer run phpcs                    # Check coding standards
+composer run phpcs                    # Check WordPress Coding Standards
 composer run phpcbf                   # Auto-fix standards issues  
 composer run lint                     # PHP syntax validation
 
-# Development cycle
-composer run phpcs && composer run lint  # Full validation
+# Development cycle with quality gates
+composer run phpcs && composer run lint  # Full validation before commit
 ```
 
-### Plugin Testing
+### Plugin Testing & Validation
 ```bash
 # Activate plugin via WP-CLI
 wp plugin activate leadgen-app-form
 
-# Check for PHP syntax errors (main files)
-php -l leadgen-app-form.php
-php -l includes/LeadGenAppFormUpdater.php
+# Validate PSR-4 autoloading
+php -l includes/LeadGenFormBlock.php
 php -l includes/LeadGenAppFormAdmin.php
+php -l includes/LeadGenAppFormUpdater.php
 php -l includes/elementor/WidgetsLoader.php
 php -l includes/elementor/widgets/LeadGenFormWidget.php
 
-# Validate JavaScript
+# Check main plugin file
+php -l leadgen-app-form.php
+
+# Validate JavaScript with WordPress standards
 npx eslint assets/js/leadgen-app-form.js
 npx eslint assets/js/leadgen-admin.js
 
@@ -472,6 +481,24 @@ wp eval "if (class_exists('\\Elementor\\Plugin')) { echo 'Elementor is active'; 
 
 # Update version across all plugin files
 ./scripts/update-version.sh 1.0.2
+```
+
+### Quality Assurance & Standards
+```bash
+# PSR-12 compatibility check (with WordPress exceptions)
+vendor/bin/phpcs --standard=PSR12 includes/ leadgen-app-form.php
+
+# WordPress Coding Standards (preferred)
+vendor/bin/phpcs --standard=WordPress includes/ leadgen-app-form.php
+
+# Auto-fix coding standards issues
+vendor/bin/phpcbf --standard=WordPress includes/ leadgen-app-form.php
+
+# Check Composer autoloading configuration
+composer dump-autoload --optimize
+
+# Validate composer.json syntax
+composer validate
 ```
 
 ### Version Management
@@ -497,13 +524,34 @@ git push origin v1.0.1
 php -l leadgen-app-form.php
 find includes/ -name "*.php" -exec php -l {} \;
 npx eslint assets/js/ blocks/
+
+# Quality gate validation
+composer run phpcs
+composer run lint
+```
+
+### GitHub Actions & CI/CD
+```bash
+# Monitor quality checks workflow
+# https://github.com/SilverAssist/leadgen-app-form/actions
+
+# Local testing of quality checks
+composer run phpcs                    # WordPress Coding Standards
+composer run lint                     # PHP syntax validation
+npx eslint assets/js/ blocks/        # JavaScript standards
+
+# Security validation (manual)
+grep -r "eval(" includes/ leadgen-app-form.php  # Should return no results
+grep -r "\$_GET\[" includes/ leadgen-app-form.php  # Check direct usage
+grep -r "\$_POST\[" includes/ leadgen-app-form.php  # Check direct usage
 ```
 
 ### Debugging Helpers
-- Console logging enabled for form initialization
-- `window.LeadGenForm` API for manual control
-- Error boundaries for failed script loads
-- GitHub Actions automation for releases
+- **PSR-4 Autoloading**: `composer dump-autoload` for class loading issues
+- **Console logging**: Enabled for form initialization and script loading
+- **`window.LeadGenForm` API**: Available for manual form control
+- **Error boundaries**: Implemented for failed script loads
+- **GitHub Actions**: Automated release and quality validation logs
 
 ## Extension Patterns
 
@@ -606,7 +654,7 @@ npx eslint assets/js/leadgen-app-form.js
 
 ## Key Files Reference
 - **Entry Point**: `leadgen-app-form.php` (Singleton class)
-- **Gutenberg Block**: `includes/LeadGenFormBlock.php` (Block handler)
+- **Gutenberg Block**: `includes/LeadGenFormBlock.php` (PSR-4 compliant block handler)
 - **Update System**: `includes/LeadGenAppFormUpdater.php` (GitHub API integration)
 - **Admin Interface**: `includes/LeadGenAppFormAdmin.php` (Update management)
 - **Elementor Loader**: `includes/elementor/WidgetsLoader.php` (Widgets manager)
@@ -615,6 +663,8 @@ npx eslint assets/js/leadgen-app-form.js
 - **Admin JavaScript**: `assets/js/leadgen-admin.js` (Update status handling)
 - **Main Styles**: `assets/css/leadgen-app-form.css` (Responsive + animations)
 - **Elementor Styles**: `assets/css/leadgen-elementor.css` (Elementor-specific styling)
+- **Composer Config**: `composer.json` (PSR-4 autoloading and dev tools)
+- **Quality Workflow**: `.github/workflows/quality-checks.yml` (Multi-environment testing)
 - **Documentation**: `README.md` (User-facing docs), `UPDATE-SYSTEM.md` (Update system guide)
 - **Release Process**: `RELEASE-PROCESS.md` (Complete manual release workflow documentation)
 - **Development Guide**: `.github/copilot-instructions.md` (This file - complete development patterns)

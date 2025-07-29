@@ -5,6 +5,44 @@ All notable changes to the LeadGen App Form Plugin will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2025-07-29
+
+### Added - PSR-4 Migration & Development Environment
+- **PSR-4 Compliance**: Complete migration from WordPress naming convention to PSR-4 standards
+- **Composer Integration**: Full development environment with autoloading and quality tools
+- **GitHub Actions Quality Workflow**: Multi-environment testing (PHP 8.0-8.3, WordPress 6.5-latest)
+- **Security Scanning**: Automated Snyk security validation in CI/CD pipeline
+- **WordPress Coding Standards**: Automated PHPCS integration with development workflow
+- **PHPUnit Framework**: Testing framework ready for future unit tests (v9.6.23)
+- **Development Tools**: Complete Composer-based development environment
+
+### Changed - File Structure Modernization
+- **File Naming**: Migrated from `class-*.php` to `PascalCase.php` for PSR-4 compliance
+  - `class-leadgen-app-form-admin.php` → `LeadGenAppFormAdmin.php`
+  - `class-leadgen-app-form-updater.php` → `LeadGenAppFormUpdater.php`
+  - `class-leadgen-form-block.php` → `LeadGenFormBlock.php`
+  - `class-widgets-loader.php` → `WidgetsLoader.php`
+  - `class-leadgen-form-widget.php` → `LeadGenFormWidget.php`
+- **Namespace Organization**: Enhanced PSR-4 namespace hierarchy
+  - `LeadGenAppForm` (main namespace)
+  - `LeadGenAppForm\Block` (Gutenberg blocks)
+  - `LeadGenAppForm\Elementor\Widgets` (Elementor widgets)
+- **Autoloading**: Composer-managed class loading replaces manual require statements
+
+### Enhanced - Code Quality & Standards
+- **775 Format Issues Fixed**: Automated PSR-12 code formatting improvements
+- **Quality Gates**: Multi-environment compatibility validation
+- **Development Workflow**: Integrated quality checks with `composer run phpcs|phpcbf|lint`
+- **Documentation**: Updated all documentation to reflect PSR-4 architecture
+- **CI/CD Pipeline**: Complete automated quality assurance with GitHub Actions
+
+### Technical - Development Environment
+- **Composer Scripts**: `phpcs`, `phpcbf`, `lint`, `test` commands for quality assurance
+- **Multi-PHP Testing**: Automated compatibility testing across PHP 8.0-8.3
+- **Multi-WordPress Testing**: Compatibility validation with WordPress 6.5-latest
+- **Dependency Management**: Professional package management with security scanning
+- **Standards Compliance**: WordPress Coding Standards enforcement with automated fixes
+
 ## [1.0.3] - 2025-07-28
 
 ### Added - Professional Height Control UI

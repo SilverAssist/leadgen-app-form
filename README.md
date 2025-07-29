@@ -206,7 +206,7 @@ You can also use the `[leadgen_form]` shortcode directly:
 ```
 leadgen-app-form/
 ├── leadgen-app-form.php           # Main plugin file (Singleton pattern)
-├── includes/                      # Additional PHP classes
+├── includes/                      # PSR-4 compliant PHP classes
 │   ├── LeadGenFormBlock.php          # Gutenberg block handler
 │   ├── LeadGenAppFormUpdater.php     # Custom GitHub update system
 │   ├── LeadGenAppFormAdmin.php       # WordPress admin interface
@@ -226,42 +226,88 @@ leadgen-app-form/
 │   └── js/                       # JavaScript files
 │       ├── leadgen-app-form.js   # Frontend functionality
 │       └── leadgen-admin.js      # Admin update interface
-├── .github/                      # GitHub Actions automation
-│   └── workflows/                # Release automation workflows
+├── .github/                      # GitHub Actions automation & quality assurance
+│   └── workflows/                # Automated workflows
 │       ├── release.yml           # Main release workflow
-│       └── check-size.yml        # Package size verification for PRs
+│       ├── check-size.yml        # Package size verification for PRs
+│       └── quality-checks.yml    # Code quality and security validation
 ├── scripts/                      # Release automation scripts
 │   ├── calculate-size.sh         # Local package size calculation
 │   ├── update-version.sh         # Automated version updating script
 │   ├── check-versions.sh         # Version consistency verification script
 │   └── README.md                 # Complete automation documentation
-├── .eslintrc.json                # ESLint configuration for WordPress
-├── README.md                     # This file - Plugin documentation
-├── CHANGELOG.md                  # Version change history
-├── RELEASE-NOTES.md              # Generated release information
-├── UPDATE-SYSTEM.md              # Update system documentation
-├── HEADER-STANDARDS.md           # File header documentation standards
-└── LICENSE                       # GPL v2 license
+├── vendor/                       # Composer dependencies (development)
+│   ├── wp-coding-standards/      # WordPress Coding Standards
+│   ├── phpunit/                  # PHPUnit testing framework
+│   └── squizlabs/               # PHP_CodeSniffer
+├── composer.json                 # Composer package configuration
+├── composer.lock                 # Composer dependency lock file
+├── .eslintrc.json               # ESLint configuration for WordPress
+├── .gitignore                   # Git ignore patterns for development files
+├── README.md                    # This file - Plugin documentation
+├── CHANGELOG.md                 # Version change history
+├── RELEASE-NOTES.md             # Generated release information
+├── UPDATE-SYSTEM.md             # Update system documentation
+├── HEADER-STANDARDS.md          # File header documentation standards
+└── LICENSE                      # GPL v2 license
 ```
 
 ## Development
 
-The plugin is developed following WordPress and modern PHP best practices:
+The plugin is developed following WordPress and modern PHP best practices with PSR-4 compliance:
 
 ### Architecture & Patterns
+- **PSR-4 Autoloading**: Modern namespace organization with Composer integration
 - **Singleton Pattern**: Main class and block handler use singleton for memory efficiency
 - **Server-Side Rendering**: Gutenberg block uses PHP rendering for better SEO
 - **Hook-Based Architecture**: Clean separation of concerns using WordPress hooks
 - **Conditional Loading**: Assets only load when needed (shortcode/block present)
 - **Custom Update System**: Professional GitHub-integrated update management
 
+### Development Environment
+- **Composer Integration**: PSR-4 autoloading with development tools
+- **WordPress Coding Standards**: Automated PHPCS validation
+- **GitHub Actions Quality Gates**: Multi-PHP and WordPress version testing
+- **Security Scanning**: Automated Snyk security validation
+- **ESLint Configuration**: WordPress-specific JavaScript standards
+
 ### Code Quality Standards
+- **PSR-4 Compliance**: Modern file naming and namespace organization
 - **Data Sanitization**: All user inputs properly sanitized
 - **Input Validation**: Comprehensive validation for form IDs and attributes
 - **Translation Support**: Full i18n support with proper text domain
 - **Error Handling**: Graceful degradation and user-friendly error messages
 - **Documentation**: Complete PHPDoc and JSDoc documentation
 - **Version Control**: Standardized file headers with proper @since/@version tracking
+
+### Development Tools & Quality Assurance
+
+#### Composer Development Environment
+```bash
+# Install development dependencies
+composer install
+
+# Code quality checks
+composer run phpcs                    # Check WordPress Coding Standards
+composer run phpcbf                   # Auto-fix coding standards issues  
+composer run lint                     # PHP syntax validation
+
+# Development workflow
+composer run phpcs && composer run lint  # Full validation before commit
+```
+
+#### GitHub Actions Quality Matrix
+- **PHP Versions**: 8.0, 8.1, 8.2, 8.3 (full compatibility testing)
+- **WordPress Versions**: 6.5, 6.6, latest (forward/backward compatibility)
+- **Security Validation**: Automated vulnerability scanning
+- **Code Standards**: WordPress Coding Standards enforcement
+- **Cross-Platform**: Ubuntu Latest with comprehensive testing
+
+#### Quality Gates
+- **Automated Testing**: Multi-environment compatibility validation
+- **Security Scanning**: eval(), $_GET/$_POST usage detection
+- **Standards Compliance**: PSR-4 and WordPress standards validation
+- **Dependency Analysis**: Composer package security verification
 
 ### Technical Implementation
 - **Modern PHP Syntax**: PHP 8.0+ features for better performance
@@ -294,24 +340,43 @@ The plugin is developed following WordPress and modern PHP best practices:
 - **Error Handling**: Visual validation and user-friendly error messages
 - **Consistent Rendering**: Uses the same shortcode logic for reliable behavior across all methods
 
-## PHP 8.0+ Features
+## PHP 8.0+ Features & Modern Architecture
 
-This plugin leverages modern PHP 8.0+ features for improved performance and code quality:
+This plugin leverages modern PHP 8.0+ features and PSR-4 standards for improved performance and code quality:
 
-### Implemented Features
-- **Namespaces**: Clean code organization with `LeadGenAppForm`, `LeadGenAppForm\Block`, and `LeadGenAppForm\Elementor\Widgets` namespaces
+### PSR-4 Autoloading & Namespace Organization
+- **Modern File Structure**: PSR-4 compliant file naming (e.g., `LeadGenFormBlock.php`)
+- **Namespace Hierarchy**: 
+  - `LeadGenAppForm` (main namespace)
+  - `LeadGenAppForm\Block` (Gutenberg blocks)
+  - `LeadGenAppForm\Elementor\Widgets` (Elementor widgets)
+- **Composer Integration**: Automated class loading with development tools
+- **Clean Dependencies**: Organized PSR-4 autoload configuration
+
+### Implemented PHP 8.0+ Features
 - **Match Expression**: Cleaner conditional logic replacing complex if/else chains
 - **Array Spread in Array Expression**: More efficient array building using `...` operator
 - **Typed Properties**: Type-safe nullable properties (PHP 7.4+)
 - **Return Type Declarations**: Clear return types for all methods
 - **Null Coalescing Operator (??)**:  Cleaner default value handling
 - **Void Return Type**: Explicit void returns for clarity
+- **String Interpolation**: Readable string building with `"{$variable}"` syntax
 
 ### Code Examples
 ```php
-// Namespace organization
+// PSR-4 namespace organization
 namespace LeadGenAppForm;
 namespace LeadGenAppForm\Block;
+namespace LeadGenAppForm\Elementor\Widgets;
+
+// Composer autoloading configuration
+"autoload": {
+  "psr-4": {
+    "LeadGenAppForm\\": "includes/",
+    "LeadGenAppForm\\Block\\": "includes/",
+    "LeadGenAppForm\\Elementor\\": "includes/elementor/"
+  }
+}
 
 // Match expression (PHP 8.0+)
 $current_id = match (true) {
@@ -329,9 +394,20 @@ $shortcode_atts = [
 // Typed properties (PHP 7.4+)
 private static ?LeadGen_App_Form $instance = null;
 
+// String interpolation for readability
+$api_url = "https://api.github.com/repos/{$this->github_repo}/releases/latest";
+$message = "Version {$new_version} available (current: {$current_version})";
+
 // Global function calls in namespaced context
 \wp_enqueue_script(...);
 ```
+
+### Development Standards Migration
+- **From**: WordPress convention (`class-file-name.php`)
+- **To**: PSR-4 standard (`ClassFileName.php`)
+- **Autoloading**: Composer-managed class loading
+- **Compatibility**: Maintains WordPress function compatibility
+- **Quality**: Enhanced with automated coding standards validation
 
 ## How It Works
 
@@ -422,29 +498,73 @@ wp.blocks.registerBlockType("leadgen/form-block", {
 ## 🛠️ Development & Release Management
 
 ### For Developers
-This plugin includes comprehensive development tools and automation:
+This plugin includes comprehensive development tools, PSR-4 architecture, and automated quality assurance:
+
+#### Development Environment Setup
+```bash
+# Clone and setup development environment
+git clone https://github.com/SilverAssist/leadgen-app-form.git
+cd leadgen-app-form
+
+# Install Composer dependencies (development tools)
+composer install
+
+# Verify development setup
+composer run lint        # PHP syntax validation
+composer run phpcs       # WordPress Coding Standards check
+composer run phpcbf      # Auto-fix coding standards (if needed)
+```
+
+#### Code Quality & Standards
+- **PSR-4 Autoloading**: Modern namespace organization with Composer
+- **WordPress Coding Standards**: Automated PHPCS integration
+- **PHPUnit Ready**: Testing framework configured (v9.6.23)
+- **ESLint Configuration**: WordPress-specific JavaScript standards
+- **GitHub Actions**: Multi-environment quality validation
+
+#### Quality Assurance Pipeline
+- **Multi-PHP Testing**: PHP 8.0, 8.1, 8.2, 8.3 compatibility
+- **Multi-WordPress Testing**: WordPress 6.5, 6.6, latest compatibility
+- **Security Scanning**: Automated vulnerability detection
+- **Coding Standards**: Automated WordPress standards enforcement
+- **Dependency Validation**: Composer package security verification
 
 #### Version Management
-- **Automated Scripts**: `./scripts/update-version-simple.sh` for consistent version updates
+- **Automated Scripts**: `./scripts/update-version.sh` for consistent version updates
 - **Consistency Checking**: `./scripts/check-versions.sh` for validation
 - **Release Process**: Complete workflow documented in [RELEASE-PROCESS.md](RELEASE-PROCESS.md)
+
+#### Development Workflow
+```bash
+# Development cycle with quality checks
+composer run phpcs                    # Check coding standards
+composer run phpcbf                   # Auto-fix issues
+composer run lint                     # Validate PHP syntax
+git add . && git commit -m "fix: description"
+
+# Pre-release validation
+./scripts/check-versions.sh           # Verify version consistency
+composer run phpcs && composer run lint  # Final quality check
+```
 
 #### Release Workflow
 For detailed release instructions, see **[RELEASE-PROCESS.md](RELEASE-PROCESS.md)**
 
 Quick release checklist:
-1. Update [CHANGELOG.md](CHANGELOG.md) with new version changes
-2. Update [README.md](README.md) if features changed
-3. Run version update: `./scripts/update-version-simple.sh 1.0.X`
-4. Commit documentation: `git commit -m "📚 Update documentation for vX.X.X"`
-5. Create release tag: `git tag vX.X.X && git push origin vX.X.X`
-6. Monitor [GitHub Actions](https://github.com/SilverAssist/leadgen-app-form/actions) for automated release
+1. **Documentation**: Update [CHANGELOG.md](CHANGELOG.md) with new version changes
+2. **Features**: Update [README.md](README.md) if features changed  
+3. **Version Update**: Run `./scripts/update-version.sh 1.0.X`
+4. **Quality Check**: `composer run phpcs && composer run lint`
+5. **Commit**: `git commit -m "📚 Update documentation for vX.X.X"`
+6. **Release**: `git tag vX.X.X && git push origin vX.X.X`
+7. **Monitor**: Check [GitHub Actions](https://github.com/SilverAssist/leadgen-app-form/actions) for automated release
 
 #### Development Resources
-- **Plugin Structure**: See [copilot-instructions.md](copilot-instructions.md) for complete architecture
+- **Plugin Architecture**: See [.github/copilot-instructions.md](.github/copilot-instructions.md) for complete patterns
 - **Update System**: Documented in [UPDATE-SYSTEM.md](UPDATE-SYSTEM.md)
 - **File Headers**: Standards in [HEADER-STANDARDS.md](HEADER-STANDARDS.md)
-- **GitHub Actions**: Automated release workflow in `.github/workflows/`
+- **GitHub Actions**: Automated workflows in `.github/workflows/`
+- **Composer Tools**: PSR-4 autoloading and development dependencies
 
 ## 📋 Support & Documentation
 
