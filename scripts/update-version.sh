@@ -16,7 +16,7 @@
 # @package LeadGenAppForm
 # @since 1.0.1
 # @author Silver Assist
-# @version 1.0.3
+# @version 1.0.4
 ###############################################################################
 
 set -e  # Exit on any error

@@ -4,10 +4,14 @@ WordPress plugin that adds a shortcode to display forms with different configura
 
 ## Features
 
-- **🚀 NEW in v1.0.3**: Advanced height controls with professional UI for Gutenberg and Elementor
-- **⚙️ NEW**: Numeric input controls with unit selector (px, em, rem, vh, vw, %) for precise height configuration
-- **🔧 NEW**: Smart shortcode generation that only includes height attributes when they differ from defaults
-- **🎨 NEW**: Organized control panels with separators, headings, and live preview feedback
+- **�️ NEW in v1.0.4**: PSR-4 architecture migration with modern Composer development environment
+- **⚡ NEW**: GitHub Actions quality workflow with multi-environment testing (PHP 8.0-8.3, WordPress 6.5-latest)
+- **🔧 NEW**: Automated code quality tools (PHPCS, PHPUnit, ESLint) integrated with development workflow
+- **📦 NEW**: Composer-based dependency management with WordPress Coding Standards enforcement
+- **�🚀 NEW in v1.0.3**: Advanced height controls with professional UI for Gutenberg and Elementor
+- **⚙️ Enhanced**: Numeric input controls with unit selector (px, em, rem, vh, vw, %) for precise height configuration
+- **🔧 Enhanced**: Smart shortcode generation that only includes height attributes when they differ from defaults
+- **🎨 Enhanced**: Organized control panels with separators, headings, and live preview feedback
 - **🚀 Updated in v1.0.1**: Professional automatic update system with GitHub integration
 - **⚙️ Updated in v1.0.1**: WordPress admin settings page for update management and status
 - **🔄 Updated in v1.0.1**: Real-time AJAX update checking with manual update functionality
@@ -35,10 +39,10 @@ WordPress plugin that adds a shortcode to display forms with different configura
 ## Download
 
 The plugin is available as a ready-to-install ZIP file:
-- **File**: `leadgen-app-form-v1.0.3.zip` (~51KB)
-- **Version**: 1.0.3
+- **File**: `leadgen-app-form-v1.0.4.zip` (~55KB)
+- **Version**: 1.0.4
 - **Compatibility**: WordPress 5.0+ with PHP 8.0+
-- **New in v1.0.3**: Custom placeholder height attributes with responsive design
+- **New in v1.0.4**: PSR-4 architecture migration with modern development tools
 
 ## Installation
 
