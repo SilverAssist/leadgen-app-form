@@ -58,11 +58,11 @@ jobs:
 
             - name: Run security check
               run: |
-                  # Check for common security issues (excluding vendor, .github, and other non-source directories)
-                  grep -r "eval(" . --exclude-dir=vendor --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.git && exit 1 || echo "✅ No eval() found"
-                  grep -r "\$_GET\[" . --exclude-dir=vendor --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.git && echo "⚠️  Direct \$_GET usage found" || echo "✅ No direct \$_GET usage"
-                  grep -r "\$_POST\[" . --exclude-dir=vendor --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.git && echo "⚠️  Direct \$_POST usage found" || echo "✅ No direct \$_POST usage"
-                  grep -r "file_get_contents.*http" . --exclude-dir=vendor --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.git && exit 1 || echo "✅ No remote file_get_contents found"
+                  # Check for common security issues (only in PHP files)
+                  find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "eval(" {} \; && exit 1 || echo "✅ No eval() found"
+                  find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "\$_GET\[" {} \; && echo "⚠️  Direct \$_GET usage found" || echo "✅ No direct \$_GET usage"
+                  find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "\$_POST\[" {} \; && echo "⚠️  Direct \$_POST usage found" || echo "✅ No direct \$_POST usage"
+                  find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "file_get_contents.*http" {} \; && exit 1 || echo "✅ No remote file_get_contents found"
 
     compatibility-check:
         runs-on: ubuntu-latest
@@ -89,5 +89,5 @@ jobs:
 
             - name: WordPress compatibility check
               run: |
-                  # Basic WordPress function usage validation (excluding vendor, .github, and other non-source directories)
-                  grep -r "add_action\|add_filter\|wp_enqueue" . --exclude-dir=vendor --exclude-dir=.github --exclude-dir=node_modules --exclude-dir=.git && echo "✅ WordPress functions found" || echo "⚠️  No WordPress functions detected"
+                  # Basic WordPress function usage validation (only in PHP files)
+                  find . -name "*.php" -not -path "./vendor/*" -not -path "./.github/*" -not -path "./node_modules/*" -exec grep -l "add_action\|add_filter\|wp_enqueue" {} \; && echo "✅ WordPress functions found" || echo "⚠️  No WordPress functions detected"
