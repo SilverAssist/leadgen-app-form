@@ -138,12 +138,12 @@ jobs:
                   - **Direct Download**: From developer website
 
                   ## Support & Documentation
-                  - **Installation Guide**: `README.md`
-                  - **Change History**: `CHANGELOG.md`
+                  - **Installation Guide**: \`README.md\`
+                  - **Change History**: \`CHANGELOG.md\`
                   - **Issues**: GitHub Issues tracker
 
                   ## Installation Instructions
-                  See `README.md` for complete installation guide.
+                  See \`README.md\` for complete installation guide.
                   EOF
 
             - name: Generate release notes from CHANGELOG
@@ -217,7 +217,7 @@ jobs:
                   3. Choose the downloaded ZIP file and click "Install Now"
                   4. Activate the plugin
 
-                  For detailed installation instructions, see the `README.md` file.
+                  For detailed installation instructions, see the \`README.md\` file.
                   EOF
 
             - name: Create GitHub Release
