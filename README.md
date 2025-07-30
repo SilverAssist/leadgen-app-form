@@ -1,44 +1,20 @@
-# Le## Features
-
-- **🚀 NEW in v1.0.5**: WordPress-compatible release system with improved ZIP packaging for clean installation
-- **📦 NEW in v1.0.5**: Automated `create-release-zip.sh` script for professional plugin distribution
-- **🔧 NEW in v1.0.5**: Enhanced GitHub Actions workflow with centralized packaging system
-- **⚡ NEW in v1.0.4**: PSR-4 architecture migration with modern Composer development environment
-- **⚡ NEW**: GitHub Actions quality workflow with multi-environment testing (PHP 8.0-8.3, WordPress 6.5-latest)
-- **🔧 NEW**: Automated code quality tools (PHPCS, PHPUnit, ESLint) integrated with development workflow
-- **📦 NEW**: Composer-based dependency management with WordPress Coding Standards enforcement
-- **🚀 NEW in v1.0.3**: Advanced height controls with professional UI for Gutenberg and Elementorpp Form Plugin
+# LeadGen App Form Plugin
 
 WordPress plugin that adds a shortcode to display forms with different configurations for desktop and mobile devices.
 
 ## Features
 
-- **�️ NEW in v1.0.4**: PSR-4 architecture migration with modern Composer development environment
-- **⚡ NEW**: GitHub Actions quality workflow with multi-environment testing (PHP 8.0-8.3, WordPress 6.5-latest)
-- **🔧 NEW**: Automated code quality tools (PHPCS, PHPUnit, ESLint) integrated with development workflow
-- **📦 NEW**: Composer-based dependency management with WordPress Coding Standards enforcement
-- **�🚀 NEW in v1.0.3**: Advanced height controls with professional UI for Gutenberg and Elementor
-- **⚙️ Enhanced**: Numeric input controls with unit selector (px, em, rem, vh, vw, %) for precise height configuration
-- **🔧 Enhanced**: Smart shortcode generation that only includes height attributes when they differ from defaults
-- **🎨 Enhanced**: Organized control panels with separators, headings, and live preview feedback
-- **🚀 Updated in v1.0.1**: Professional automatic update system with GitHub integration
-- **⚙️ Updated in v1.0.1**: WordPress admin settings page for update management and status
-- **🔄 Updated in v1.0.1**: Real-time AJAX update checking with manual update functionality
-- **📦 Updated in v1.0.1**: GitHub Actions automation for professional release management
-- **Gutenberg Block Integration**: Visual block editor with advanced height controls
-- **Elementor Widget Support**: Native Elementor widget for page builder users
-- **Intuitive User Interface**: Sidebar controls with live preview
-- **Multiple Integration Methods**: Shortcode, Gutenberg block, and Elementor widget
-- Customizable shortcode with desktop and mobile parameters
-- Automatic mobile device detection
-- Optimized script loading (only when shortcode is used)
-- Minimal user interaction pattern for performance
-- Responsive design with viewport switching
-- CSS pulse animation placeholder
-- External form script management
-- Modern PHP 8.0+ features and syntax
-- Translation ready with proper text domain
-- Organized folder structure for maintainability
+- **📱 Responsive Forms**: Automatically switches between desktop and mobile form configurations based on device type
+- **🎨 Advanced Height Controls**: Customize form placeholder heights with support for multiple units (px, em, rem, vh, vw, %)
+- **🧩 Gutenberg Block Integration**: Visual block editor with intuitive sidebar controls and live preview
+- **⚡ Elementor Widget Support**: Native Elementor widget with drag-and-drop functionality and styling options
+- **📝 Flexible Shortcode**: Simple `[leadgen_form]` shortcode for direct content integration
+- **🔄 Automatic Updates**: Built-in update system that keeps your plugin current automatically
+- **⚙️ Easy Configuration**: Multiple integration methods - choose what works best for your workflow
+- **🎯 Smart Loading**: Performance-optimized with minimal user interaction pattern
+- **📐 Custom Dimensions**: Set different heights for desktop and mobile devices
+- **🌐 Translation Ready**: Full internationalization support for multilingual sites
+- **🛡️ Reliable Performance**: Graceful fallbacks and error handling for seamless user experience
 
 ## Requirements
 
@@ -215,6 +191,21 @@ You can also use the `[leadgen_form]` shortcode directly:
 - **Responsive behavior**: Heights automatically adjust based on device viewport
 - **Validation**: Invalid height values fallback to defaults with console warnings
 
+## How It Works
+
+### Loading Process
+1. **Placeholder Display**: Shows animated gray placeholder
+2. **User Interaction Detection**: Waits for focus, mousemove, scroll, or touch events
+3. **Dynamic Script Loading**: Loads external form scripts from LeadGen App
+4. **Form Rendering**: Injects custom elements and displays the actual form
+5. **Responsive Switching**: Automatically switches forms on viewport changes
+
+### Technical Details
+- **External API**: Integrates with `https://forms.leadgenapp.io/js/lf.min.js/{id}`
+- **Custom Elements**: Creates `<leadgen-form-{id}>` elements dynamically
+- **Script Management**: Prevents duplicate script loading
+- **Performance**: Only loads resources when needed
+
 ## Plugin Structure
 
 ```
@@ -240,238 +231,13 @@ leadgen-app-form/
 │   └── js/                       # JavaScript files
 │       ├── leadgen-app-form.js   # Frontend functionality
 │       └── leadgen-admin.js      # Admin update interface
-├── .github/                      # GitHub Actions automation & quality assurance
-│   └── workflows/                # Automated workflows
-│       ├── release.yml           # Main release workflow
-│       ├── check-size.yml        # Package size verification for PRs
-│       └── quality-checks.yml    # Code quality and security validation
-├── scripts/                      # Release automation scripts
-│   ├── calculate-size.sh         # Local package size calculation
-│   ├── update-version.sh         # Automated version updating script
-│   ├── check-versions.sh         # Version consistency verification script
-│   └── README.md                 # Complete automation documentation
-├── vendor/                       # Composer dependencies (development)
-│   ├── wp-coding-standards/      # WordPress Coding Standards
-│   ├── phpunit/                  # PHPUnit testing framework
-│   └── squizlabs/               # PHP_CodeSniffer
-├── composer.json                 # Composer package configuration
-├── composer.lock                 # Composer dependency lock file
-├── .eslintrc.json               # ESLint configuration for WordPress
-├── .gitignore                   # Git ignore patterns for development files
-├── README.md                    # This file - Plugin documentation
-├── CHANGELOG.md                 # Version change history
-├── RELEASE-NOTES.md             # Generated release information
-├── UPDATE-SYSTEM.md             # Update system documentation
-├── HEADER-STANDARDS.md          # File header documentation standards
-└── LICENSE                      # GPL v2 license
+└── LICENSE                       # GPL v2 license
 ```
 
-## Development
+## JavaScript API
 
-The plugin is developed following WordPress and modern PHP best practices with PSR-4 compliance:
+For advanced integrations, the plugin provides a JavaScript API:
 
-### Architecture & Patterns
-- **PSR-4 Autoloading**: Modern namespace organization with Composer integration
-- **Singleton Pattern**: Main class and block handler use singleton for memory efficiency
-- **Server-Side Rendering**: Gutenberg block uses PHP rendering for better SEO
-- **Hook-Based Architecture**: Clean separation of concerns using WordPress hooks
-- **Conditional Loading**: Assets only load when needed (shortcode/block present)
-- **Custom Update System**: Professional GitHub-integrated update management
-
-### Development Environment
-- **Composer Integration**: PSR-4 autoloading with development tools
-- **WordPress Coding Standards**: Automated PHPCS validation
-- **GitHub Actions Quality Gates**: Multi-PHP and WordPress version testing
-- **Security Scanning**: Automated Snyk security validation
-- **ESLint Configuration**: WordPress-specific JavaScript standards
-
-### Code Quality Standards
-- **PSR-4 Compliance**: Modern file naming and namespace organization
-- **Data Sanitization**: All user inputs properly sanitized
-- **Input Validation**: Comprehensive validation for form IDs and attributes
-- **Translation Support**: Full i18n support with proper text domain
-- **Error Handling**: Graceful degradation and user-friendly error messages
-- **Documentation**: Complete PHPDoc and JSDoc documentation
-- **Version Control**: Standardized file headers with proper @since/@version tracking
-
-### Development Tools & Quality Assurance
-
-#### Composer Development Environment
-```bash
-# Install development dependencies
-composer install
-
-# Code quality checks
-composer run phpcs                    # Check WordPress Coding Standards
-composer run phpcbf                   # Auto-fix coding standards issues  
-composer run lint                     # PHP syntax validation
-
-# Development workflow
-composer run phpcs && composer run lint  # Full validation before commit
-```
-
-#### GitHub Actions Quality Matrix
-- **PHP Versions**: 8.0, 8.1, 8.2, 8.3 (full compatibility testing)
-- **WordPress Versions**: 6.5, 6.6, latest (forward/backward compatibility)
-- **Security Validation**: Automated vulnerability scanning
-- **Code Standards**: WordPress Coding Standards enforcement
-- **Cross-Platform**: Ubuntu Latest with comprehensive testing
-
-#### Quality Gates
-- **Automated Testing**: Multi-environment compatibility validation
-- **Security Scanning**: eval(), $_GET/$_POST usage detection
-- **Standards Compliance**: PSR-4 and WordPress standards validation
-- **Dependency Analysis**: Composer package security verification
-
-### Technical Implementation
-- **Modern PHP Syntax**: PHP 8.0+ features for better performance
-- **Minimal user interaction**: Performance-optimized loading pattern
-- **Responsive Design**: Mobile-first approach with viewport switching
-- **External API Integration**: Clean integration with LeadGen App API
-- **Block Editor Integration**: Native Gutenberg block with visual interface
-- **Elementor Integration**: Custom widget with native Elementor interface
-- **Namespace Organization**: Clean code organization using PHP namespaces
-- **GitHub Actions**: Automated release and package management
-
-### Update System Features (New in v1.0.1)
-- **GitHub API Integration**: Direct connection to public GitHub releases
-- **WordPress Native Experience**: Updates appear in standard WordPress plugins page
-- **Intelligent Caching**: 12-hour caching system for optimal performance
-- **Manual Update Checks**: Admin interface for immediate update verification
-- **Version Comparison**: Smart semantic version handling and comparison
-- **Error Handling**: Graceful fallback when GitHub API is unavailable
-- **Release Automation**: Complete GitHub Actions workflow for releases
-
-### Integration Methods
-- **Shortcode**: Direct shortcode usage in any post/page content
-- **Gutenberg Block**: Visual block editor with sidebar controls and live preview
-- **Elementor Widget**: Native Elementor widget with drag-and-drop interface and styling controls
-
-### Elementor-Specific Features
-- **Widget Category**: Organized under "LeadGen Forms" category
-- **Live Preview**: Visual preview directly in Elementor editor
-- **Style Controls**: Additional styling options (alignment, width, responsive settings)
-- **Error Handling**: Visual validation and user-friendly error messages
-- **Consistent Rendering**: Uses the same shortcode logic for reliable behavior across all methods
-
-## PHP 8.0+ Features & Modern Architecture
-
-This plugin leverages modern PHP 8.0+ features and PSR-4 standards for improved performance and code quality:
-
-### PSR-4 Autoloading & Namespace Organization
-- **Modern File Structure**: PSR-4 compliant file naming (e.g., `LeadGenFormBlock.php`)
-- **Namespace Hierarchy**: 
-  - `LeadGenAppForm` (main namespace)
-  - `LeadGenAppForm\Block` (Gutenberg blocks)
-  - `LeadGenAppForm\Elementor\Widgets` (Elementor widgets)
-- **Composer Integration**: Automated class loading with development tools
-- **Clean Dependencies**: Organized PSR-4 autoload configuration
-
-### Implemented PHP 8.0+ Features
-- **Match Expression**: Cleaner conditional logic replacing complex if/else chains
-- **Array Spread in Array Expression**: More efficient array building using `...` operator
-- **Typed Properties**: Type-safe nullable properties (PHP 7.4+)
-- **Return Type Declarations**: Clear return types for all methods
-- **Null Coalescing Operator (??)**:  Cleaner default value handling
-- **Void Return Type**: Explicit void returns for clarity
-- **String Interpolation**: Readable string building with `"{$variable}"` syntax
-
-### Code Examples
-```php
-// PSR-4 namespace organization
-namespace LeadGenAppForm;
-namespace LeadGenAppForm\Block;
-namespace LeadGenAppForm\Elementor\Widgets;
-
-// Composer autoloading configuration
-"autoload": {
-  "psr-4": {
-    "LeadGenAppForm\\": "includes/",
-    "LeadGenAppForm\\Block\\": "includes/",
-    "LeadGenAppForm\\Elementor\\": "includes/elementor/"
-  }
-}
-
-// Match expression (PHP 8.0+)
-$current_id = match (true) {
-  $is_mobile && !empty($mobile_id) => $mobile_id,
-  !empty($desktop_id) => $desktop_id,
-  default => ""
-};
-
-// Array spread in array expression (PHP 8.0+)
-$shortcode_atts = [
-  ...(!empty($desktop_id) ? ["desktop-id=\"{$desktop_id}\""] : []),
-  ...(!empty($mobile_id) ? ["mobile-id=\"{$mobile_id}\""] : [])
-];
-
-// Typed properties (PHP 7.4+)
-private static ?LeadGen_App_Form $instance = null;
-
-// String interpolation for readability
-$api_url = "https://api.github.com/repos/{$this->github_repo}/releases/latest";
-$message = "Version {$new_version} available (current: {$current_version})";
-
-// Global function calls in namespaced context
-\wp_enqueue_script(...);
-```
-
-### Development Standards Migration
-- **From**: WordPress convention (`class-file-name.php`)
-- **To**: PSR-4 standard (`ClassFileName.php`)
-- **Autoloading**: Composer-managed class loading
-- **Compatibility**: Maintains WordPress function compatibility
-- **Quality**: Enhanced with automated coding standards validation
-
-## How It Works
-
-### Loading Process
-1. **Placeholder Display**: Shows animated gray placeholder
-2. **User Interaction Detection**: Waits for focus, mousemove, scroll, or touch events
-3. **Dynamic Script Loading**: Loads external form scripts from LeadGen App
-4. **Form Rendering**: Injects custom elements and displays the actual form
-5. **Responsive Switching**: Automatically switches forms on viewport changes
-
-### Technical Details
-- **External API**: Integrates with `https://forms.leadgenapp.io/js/lf.min.js/{id}`
-- **Custom Elements**: Creates `<leadgen-form-{id}>` elements dynamically
-- **Script Management**: Prevents duplicate script loading
-- **Performance**: Only loads resources when needed
-
-## Development Notes
-
-To extend functionality, you can:
-
-1. Add new classes in the `includes/` folder
-2. Create custom styles in `assets/css/`
-3. Implement custom hooks and filters
-4. Add admin configuration options
-5. Extend the JavaScript API
-6. Customize the update system behavior
-
-### Update System API (New in v1.0.1)
-```php
-// Access the updater instance
-$updater = new LeadGen_App_Form_Updater(__FILE__, "SilverAssist/leadgen-app-form");
-
-// Manual version check
-$remote_version = $updater->get_remote_version();
-
-// Get current version
-$current_version = $updater->get_current_version();
-
-// Access admin interface
-$admin = new LeadGen_App_Form_Admin($updater);
-```
-
-### Admin Interface Features
-- **Settings Page**: WordPress Admin → Settings → LeadGen Forms
-- **Update Status**: Real-time update checking with AJAX
-- **Manual Updates**: Force check for updates anytime
-- **Version Display**: Current and available version information
-- **GitHub Integration**: Direct links to repository and releases
-
-### JavaScript API
 ```javascript
 // Public API available for advanced integrations
 window.LeadGenForm.loadForm("container-id");     // Manually load specific form
@@ -481,113 +247,12 @@ window.LeadGenForm.isFormLoaded("form-id");      // Check if specific form is lo
 window.LeadGenForm.reloadForm("container-id");   // Reload form (useful for dynamic content)
 ```
 
-### Admin JavaScript API (New in v1.0.1)
-```javascript
-// Admin update checking functionality
-leadgenAdmin.ajax_url;     // WordPress AJAX URL
-leadgenAdmin.nonce;        // Security nonce for AJAX requests
-leadgenAdmin.strings;      // Localized strings for admin interface
-```
-
-### Gutenberg Block Development
-```javascript
-// Block registration details
-wp.blocks.registerBlockType("leadgen/form-block", {
-  title: "LeadGen Form",
-  category: "widgets",
-  supports: {
-    align: ["wide", "full"],
-    spacing: { margin: true, padding: true }
-  }
-});
-```
-
-### Debugging & Monitoring
-- **Console Logging**: Detailed form initialization and loading logs
-- **Error Handling**: Comprehensive error catching for failed script loads
-- **Viewport Tracking**: Real-time monitoring of responsive form switches
-- **Performance Metrics**: Script loading times and interaction delays
-- **Block Validation**: Editor-time validation of form configurations
-
-## 🛠️ Development & Release Management
-
-### For Developers
-This plugin includes comprehensive development tools, PSR-4 architecture, and automated quality assurance:
-
-#### Development Environment Setup
-```bash
-# Clone and setup development environment
-git clone https://github.com/SilverAssist/leadgen-app-form.git
-cd leadgen-app-form
-
-# Install Composer dependencies (development tools)
-composer install
-
-# Verify development setup
-composer run lint        # PHP syntax validation
-composer run phpcs       # WordPress Coding Standards check
-composer run phpcbf      # Auto-fix coding standards (if needed)
-```
-
-#### Code Quality & Standards
-- **PSR-4 Autoloading**: Modern namespace organization with Composer
-- **WordPress Coding Standards**: Automated PHPCS integration
-- **PHPUnit Ready**: Testing framework configured (v9.6.23)
-- **ESLint Configuration**: WordPress-specific JavaScript standards
-- **GitHub Actions**: Multi-environment quality validation
-
-#### Quality Assurance Pipeline
-- **Multi-PHP Testing**: PHP 8.0, 8.1, 8.2, 8.3 compatibility
-- **Multi-WordPress Testing**: WordPress 6.5, 6.6, latest compatibility
-- **Security Scanning**: Automated vulnerability detection
-- **Coding Standards**: Automated WordPress standards enforcement
-- **Dependency Validation**: Composer package security verification
-
-#### Version Management
-- **Automated Scripts**: `./scripts/update-version.sh` for consistent version updates
-- **Consistency Checking**: `./scripts/check-versions.sh` for validation
-- **Release Process**: Complete workflow documented in [RELEASE-PROCESS.md](RELEASE-PROCESS.md)
-
-#### Development Workflow
-```bash
-# Development cycle with quality checks
-composer run phpcs                    # Check coding standards
-composer run phpcbf                   # Auto-fix issues
-composer run lint                     # Validate PHP syntax
-git add . && git commit -m "fix: description"
-
-# Pre-release validation
-./scripts/check-versions.sh           # Verify version consistency
-composer run phpcs && composer run lint  # Final quality check
-```
-
-#### Release Workflow
-For detailed release instructions, see **[RELEASE-PROCESS.md](RELEASE-PROCESS.md)**
-
-Quick release checklist:
-1. **Documentation**: Update [CHANGELOG.md](CHANGELOG.md) with new version changes
-2. **Features**: Update [README.md](README.md) if features changed  
-3. **Version Update**: Run `./scripts/update-version.sh 1.0.X`
-4. **Quality Check**: `composer run phpcs && composer run lint`
-5. **Commit**: `git commit -m "📚 Update documentation for vX.X.X"`
-6. **Release**: `git tag vX.X.X && git push origin vX.X.X`
-7. **Monitor**: Check [GitHub Actions](https://github.com/SilverAssist/leadgen-app-form/actions) for automated release
-
-#### Development Resources
-- **Plugin Architecture**: See [.github/copilot-instructions.md](.github/copilot-instructions.md) for complete patterns
-- **Update System**: Documented in [UPDATE-SYSTEM.md](UPDATE-SYSTEM.md)
-- **File Headers**: Standards in [HEADER-STANDARDS.md](HEADER-STANDARDS.md)
-- **GitHub Actions**: Automated workflows in `.github/workflows/`
-- **Composer Tools**: PSR-4 autoloading and development dependencies
-
 ## 📋 Support & Documentation
 
 ### Documentation Files
 - **User Guide**: This README.md
-- **Release Process**: [RELEASE-PROCESS.md](RELEASE-PROCESS.md) (for developers)
 - **Change History**: [CHANGELOG.md](CHANGELOG.md)
 - **Update System**: [UPDATE-SYSTEM.md](UPDATE-SYSTEM.md)
-- **Development**: [copilot-instructions.md](copilot-instructions.md)
 
 ### Support
 - **Issues**: [GitHub Issues](https://github.com/SilverAssist/leadgen-app-form/issues)
@@ -600,4 +265,4 @@ This plugin is licensed under the GPL v2 or later.
 
 ---
 
-**💡 For complete development workflows and release procedures, see [RELEASE-PROCESS.md](RELEASE-PROCESS.md)**
+**For complete development workflows and release procedures, see the documentation files listed above.**
