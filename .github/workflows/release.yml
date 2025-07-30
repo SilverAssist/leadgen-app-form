@@ -52,46 +52,17 @@ jobs:
               id: package
               run: |
                   VERSION="${{ steps.version.outputs.version }}"
-                  PACKAGE_NAME="leadgen-app-form-v$VERSION"
-
-                  # Create package directory
-                  mkdir -p dist/$PACKAGE_NAME
-
-                  # Copy files to package (excluding development files)
-                  rsync -av --exclude='.git*' \
-                            --exclude='.github/' \
-                            --exclude='dist/' \
-                            --exclude='scripts/' \
-                            --exclude='.eslintrc.json' \
-                            --exclude='.eslintignore' \
-                            --exclude='HEADER-STANDARDS.md' \
-                            --exclude='RELEASE-NOTES.md' \
-                            --exclude='RELEASE-PROCESS.md' \
-                            --exclude='QUICK-RELEASE.md' \
-                            --exclude='UPDATE-SYSTEM.md' \
-                            --exclude='composer.json' \
-                            --exclude='composer.lock' \
-                            --exclude='vendor/' \
-                            --exclude='node_modules/' \
-                            --exclude='*.tmp' \
-                            ./ dist/$PACKAGE_NAME/
-
-                  # Create ZIP file
-                  cd dist
-                  zip -r $PACKAGE_NAME.zip $PACKAGE_NAME/
-
-                  # Calculate package size
-                  PACKAGE_SIZE=$(ls -lh $PACKAGE_NAME.zip | awk '{print $5}')
-                  PACKAGE_SIZE_BYTES=$(stat -c%s $PACKAGE_NAME.zip)
-                  PACKAGE_SIZE_KB=$((PACKAGE_SIZE_BYTES / 1024))
-
-                  echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
-                  echo "package_size=$PACKAGE_SIZE" >> $GITHUB_OUTPUT
-                  echo "package_size_kb=${PACKAGE_SIZE_KB}KB" >> $GITHUB_OUTPUT
-                  echo "zip_path=dist/$PACKAGE_NAME.zip" >> $GITHUB_OUTPUT
-
-                  echo "📦 Package created: $PACKAGE_NAME.zip"
-                  echo "📏 Package size: $PACKAGE_SIZE (~${PACKAGE_SIZE_KB}KB)"
+                  
+                  # Make the script executable
+                  chmod +x scripts/create-release-zip.sh
+                  
+                  # Run the release ZIP creation script
+                  ./scripts/create-release-zip.sh "$VERSION"
+                  
+                  # The script outputs to GITHUB_OUTPUT automatically
+                  # Additional logging for GitHub Actions
+                  echo "📦 Package created using create-release-zip.sh script"
+                  echo "� Version: $VERSION"
 
             - name: Update RELEASE-NOTES.md
               run: |

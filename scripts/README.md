@@ -8,8 +8,67 @@ This system completely automates the release creation process for the LeadGen Ap
 
 ### GitHub Actions Workflows
 - **`.github/workfl## 🚨 Troubleshooting
+```
 
-### Version Update Script Issues
+## 📦 Local Package Creation
+
+### Create Release ZIP Script
+
+The `create-release-zip.sh` script creates a properly structured WordPress plugin ZIP file:
+
+```bash
+# Create ZIP for current version (auto-detected)
+./scripts/create-release-zip.sh
+
+# Create ZIP for specific version
+./scripts/create-release-zip.sh 1.0.5
+```
+
+**Features:**
+- ✅ **WordPress-Ready Structure**: ZIP filename includes version (`leadgen-app-form-v1.0.4.zip`) but internal folder is clean (`leadgen-app-form/`)
+- ✅ **Auto Version Detection**: Extracts version from main plugin file if not provided
+- ✅ **Size Calculation**: Shows package size in human-readable format
+- ✅ **GitHub Actions Integration**: Outputs variables for automated workflows
+- ✅ **Clean Output**: Excludes development files (`.git`, `node_modules`, `vendor`, etc.)
+
+**Package Structure:**
+```
+leadgen-app-form-v1.0.4.zip
+└── leadgen-app-form/                    # ← Clean folder name (no version)
+    ├── leadgen-app-form.php
+    ├── README.md
+    ├── CHANGELOG.md
+    ├── LICENSE
+    ├── includes/
+    ├── assets/
+    ├── blocks/
+    └── composer.json
+```
+
+**Benefits:**
+- WordPress recognizes the plugin correctly
+- No version conflicts during installation
+- Professional plugin structure
+- Easy to test locally before release
+
+## 🚨 Troubleshooting
+
+### If GitHub Actions Fails
+1. Verify tag has format `v1.0.1`
+2. Check GitHub Actions permissions
+3. Review logs in GitHub → Actions
+
+### If Size is Incorrect
+1. Run `./scripts/calculate-size.sh` locally
+2. Check excluded files in `.github/workflows/release.yml`
+3. Verify there are no unwanted large files
+
+### If ZIP Structure is Wrong
+1. Use `unzip -l filename.zip` to check internal structure
+2. The folder inside should be `leadgen-app-form/` (no version)
+3. Re-run `./scripts/create-release-zip.sh` if needed
+
+With this system you'll never have to manually calculate package size again! 🎉date Script Issues
 
 **Problem:** `update-version.sh` doesn't update all files properly on macOS
 - **Cause:** macOS `sed` command has different behavior than GNU `sed`

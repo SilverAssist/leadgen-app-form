@@ -39,3 +39,6 @@ wp-content/wp-cache-config.php
 # Temporary files
 temp-package/
 temp-package.zip
+
+# Generated files (created by GitHub Actions)
+RELEASE-NOTES.md
