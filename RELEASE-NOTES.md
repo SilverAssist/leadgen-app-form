@@ -1,10 +1,10 @@
-# LeadGen App Form Plugin - Release v1.0.3
+# LeadGen App Form Plugin - Release v1.0.4
 
 ## Package Information
 - **Plugin Name**: LeadGen App Form Plugin
-- **Version**: 1.0.3
-- **File**: leadgen-app-form-v1.0.3.zip
-- **Size**: ~51KB
+- **Version**: 1.0.4
+- **File**: leadgen-app-form-v1.0.4.zip
+- **Size**: ~53KB
 - **Release Date**: July 28, 2025
 - **License**: GPL v2 or later
 - **Repository**: https://github.com/SilverAssist/leadgen-app-form
@@ -78,7 +78,7 @@
 ## Installation Instructions
 
 ### WordPress Admin (Recommended)
-1. Download `leadgen-app-form-v1.0.3.zip`
+1. Download `leadgen-app-form-v1.0.4.zip`
 2. Go to **Plugins → Add New → Upload Plugin**
 3. Choose the ZIP file and click **Install Now**
 4. Click **Activate Plugin**
