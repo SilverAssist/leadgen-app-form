@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LeadGen App Form Plugin - Elementor Widgets Loader
  *
@@ -19,6 +18,7 @@ defined("ABSPATH") or exit;
 
 use Elementor\Plugin;
 use Elementor\Elements_Manager;
+use Elementor\Widgets_Manager;
 
 /**
  * Elementor Widgets Loader
@@ -32,263 +32,254 @@ use Elementor\Elements_Manager;
 class WidgetsLoader
 {
   /**
-   * Single instance of the widgets loader
+   * Single instance of the loader
    *
+   * @since 1.0.0
    * @var WidgetsLoader|null
    * @access private
    * @static
    */
-    private static ?WidgetsLoader $instance = null;
-
-  /**
-   * Private constructor to prevent direct instantiation
-   *
-   * @access private
-   */
-    private function __construct()
-    {
-        $this->init();
-    }
-
-  /**
-   * Prevent object cloning
-   *
-   * @access private
-   */
-    private function __clone(): void
-    {
-    }
-
-  /**
-   * Prevent object unserialization
-   *
-   * @access public
-   * @throws \Exception
-   */
-    public function __wakeup(): void
-    {
-        throw new \Exception("Cannot unserialize singleton");
-    }
+  private static ?WidgetsLoader $instance = null;
 
   /**
    * Get the single instance of the widgets loader
    *
+   * Implements the Singleton pattern to ensure only one instance
+   * of the widgets loader exists throughout the lifecycle.
+   *
+   * @since 1.0.0
    * @access public
    * @static
-   * @return WidgetsLoader
+   * @return WidgetsLoader The single instance of the loader
    */
-    public static function get_instance(): WidgetsLoader
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+  public static function get_instance(): WidgetsLoader
+  {
+    if (self::$instance === null) {
+      self::$instance = new self();
     }
+    return self::$instance;
+  }
 
   /**
-   * Initialize the widgets loader
+   * Constructor
    *
-   * Sets up hooks and checks if Elementor is active before proceeding
-   * with widget registration.
+   * Sets up hooks for widget registration and category creation.
+   * Only initializes if Elementor is active and loaded.
    *
+   * @since 1.0.0
    * @access private
-   * @return void
    */
-    private function init(): void
-    {
-      // Check if Elementor is installed and active
-        if (!$this->is_elementor_loaded()) {
-            return;
-        }
-
-      // Initialize when Elementor is ready
-        \add_action("elementor/init", [$this, "elementor_init"]);
+  private function __construct()
+  {
+    // Check if Elementor is active before proceeding
+    if (!$this->is_elementor_loaded()) {
+      return;
     }
 
+    $this->init_hooks();
+  }
+
   /**
-   * Check if Elementor is loaded
+   * Prevent object cloning
    *
-   * Verifies that Elementor plugin is active and available for use.
+   * @since 1.0.0
+   * @access private
+   */
+  private function __clone(): void
+  {
+  }
+
+  /**
+   * Prevent object unserialization
    *
+   * @since 1.0.0
+   * @access public
+   * @throws \Exception
+   */
+  public function __wakeup(): void
+  {
+    throw new \Exception("Cannot unserialize singleton");
+  }
+
+  /**
+   * Check if Elementor is loaded and active
+   *
+   * @since 1.0.0
    * @access private
    * @return bool True if Elementor is loaded, false otherwise
    */
-    private function is_elementor_loaded(): bool
-    {
-        return \did_action("elementor/loaded") || \class_exists("\\Elementor\\Plugin");
-    }
+  private function is_elementor_loaded(): bool
+  {
+    return \did_action("elementor/loaded");
+  }
 
   /**
-   * Initialize Elementor integration
+   * Initialize WordPress hooks
    *
-   * Called when Elementor is ready. Sets up widget registration,
-   * categories, and required scripts/styles.
+   * Sets up the necessary actions for registering widgets, categories,
+   * and frontend assets with proper priority and timing.
    *
-   * @access public
+   * @since 1.0.0
+   * @access private
    * @return void
    */
-    public function elementor_init(): void
-    {
-      // Register widget category
-        \add_action("elementor/elements/categories_registered", [$this, "register_widget_category"]);
+  private function init_hooks(): void
+  {
+    // Register widgets when Elementor widgets are registered
+    \add_action("elementor/widgets/register", [$this, "register_widgets"]);
 
-      // Register widgets
-        \add_action("elementor/widgets/register", [$this, "register_widgets"]);
+    // Register widget category
+    \add_action("elementor/elements/categories_registered", [$this, "register_widget_category"]);
 
-      // Enqueue Elementor-specific styles
-        \add_action("elementor/frontend/after_enqueue_styles", [$this, "enqueue_elementor_styles"]);
+    // Register frontend scripts and styles
+    \add_action("elementor/frontend/after_register_scripts", [$this, "register_frontend_scripts"]);
+  }
 
-      // Enqueue editor scripts (for better UX in Elementor editor)
-        \add_action("elementor/editor/before_enqueue_scripts", [$this, "enqueue_editor_scripts"]);
+  /**
+   * Get the list of available widgets
+   *
+   * Returns an array of widget class names that should be registered
+   * with Elementor. This allows for easy management of widgets.
+   *
+   * @since 1.0.0
+   * @access public
+   * @static
+   * @return array Array of widget class names
+   */
+  public static function get_widget_list(): array
+  {
+    return [
+      "leadgen-form" => "LeadGenFormWidget",
+    ];
+  }
+
+  /**
+   * Include widget files
+   *
+   * Loads the PHP files containing widget class definitions.
+   * Uses the widget list to dynamically include files.
+   *
+   * @since 1.0.0
+   * @access private
+   * @return void
+   */
+  private function include_widget_files(): void
+  {
+    $widget_list = self::get_widget_list();
+
+    foreach ($widget_list as $widget_key => $widget_class) {
+      $widget_file = LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/widgets/{$widget_class}.php";
+      if (\file_exists($widget_file)) {
+        require_once $widget_file;
+      }
     }
+  }
 
   /**
    * Register custom widget category
    *
-   * Creates a dedicated category for LeadGen widgets in the Elementor panel.
+   * Creates a dedicated category for LeadGen widgets in the Elementor
+   * widgets panel for better organization and user experience.
    *
+   * @since 1.0.0
    * @access public
-   * @param Elements_Manager $elements_manager Elementor elements manager
+   * @param Elements_Manager $elements_manager The Elementor elements manager
    * @return void
    */
-    public function register_widget_category(Elements_Manager $elements_manager): void
-    {
-        $elements_manager->add_category("leadgen-forms", [
-        "title" => \esc_html__("LeadGen Forms", "leadgen-app-form"),
-        "icon" => "fa fa-plug"
-        ]);
-    }
+  public function register_widget_category(Elements_Manager $elements_manager): void
+  {
+    $elements_manager->add_category(
+      "leadgen-forms",
+      [
+        "title" => __("LeadGen Forms", "leadgen-app-form"),
+        "icon" => "eicon-form-horizontal",
+      ]
+    );
+  }
 
   /**
-   * Register widgets
+   * Register widgets with Elementor
    *
-   * Loads and registers all LeadGen widgets with Elementor.
+   * Includes widget files and registers each widget with Elementor's
+   * widget manager. Uses the widget list for dynamic registration.
    *
+   * @since 1.0.0
    * @access public
-   * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager
+   * @param Widgets_Manager $widgets_manager Elementor widgets manager
    * @return void
    */
-    public function register_widgets(\Elementor\Widgets_Manager $widgets_manager): void
-    {
-      // Load widget files
-        $this->load_widget_files();
+  public function register_widgets(Widgets_Manager $widgets_manager): void
+  {
+    // Include widget files
+    $this->include_widget_files();
 
-      // Register LeadGen Form Widget
-        if (\class_exists("LeadGenAppForm\\Elementor\\Widgets\\LeadGenFormWidget")) {
-            $widgets_manager->register(new Widgets\LeadGenFormWidget());
-        }
+    // Register widgets
+    $widget_list = self::get_widget_list();
+
+    foreach ($widget_list as $widget_key => $widget_class) {
+      $widget_class_name = "LeadGenAppForm\\Elementor\\Widgets\\{$widget_class}";
+
+      if (\class_exists($widget_class_name)) {
+        $widgets_manager->register(new $widget_class_name());
+      }
     }
+  }
 
   /**
-   * Load widget files
+   * Register frontend scripts and styles
    *
-   * Includes all widget class files from the widgets directory.
+   * Registers CSS and JavaScript files needed for Elementor widgets
+   * on the frontend. Uses the existing plugin assets with proper versioning.
    *
-   * @access private
-   * @return void
-   */
-    private function load_widget_files(): void
-    {
-      // Load LeadGen Form Widget
-        require_once LEADGEN_APP_FORM_PLUGIN_PATH . "includes/elementor/widgets/LeadGenFormWidget.php";
-    }
-
-  /**
-   * Enqueue Elementor-specific styles
-   *
-   * Loads CSS files that are specific to Elementor integration.
-   * These styles ensure proper appearance in Elementor contexts.
-   *
-   * @access public
-   * @return void
-   */
-    public function enqueue_elementor_styles(): void
-    {
-        \wp_enqueue_style(
-            "leadgen-elementor-css",
-            LEADGEN_APP_FORM_PLUGIN_URL . "assets/css/leadgen-elementor.css",
-            [],
-            LEADGEN_APP_FORM_VERSION
-        );
-    }
-
-  /**
-   * Enqueue editor scripts
-   *
-   * Loads JavaScript files for enhanced Elementor editor experience.
-   * These scripts improve the widget configuration interface.
-   *
+   * @since 1.0.0
    * @access public
    * @return void
    */
-    public function enqueue_editor_scripts(): void
-    {
-      // Enqueue any editor-specific scripts if needed
-      // Currently, the main plugin JS handles most functionality
-    }
+  public function register_frontend_scripts(): void
+  {
+    // Register CSS for Elementor specific styles
+    \wp_register_style(
+      "leadgen-elementor-css",
+      LEADGEN_APP_FORM_PLUGIN_URL . "assets/css/leadgen-elementor.css",
+      ["leadgen-app-form-css"],
+      LEADGEN_APP_FORM_VERSION
+    );
+
+    // The main plugin scripts are already registered in the main class
+    // We just need to ensure they're available for Elementor widgets
+  }
 
   /**
-   * Get registered widgets list
+   * Check if we're in Elementor editor mode
    *
-   * Returns an array of all widgets registered by this loader.
-   * Useful for debugging and widget management.
+   * Utility method to determine if the current request is from
+   * the Elementor editor interface.
    *
+   * @since 1.0.0
    * @access public
-   * @return array List of registered widget class names
+   * @return bool True if in Elementor editor, false otherwise
    */
-    public function get_registered_widgets(): array
-    {
-        return [
-        "LeadGenAppForm\\Elementor\\Widgets\\LeadGenFormWidget"
-        ];
-    }
+  public function is_elementor_editor(): bool
+  {
+    return \class_exists("\\Elementor\\Plugin") && Plugin::$instance->editor->is_edit_mode();
+  }
 
   /**
-   * Check if widget exists
+   * Get Elementor plugin instance
    *
-   * Verifies if a specific widget class is available and registered.
+   * Safe wrapper to get the Elementor plugin instance with
+   * proper checks to avoid fatal errors.
    *
+   * @since 1.0.0
    * @access public
-   * @param string $widget_class Widget class name to check
-   * @return bool True if widget exists, false otherwise
+   * @return Plugin|null Elementor plugin instance or null
    */
-    public function widget_exists(string $widget_class): bool
-    {
-        return \class_exists($widget_class);
+  public function get_elementor_instance(): ?Plugin
+  {
+    if (\class_exists("\\Elementor\\Plugin")) {
+      return Plugin::$instance;
     }
 
-  /**
-   * Get widget configuration
-   *
-   * Returns configuration data for widgets that can be used
-   * by JavaScript or other components.
-   *
-   * @access public
-   * @return array Widget configuration array
-   */
-    public function get_widget_config(): array
-    {
-        return [
-        "category" => "leadgen-forms",
-        "base_url" => LEADGEN_APP_FORM_PLUGIN_URL,
-        "version" => LEADGEN_APP_FORM_VERSION,
-        "widgets" => $this->get_registered_widgets()
-        ];
-    }
-
-  /**
-   * Force reload widgets
-   *
-   * Utility method to force Elementor to reload all widgets.
-   * Useful during development or after widget updates.
-   *
-   * @access public
-   * @return void
-   */
-    public function force_reload_widgets(): void
-    {
-        if (\class_exists("\\Elementor\\Plugin")) {
-            Plugin::$instance->widgets_manager->ajax_register_widget_type();
-        }
-    }
+    return null;
+  }
 }
