@@ -5,6 +5,33 @@ All notable changes to the LeadGen App Form Plugin will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2025-07-30
+
+### Added - WordPress-Compatible Release System
+- **Improved ZIP Creation**: New `create-release-zip.sh` script for proper WordPress plugin structure
+- **WordPress Installation Compatibility**: ZIP files now create clean plugin folders without version numbers
+- **GitHub Actions Integration**: Updated release workflow to use new packaging script
+- **Auto Version Detection**: Script automatically detects version from main plugin file
+- **Size Calculation**: Automatic package size calculation with human-readable output
+
+### Changed - Release Workflow Optimization
+- **ZIP Structure**: ZIP filename includes version (`leadgen-app-form-v1.0.5.zip`) but internal folder is clean (`leadgen-app-form/`)
+- **Repository Cleanup**: Removed auto-generated `RELEASE-NOTES.md` from version control
+- **GitHub Actions**: Simplified release workflow using centralized packaging script
+- **Documentation**: Updated scripts README with comprehensive packaging documentation
+
+### Enhanced - Development Experience
+- **Local Testing**: Easy local ZIP creation with `./scripts/create-release-zip.sh`
+- **WordPress Compatibility**: Plugin installs correctly in WordPress without folder name conflicts
+- **Professional Structure**: Clean package structure follows WordPress plugin standards
+- **Automated Exclusions**: Development files automatically excluded from distribution packages
+
+### Technical - Package Management
+- **File Exclusions**: Automatic exclusion of `.git`, `node_modules`, `vendor`, development files
+- **Size Optimization**: ~54KB distribution package with all necessary files
+- **Cross-Platform**: Compatible ZIP creation on macOS and Linux systems
+- **CI/CD Integration**: Seamless integration with GitHub Actions release automation
+
 ## [1.0.4] - 2025-07-29
 
 ### Added - PSR-4 Migration & Development Environment

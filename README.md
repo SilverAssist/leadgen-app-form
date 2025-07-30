@@ -1,4 +1,13 @@
-# LeadGen App Form Plugin
+# Le## Features
+
+- **🚀 NEW in v1.0.5**: WordPress-compatible release system with improved ZIP packaging for clean installation
+- **📦 NEW in v1.0.5**: Automated `create-release-zip.sh` script for professional plugin distribution
+- **🔧 NEW in v1.0.5**: Enhanced GitHub Actions workflow with centralized packaging system
+- **⚡ NEW in v1.0.4**: PSR-4 architecture migration with modern Composer development environment
+- **⚡ NEW**: GitHub Actions quality workflow with multi-environment testing (PHP 8.0-8.3, WordPress 6.5-latest)
+- **🔧 NEW**: Automated code quality tools (PHPCS, PHPUnit, ESLint) integrated with development workflow
+- **📦 NEW**: Composer-based dependency management with WordPress Coding Standards enforcement
+- **🚀 NEW in v1.0.3**: Advanced height controls with professional UI for Gutenberg and Elementorpp Form Plugin
 
 WordPress plugin that adds a shortcode to display forms with different configurations for desktop and mobile devices.
 
@@ -39,10 +48,11 @@ WordPress plugin that adds a shortcode to display forms with different configura
 ## Download
 
 The plugin is available as a ready-to-install ZIP file:
-- **File**: `leadgen-app-form-v1.0.4.zip` (~55KB)
-- **Version**: 1.0.4
+- **File**: `leadgen-app-form-v1.0.5.zip` (~54KB)
+- **Version**: 1.0.5
 - **Compatibility**: WordPress 5.0+ with PHP 8.0+
-- **New in v1.0.4**: PSR-4 architecture migration with modern development tools
+- **New in v1.0.5**: WordPress-compatible release system with improved packaging
+- **Enhanced in v1.0.4**: PSR-4 architecture migration with modern development tools
 
 ## Installation
 
