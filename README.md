@@ -24,11 +24,11 @@ WordPress plugin that adds a shortcode to display forms with different configura
 ## Download
 
 The plugin is available as a ready-to-install ZIP file:
-- **File**: `leadgen-app-form-v1.0.5.zip` (~54KB)
+- **File**: `leadgen-app-form-v1.0.5.zip` (~182KB)
 - **Version**: 1.0.5
 - **Compatibility**: WordPress 5.0+ with PHP 8.0+
-- **New in v1.0.5**: WordPress-compatible release system with improved packaging
-- **Enhanced in v1.0.4**: PSR-4 architecture migration with modern development tools
+- **Features**: Includes optimized Composer dependencies for automatic updates
+- **New in v1.0.5**: Modular update system using silverassist/wp-github-updater package
 
 ## Installation
 
@@ -213,7 +213,7 @@ leadgen-app-form/
 ├── leadgen-app-form.php           # Main plugin file (Singleton pattern)
 ├── includes/                      # PSR-4 compliant PHP classes
 │   ├── LeadGenFormBlock.php          # Gutenberg block handler
-│   ├── LeadGenAppFormUpdater.php     # Custom GitHub update system
+│   ├── LeadGenAppFormUpdater.php     # GitHub updater (using silverassist/wp-github-updater)
 │   ├── LeadGenAppFormAdmin.php       # WordPress admin interface
 │   └── elementor/                 # Elementor integration
 │       ├── WidgetsLoader.php         # Elementor widgets loader
@@ -231,6 +231,14 @@ leadgen-app-form/
 │   └── js/                       # JavaScript files
 │       ├── leadgen-app-form.js   # Frontend functionality
 │       └── leadgen-admin.js      # Admin update interface
+├── vendor/                        # Composer dependencies (production)
+│   ├── autoload.php              # Composer autoloader
+│   └── silverassist/             # Silver Assist packages
+│       └── wp-github-updater/    # Reusable GitHub updater package
+├── .gitattributes                # Git attributes for proper exports
+├── composer.json                 # Composer package configuration
+├── README.md                     # Plugin documentation
+├── CHANGELOG.md                  # Version change history
 └── LICENSE                       # GPL v2 license
 ```
 

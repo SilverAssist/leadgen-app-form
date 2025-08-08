@@ -110,12 +110,46 @@ if [ -f "composer.json" ]; then
     echo "  ✅ composer.json copied"
 fi
 
+# Handle Composer dependencies
+if [ -f "composer.json" ]; then
+    echo -e "${YELLOW}📦 Installing production dependencies...${NC}"
+    
+    # Install production dependencies
+    composer install --no-dev --optimize-autoloader --no-interaction
+    
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}❌ Failed to install production dependencies${NC}"
+        exit 1
+    fi
+    
+    echo -e "${YELLOW}📦 Copying optimized vendor dependencies...${NC}"
+    
+    # Create vendor directory in temp
+    mkdir -p "$PLUGIN_DIR/vendor"
+    
+    # Copy autoloader and composer files
+    cp -r vendor/autoload.php "$PLUGIN_DIR/vendor/"
+    cp -r vendor/composer/ "$PLUGIN_DIR/vendor/"
+    echo "    ✅ Composer autoloader copied"
+    
+    # Copy only silverassist/wp-github-updater package (optimized)
+    if [ -d "vendor/silverassist/wp-github-updater" ]; then
+        mkdir -p "$PLUGIN_DIR/vendor/silverassist"
+        cp -r vendor/silverassist/wp-github-updater "$PLUGIN_DIR/vendor/silverassist/"
+        echo "    ✅ silverassist/wp-github-updater copied"
+    fi
+    
+    echo -e "${YELLOW}📦 Restoring development dependencies for local environment...${NC}"
+    # Restore development dependencies for local environment
+    composer install --no-interaction > /dev/null 2>&1
+fi
+
 echo ""
 
 # Create the ZIP file
 echo -e "${YELLOW}🗜️  Creating ZIP archive...${NC}"
 cd "$TEMP_DIR"
-zip -r "$ZIP_NAME" leadgen-app-form/ -x "*.DS_Store*" "*.git*" "*node_modules*" "*.log*" "*vendor*" "*.tmp*"
+zip -r "$ZIP_NAME" leadgen-app-form/ -x "*.DS_Store*" "*.git*" "*node_modules*" "*.log*" "*.tmp*"
 
 # Move ZIP to project root
 mv "$ZIP_NAME" "$PROJECT_ROOT/"
@@ -140,6 +174,12 @@ echo "   ├── leadgen-app-form.php"
 echo "   ├── README.md"
 echo "   ├── CHANGELOG.md"
 echo "   ├── LICENSE"
+echo "   ├── composer.json"
+echo "   ├── vendor/"
+echo "   │   ├── autoload.php"
+echo "   │   ├── composer/"
+echo "   │   └── silverassist/"
+echo "   │       └── wp-github-updater/"
 echo "   ├── includes/"
 echo "   │   ├── class-leadgen-form-block.php"
 echo "   │   ├── class-leadgen-app-form-updater.php"
@@ -148,9 +188,8 @@ echo "   │   └── elementor/"
 echo "   ├── assets/"
 echo "   │   ├── css/"
 echo "   │   └── js/"
-echo "   ├── blocks/"
-echo "   │   └── leadgen-form/"
-echo "   └── composer.json"
+echo "   └── blocks/"
+echo "       └── leadgen-form/"
 echo ""
 echo -e "${GREEN}🎉 Ready for WordPress installation!${NC}"
 echo ""
@@ -164,7 +203,8 @@ echo -e "${CYAN}🔧 Development notes:${NC}"
 echo "• ZIP filename includes version: ${ZIP_NAME}"
 echo "• Internal folder name: leadgen-app-form (clean, no version)"
 echo "• Size: ~${ZIP_SIZE_KB}KB"
-echo "• Excludes: .git, node_modules, vendor, development files"
+echo "• Includes: Optimized vendor dependencies (production only)"
+echo "• Excludes: .git, node_modules, development files"
 
 # Output package information for GitHub Actions (if running in CI)
 if [ -n "$GITHUB_OUTPUT" ]; then

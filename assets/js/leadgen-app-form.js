@@ -6,7 +6,7 @@
  * and dynamic form loading inspired by Next.js component logic.
  *
  * @file leadgen-app-form.js
- * @version 1.0.5
+ * @version 1.0.6
  * @author Silver Assist
  * @requires jQuery
  * @since 1.0.0
