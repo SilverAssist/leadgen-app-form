@@ -273,4 +273,4 @@ This plugin is licensed under the GPL v2 or later.
 
 ---
 
-**For complete development workflows and release procedures, see the documentation files listed above.**
+**Made with ❤️ by [Silver Assist](https://silverassist.com)**
