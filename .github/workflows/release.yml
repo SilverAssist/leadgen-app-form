@@ -80,7 +80,7 @@ jobs:
                   - **File**: leadgen-app-form-v$VERSION.zip
                   - **Size**: ~$PACKAGE_SIZE
                   - **Release Date**: $DATE
-                  - **License**: GPL v2 or later
+                  - **License**: Polyform Noncommercial License 1.0.0
                   - **Repository**: https://github.com/SilverAssist/leadgen-app-form
 
                   ## Installation Package Contents
@@ -107,7 +107,7 @@ jobs:
                   - ✅ Modern PHP 8.0+ Features
                   - ✅ Translation Ready
                   - ✅ Performance Optimized
-                  - ✅ GPL v2 Licensed
+                  - ✅ Polyform Noncommercial Licensed
 
                   ## Distribution Channels
                   - **GitHub Releases**: Source code and compiled packages
@@ -185,7 +185,7 @@ jobs:
                   ## 📦 Package Information
                   - **File**: leadgen-app-form-v$VERSION.zip
                   - **Size**: ~${{ steps.package.outputs.package_size_kb }}
-                  - **License**: GPL v2 or later
+                  - **License**: Polyform Noncommercial License 1.0.0
 
                   ## 🚀 Installation
                   1. Download the ZIP file below

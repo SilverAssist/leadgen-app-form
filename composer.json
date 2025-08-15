@@ -2,7 +2,7 @@
   "name": "silverassist/leadgen-app-form",
   "description": "WordPress plugin that adds a shortcode to display LeadGen App forms with desktop-id and mobile-id parameters, featuring professional height controls and cross-platform integration",
   "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "authors": [
     {
       "name": "Silver Assist",

@@ -10,8 +10,8 @@
  * Text Domain: leadgen-app-form
  * Domain Path: /languages
  * Requires PHP: 8.0
- * License: GPL v2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: Polyform Noncommercial License 1.0.0
+ * License URI: https://polyformproject.org/licenses/noncommercial/1.0.0/
  *
  * @package LeadGenAppForm
  * @version 1.0.6

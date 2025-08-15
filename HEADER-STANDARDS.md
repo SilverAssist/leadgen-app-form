@@ -12,8 +12,8 @@ Author URI: http://silverassist.com/
 Text Domain: leadgen-app-form
 Domain Path: /languages
 Requires PHP: 8.0
-License: GPL v2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: Polyform Noncommercial License 1.0.0
+License URI: https://polyformproject.org/licenses/noncommercial/1.0.0/
 ```
 
 ## Header Standards by File Type
@@ -33,8 +33,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: leadgen-app-form
  * Domain Path: /languages
  * Requires PHP: 8.0
- * License: GPL v2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: Polyform Noncommercial License 1.0.0
+ * License URI: https://polyformproject.org/licenses/noncommercial/1.0.0/
  *
  * @package LeadGenAppForm
  * @version 1.0.1
@@ -70,7 +70,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * @since 1.0.0
  * @author Silver Assist
  * @copyright Copyright (c) 2025, Silver Assist
- * @license GPL v2 or later
+ * @license Polyform Noncommercial License 1.0.0
  * @version 1.0.1
  */
 ```
@@ -151,7 +151,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * @since 1.0.0
  * @author Silver Assist
  * @copyright Copyright (c) 2025, Silver Assist
- * @license GPL v2 or later
+ * @license Polyform Noncommercial License 1.0.0
  * @version 1.0.1
  */
 ```
@@ -200,7 +200,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 5. **Author consistency**: Always use "Silver Assist" as author.
 
-6. **License uniformity**: Maintain "GPL v2 or later" in all applicable files.
+6. **License uniformity**: Maintain "Polyform Noncommercial License 1.0.0" in all applicable files.
 
 7. **Versioning standards**:
    - **@since**: Indicates when the file/feature was first introduced (never changes retroactively)

@@ -239,7 +239,7 @@ leadgen-app-form/
 ├── composer.json                 # Composer package configuration
 ├── README.md                     # Plugin documentation
 ├── CHANGELOG.md                  # Version change history
-└── LICENSE                       # GPL v2 license
+└── LICENSE                       # Polyform Noncommercial License 1.0.0
 ```
 
 ## JavaScript API
@@ -269,7 +269,7 @@ window.LeadGenForm.reloadForm("container-id");   // Reload form (useful for dyna
 
 ## 📄 License
 
-This plugin is licensed under the GPL v2 or later.
+This plugin is licensed under the Polyform Noncommercial License 1.0.0.
 
 ---
 

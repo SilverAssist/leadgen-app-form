@@ -56,7 +56,7 @@ leadgen-app-form/
 ├── CHANGELOG.md                  # Version change history
 ├── RELEASE-NOTES.md              # Generated release information
 ├── HEADER-STANDARDS.md           # File header documentation standards
-└── LICENSE                       # GPL v2 license
+└── LICENSE                       # Polyform Noncommercial License 1.0.0
 ```
 ├── composer.json                 # Composer package configuration and dev tools
 ├── README.md                     # Plugin documentation
@@ -64,7 +64,7 @@ leadgen-app-form/
 ├── RELEASE-NOTES.md              # Generated release information
 ├── UPDATE-SYSTEM.md              # Update system documentation
 ├── HEADER-STANDARDS.md           # File header documentation standards
-└── LICENSE                       # GPL v2 license
+└── LICENSE                       # Polyform Noncommercial License 1.0.0
 ```
 
 ## Development Patterns
@@ -259,8 +259,8 @@ All files in this plugin must follow standardized header documentation patterns:
  * Text Domain: leadgen-app-form
  * Domain Path: /languages
  * Requires PHP: 8.0
- * License: GPL v2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: Polyform Noncommercial License 1.0.0
+ * License URI: https://polyformproject.org/licenses/noncommercial/1.0.0/
  *
  * @package LeadGenAppForm
  * @since 1.0.0
@@ -292,7 +292,7 @@ All files in this plugin must follow standardized header documentation patterns:
  * @since 1.0.0
  * @author Silver Assist
  * @copyright Copyright (c) 2025, Silver Assist
- * @license GPL v2 or later
+ * @license Polyform Noncommercial License 1.0.0
  * @version 1.0.0
  */
 ```
@@ -318,7 +318,7 @@ All files in this plugin must follow standardized header documentation patterns:
 - Use proper namespaces for PHP files according to file location
 - CSS files should use copyright year 2025
 - Author must always be "Silver Assist"
-- License should be "GPL v2 or later" where applicable
+- License should be "Polyform Noncommercial License 1.0.0" where applicable
 - **@since vs @version**: `@since` indicates when introduced, `@version` indicates current version
 - **New files in v1.0.1**: Use `@since 1.0.1` and `@version 1.0.1`
 - **Existing files**: Keep original `@since`, update `@version` to 1.0.1
