@@ -1,4 +1,6 @@
 name: Create Release Package
+permissions:
+  contents: write
 
 on:
     push:
