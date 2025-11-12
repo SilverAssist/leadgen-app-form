@@ -1,4 +1,6 @@
 name: Check Package Size
+permissions:
+  contents: read
 
 on:
     pull_request:
@@ -7,6 +9,9 @@ on:
 
 jobs:
     check-size:
+        permissions:
+            contents: read
+            issues: write
         runs-on: ubuntu-latest
 
         steps:
