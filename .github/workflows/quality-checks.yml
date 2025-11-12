@@ -1,4 +1,6 @@
 name: Plugin Quality Checks
+permissions:
+  contents: read
 
 on:
     push:
