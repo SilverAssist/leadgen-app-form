@@ -1,0 +1,41 @@
+# Dependabot configuration for automated dependency updates
+# This configuration enables automatic updates for GitHub Actions
+# with SHA pinning support for enhanced security
+
+version: 2
+updates:
+  # GitHub Actions dependency updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/Mexico_City"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "automated"
+    reviewers:
+      - "copilot"
+    open-pull-requests-limit: 10
+    
+    # Group all GitHub Actions updates together
+    groups:
+      github-actions-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    
+    # Ignore major updates for critical actions (manual review required)
+    ignore:
+      - dependency-name: "actions/checkout"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "shivammathur/setup-php"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "actions/upload-artifact"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "actions/github-script"
+        update-types: ["version-update:semver-major"]
