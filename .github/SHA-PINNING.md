@@ -27,7 +27,7 @@ All GitHub Actions used in this repository have been pinned to specific commit S
 | Action | Original Tag | Pinned SHA | Version | Workflow Files |
 |--------|-------------|------------|---------|----------------|
 | `actions/checkout` | `@v4` | `11bd71901bbe5b1630ceea73d27597364c9af683` | v4.2.2 | All workflows (5 occurrences) |
-| `shivammathur/setup-php` | `@v2` | `e30be03c360f860e4887a66a9e06c3c88812118c` | v2.31.1 | quality-checks.yml (3 occurrences) |
+| `shivammathur/setup-php` | `@v2` | `bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f` | v2.35.5 | quality-checks.yml (3 occurrences) |
 | `softprops/action-gh-release` | `@v1` | `69320dbe05506a9a39fc8ae11030b214ec2d1f87` | v1.0.0 | release.yml |
 | `actions/upload-artifact` | `@v4` | `b4b15b8a3f9cc9c8cf4a19c2dd8b63ccbac371af` | v4.4.3 | release.yml |
 | `actions/github-script` | `@v6` | `60a0d83039c74a4aee543508d2ffcb1c3799cdea` | v6.4.1 | check-size.yml |
