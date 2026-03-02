@@ -212,7 +212,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Upload package as artifact
-              uses: actions/upload-artifact@b4b15b8a3f9cc9c8cf4a19c2dd8b63ccbac371af # v4.4.3
+              uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.6.0
               with:
                   name: leadgen-app-form-v${{ steps.version.outputs.version }}
                   path: ${{ steps.package.outputs.zip_path }}
