@@ -7,7 +7,7 @@
  * Provides integration between WordPress block editor and the shortcode system.
  *
  * @package LeadGenAppForm\Block
- * @version 1.0.6
+ * @version 1.1.0
  * @since 1.0.0
  * @author Silver Assist
  */

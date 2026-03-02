@@ -5,6 +5,27 @@ All notable changes to the LeadGen App Form Plugin will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-03-02
+
+### Added - Security & CI/CD Enhancements
+- **CodeQL Security Scanning**: Added automated security scanning workflow for vulnerability detection
+- **SHA-Pinned GitHub Actions**: All GitHub Actions now pinned to specific commit SHAs for supply chain security
+- **Dependabot Integration**: Automated dependency updates for GitHub Actions workflows
+
+### Changed - Admin Dashboard UI
+- **Card-Based Design System**: Refactored admin dashboard UI to align with modern card-based design patterns
+- **Improved Visual Consistency**: Enhanced admin interface styling for better user experience
+- **Workflow Permissions**: Updated GitHub Actions workflows with proper permissions configuration
+
+### Security - Supply Chain Protection
+- **Actions SHA Pinning**: Pinned all GitHub Actions to specific commit SHAs to prevent supply chain attacks
+- **Permission Hardening**: Added explicit permissions to all workflows following security best practices
+- **Dependency Updates**: Bumped github-actions-updates group with 4 security updates
+
+### Changed - Licensing
+- **Polyform Noncommercial License**: Updated license from GPL v2 to Polyform Noncommercial License 1.0.0
+- **License Documentation**: Updated all license references throughout the project
+
 ## [1.0.6] - 2025-07-31
 
 ### Added - Modular Update System Integration
