@@ -4,15 +4,17 @@
  * LeadGen App Form Admin Page - Plugin Settings and Update Status
  *
  * Provides admin interface for plugin settings and update status display.
- * Shows current version, available updates, and manual update check functionality.
+ * Integrates with SilverAssist Settings Hub for centralized admin interface.
  *
  * @package LeadGenAppForm
  * @since 1.0.1
  * @author Silver Assist
- * @version 1.0.6
+ * @version 1.1.0
  */
 
 namespace LeadGenAppForm;
+
+use SilverAssist\SettingsHub\SettingsHub;
 
 // Prevent direct access
 if (!defined("ABSPATH")) {
@@ -43,14 +45,57 @@ class LeadGenAppFormAdmin
    */
     private function init_hooks(): void
     {
-        \add_action("admin_menu", [$this, "add_admin_menu"]);
+        \add_action("admin_menu", [$this, "register_with_hub"], 4);
         \add_action("admin_enqueue_scripts", [$this, "enqueue_admin_scripts"]);
     }
 
   /**
-   * Add admin menu page
+   * Register plugin with Settings Hub
+   *
+   * @return void
    */
-    public function add_admin_menu(): void
+    public function register_with_hub(): void
+    {
+        if (!\class_exists(SettingsHub::class)) {
+            $this->add_standalone_menu();
+            return;
+        }
+
+        try {
+            $hub = SettingsHub::get_instance();
+
+            $actions = [];
+            $actions[] = [
+                "label" => \__("Check Updates", "leadgen-app-form"),
+                "callback" => [$this, "render_update_check_script"],
+                "class" => "button",
+            ];
+
+            $hub->register_plugin(
+                "leadgen-app-form",
+                \__("LeadGen App Form", "leadgen-app-form"),
+                [$this, "admin_page"],
+                [
+                    "description" => \__("Shortcode, Gutenberg block and Elementor widget for LeadGen App forms with responsive height controls.", "leadgen-app-form"),
+                    "version" => LEADGEN_APP_FORM_VERSION,
+                    "tab_title" => \__("LeadGen Forms", "leadgen-app-form"),
+                    "capability" => "manage_options",
+                    "plugin_file" => LEADGEN_APP_FORM_FILE,
+                    "actions" => $actions,
+                ]
+            );
+        } catch (\Exception $e) {
+            \error_log("LeadGen App Form - Settings Hub registration failed: " . $e->getMessage());
+            $this->add_standalone_menu();
+        }
+    }
+
+  /**
+   * Fallback: Register standalone menu when Settings Hub unavailable
+   *
+   * @return void
+   */
+    private function add_standalone_menu(): void
     {
         \add_options_page(
             \__("LeadGen App Form", "leadgen-app-form"),
@@ -62,34 +107,43 @@ class LeadGenAppFormAdmin
     }
 
   /**
+   * Render update check script for Settings Hub action button
+   *
+   * Delegates to wp-github-updater's built-in enqueueCheckUpdatesScript() which
+   * provides centralized JS, AJAX handling, admin notices, and auto-redirect.
+   *
+   * @since 1.1.0
+   * @return void
+   */
+    public function render_update_check_script(): void
+    {
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Inline JavaScript from wp-github-updater
+        echo $this->updater->enqueueCheckUpdatesScript();
+    }
+
+  /**
    * Enqueue admin scripts
    *
    * @param string $hook Current admin page hook
    */
     public function enqueue_admin_scripts(string $hook): void
     {
-        if ($hook !== "settings_page_leadgen-app-form") {
+        $allowed_hooks = [
+            "settings_page_leadgen-app-form",
+            "silver-assist_page_leadgen-app-form",
+            "toplevel_page_leadgen-app-form",
+        ];
+
+        if (!\in_array($hook, $allowed_hooks, true)) {
             return;
         }
 
-        \wp_enqueue_script(
-            "leadgen-admin-js",
-            LEADGEN_APP_FORM_PLUGIN_URL . "assets/js/leadgen-admin.js",
-            ["jquery"],
-            LEADGEN_APP_FORM_VERSION,
-            true
+        \wp_enqueue_style(
+            "leadgen-admin-css",
+            LEADGEN_APP_FORM_PLUGIN_URL . "assets/css/admin-settings.css",
+            [],
+            LEADGEN_APP_FORM_VERSION
         );
-
-        \wp_localize_script("leadgen-admin-js", "leadgenAdmin", [
-        "ajax_url" => \admin_url("admin-ajax.php"),
-        "nonce" => \wp_create_nonce("leadgen_version_check"),
-        "strings" => [
-        "checking" => \__("Checking for updates...", "leadgen-app-form"),
-        "error" => \__("Error checking for updates", "leadgen-app-form"),
-        "upToDate" => \__("Plugin is up to date!", "leadgen-app-form"),
-        "updateAvailable" => \__("Update available!", "leadgen-app-form")
-        ]
-        ]);
     }
 
   /**
@@ -101,101 +155,61 @@ class LeadGenAppFormAdmin
             return;
         }
 
-        $current_version = $this->updater->get_current_version();
-        $github_repo = $this->updater->get_github_repo();
         ?>
-    <div class="wrap">
-      <h1><?php echo \esc_html(\get_admin_page_title()); ?></h1>
+    <div class="wrap leadgen-admin">
 
-      <div class="card" style="max-width: 600px;">
-        <h2><?php \esc_html_e("Plugin Information", "leadgen-app-form"); ?></h2>
-        <table class="form-table">
-          <tr>
-            <th scope="row"><?php \esc_html_e("Current Version", "leadgen-app-form"); ?></th>
-            <td><strong><?php echo \esc_html($current_version); ?></strong></td>
-          </tr>
-          <tr>
-            <th scope="row"><?php \esc_html_e("Repository", "leadgen-app-form"); ?></th>
-            <td>
-              <a href="https://github.com/<?php echo \esc_attr($github_repo); ?>" target="_blank" rel="noopener">
-                <?php echo \esc_html($github_repo); ?>
-                <span class="dashicons dashicons-external"></span>
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row"><?php \esc_html_e("Update Status", "leadgen-app-form"); ?></th>
-            <td>
-              <div id="update-status">
-                <span class="spinner"></span>
-                <?php \esc_html_e("Checking for updates...", "leadgen-app-form"); ?>
-              </div>
-              <p class="description">
-                <?php \esc_html_e("Updates are checked automatically. You can also check manually using the button below.", "leadgen-app-form"); ?>
-              </p>
-            </td>
-          </tr>
-        </table>
+      <div class="leadgen-settings-grid">
 
-        <p class="submit">
-          <button type="button" id="check-updates" class="button button-secondary">
-            <?php \esc_html_e("Check for Updates", "leadgen-app-form"); ?>
-          </button>
-        </p>
-      </div>
 
-      <div class="card" style="max-width: 600px;">
-        <h2><?php \esc_html_e("How Updates Work", "leadgen-app-form"); ?></h2>
-        <ul>
-          <li><?php \esc_html_e("WordPress automatically checks for updates every 12 hours", "leadgen-app-form"); ?></li>
-          <li>
-            <?php \esc_html_e("When an update is available, you'll see a notification in the Plugins page", "leadgen-app-form"); ?>
-          </li>
-          <li><?php \esc_html_e("Updates are downloaded directly from GitHub releases", "leadgen-app-form"); ?></li>
-          <li><?php \esc_html_e("Your plugin settings and data are preserved during updates", "leadgen-app-form"); ?></li>
-        </ul>
-      </div>
+        <!-- Plugin Usage Card -->
+        <div class="status-card">
+          <div class="card-header">
+            <span class="dashicons dashicons-editor-code"></span>
+            <h3><?php \esc_html_e("Plugin Usage", "leadgen-app-form"); ?></h3>
+          </div>
+          <div class="card-content">
+            <h3><?php \esc_html_e("Shortcode", "leadgen-app-form"); ?></h3>
+            <p><?php \esc_html_e("Basic usage:", "leadgen-app-form"); ?></p>
+            <code>[leadgen_form desktop-id="your-desktop-id" mobile-id="your-mobile-id"]</code>
+            
+            <p><?php \esc_html_e("With custom height:", "leadgen-app-form"); ?></p>
+            <code>[leadgen_form desktop-id="id" mobile-id="id" desktop-height="800px" mobile-height="400px"]</code>
+            
+            <p class="description">
+              <?php \esc_html_e("Supports: px, em, rem, vh, vw, %", "leadgen-app-form"); ?>
+            </p>
 
-      <div class="card" style="max-width: 600px;">
-        <h2><?php \esc_html_e("Plugin Usage", "leadgen-app-form"); ?></h2>
-        <h3><?php \esc_html_e("Shortcode", "leadgen-app-form"); ?></h3>
-        <p><?php \esc_html_e("Basic usage:", "leadgen-app-form"); ?></p>
-        <code>[leadgen_form desktop-id="your-desktop-id" mobile-id="your-mobile-id"]</code>
-        
-        <p><?php \esc_html_e("With custom height (new in v1.0.3):", "leadgen-app-form"); ?></p>
-        <code>[leadgen_form desktop-id="your-desktop-id" mobile-id="your-mobile-id" desktop-height="800px" mobile-height="400px"]</code>
-        
-        <p class="description">
-          <?php \esc_html_e("Supports multiple units: px, em, rem, vh, vw, % (e.g., \"50vh\", \"80%\")", "leadgen-app-form"); ?>
-        </p>
+            <h3><?php \esc_html_e("Gutenberg Block", "leadgen-app-form"); ?></h3>
+            <p>
+              <?php \esc_html_e("Search for 'LeadGen Form' in the block editor. Configure IDs and heights in the sidebar.", "leadgen-app-form"); ?>
+            </p>
 
-        <h3><?php \esc_html_e("Gutenberg Block", "leadgen-app-form"); ?></h3>
-        <p>
-          <?php \esc_html_e("Search for 'LeadGen Form' in the block editor and configure your form IDs and custom heights in the sidebar.", "leadgen-app-form"); ?>
-        </p>
+            <h3><?php \esc_html_e("Elementor Widget", "leadgen-app-form"); ?></h3>
+            <p>
+              <?php \esc_html_e("Drag 'LeadGen Form' from the 'LeadGen Forms' category in Elementor.", "leadgen-app-form"); ?>
+            </p>
+          </div>
+        </div>
 
-        <h3><?php \esc_html_e("Elementor Widget", "leadgen-app-form"); ?></h3>
-        <p>
-          <?php \esc_html_e("Drag the 'LeadGen Form' widget from the 'LeadGen Forms' category in Elementor. Configure height settings with professional controls.", "leadgen-app-form"); ?>
-        </p>
+        <!-- How Updates Work Card -->
+        <div class="status-card">
+          <div class="card-header">
+            <span class="dashicons dashicons-update"></span>
+            <h3><?php \esc_html_e("How Updates Work", "leadgen-app-form"); ?></h3>
+          </div>
+          <div class="card-content">
+            <ul class="feature-list">
+              <li><?php \esc_html_e("WordPress automatically checks for updates every 12 hours", "leadgen-app-form"); ?></li>
+              <li><?php \esc_html_e("Notifications appear in the Plugins page when updates are available", "leadgen-app-form"); ?></li>
+              <li><?php \esc_html_e("Updates are downloaded directly from GitHub releases", "leadgen-app-form"); ?></li>
+              <li><?php \esc_html_e("Settings and data are preserved during updates", "leadgen-app-form"); ?></li>
+            </ul>
+          </div>
+        </div>
+
+
       </div>
     </div>
-
-    <style>
-      .update-available {
-        color: #d63638;
-        font-weight: bold;
-      }
-
-      .update-current {
-        color: #00a32a;
-        font-weight: bold;
-      }
-
-      .spinner.is-active {
-        visibility: visible;
-      }
-    </style>
         <?php
     }
 }

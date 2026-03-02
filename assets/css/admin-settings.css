@@ -1,0 +1,276 @@
+/**
+ * LeadGen App Form - Admin Settings Styles
+ *
+ * Card-based design system for the plugin settings page.
+ *
+ * @package LeadGenAppForm
+ * @since 1.1.0
+ * @author Silver Assist
+ */
+
+/* CSS Variables */
+:root {
+    --leadgen-color-primary: #2271b1;
+    --leadgen-color-primary-hover: #135e96;
+    --leadgen-color-success: #28a745;
+    --leadgen-color-success-bg: #d4edda;
+    --leadgen-color-success-text: #155724;
+    --leadgen-color-success-border: #c3e6cb;
+    --leadgen-color-error-bg: #f8d7da;
+    --leadgen-color-error-text: #721c24;
+    --leadgen-color-error-border: #f5c6cb;
+    --leadgen-color-warning-bg: #fff3cd;
+    --leadgen-color-warning-text: #856404;
+    --leadgen-color-warning-border: #ffeaa7;
+    --leadgen-color-text: #1d2327;
+    --leadgen-color-text-secondary: #50575e;
+    --leadgen-color-muted: #646970;
+    --leadgen-color-border: #c3c4c7;
+    --leadgen-color-border-light: #e0e0e0;
+    --leadgen-color-border-lightest: #f0f0f0;
+    --leadgen-color-bg: #f6f7f7;
+    --leadgen-color-white: #fff;
+    --leadgen-radius-sm: 3px;
+    --leadgen-radius: 8px;
+    --leadgen-radius-pill: 20px;
+    --leadgen-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --leadgen-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --leadgen-spacing-xs: 2px;
+    --leadgen-spacing-sm: 4px;
+    --leadgen-spacing-md: 8px;
+    --leadgen-spacing-lg: 12px;
+    --leadgen-spacing-xl: 16px;
+    --leadgen-spacing-2xl: 20px;
+    --leadgen-spacing-3xl: 24px;
+    --leadgen-font-size-xs: 11px;
+    --leadgen-font-size-sm: 12px;
+    --leadgen-font-size-base: 13px;
+    --leadgen-font-size-lg: 14px;
+    --leadgen-font-size-xl: 16px;
+    --leadgen-font-size-2xl: 18px;
+    --leadgen-font-weight-medium: 500;
+    --leadgen-font-weight-semibold: 600;
+    --leadgen-font-weight-bold: 700;
+    --leadgen-letter-spacing-tight: 0.3px;
+    --leadgen-transition-fast: 0.2s;
+    --leadgen-fluid-spacing: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+/* Layout */
+.leadgen-admin {
+    max-width: 1200px;
+}
+
+/* Version Badge */
+.leadgen-admin h1 .version-badge {
+    display: inline-block;
+    padding: var(--leadgen-spacing-xs) var(--leadgen-spacing-md);
+    border-radius: var(--leadgen-radius-pill);
+    font-size: var(--leadgen-font-size-xs);
+    font-weight: var(--leadgen-font-weight-semibold);
+    background: var(--leadgen-color-success-bg);
+    color: var(--leadgen-color-success-text);
+    border: 1px solid var(--leadgen-color-success-border);
+    text-transform: uppercase;
+    letter-spacing: var(--leadgen-letter-spacing-tight);
+    vertical-align: middle;
+    margin-left: var(--leadgen-spacing-md);
+}
+
+.leadgen-settings-grid {
+    display: grid;
+    gap: var(--leadgen-spacing-2xl);
+    margin-top: var(--leadgen-spacing-3xl);
+    container-type: inline-size;
+}
+
+/* Card Base */
+.leadgen-admin .status-card {
+    background: var(--leadgen-color-white);
+    border: 1px solid var(--leadgen-color-border);
+    border-radius: var(--leadgen-radius);
+    padding: var(--leadgen-fluid-spacing);
+    box-shadow: var(--leadgen-shadow);
+    transition: box-shadow var(--leadgen-transition-fast);
+}
+
+.leadgen-admin .status-card:hover {
+    box-shadow: var(--leadgen-shadow-hover);
+}
+
+/* Card Header */
+.leadgen-admin .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--leadgen-spacing-md);
+    margin: 0 0 var(--leadgen-spacing-lg);
+    padding: 0 0 var(--leadgen-spacing-md);
+    border-bottom: 1px solid var(--leadgen-color-border-light);
+}
+
+.leadgen-admin .card-header .dashicons {
+    color: var(--leadgen-color-primary);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.leadgen-admin .card-header h3 {
+    margin: 0;
+    font-size: var(--leadgen-font-size-xl);
+    font-weight: var(--leadgen-font-weight-semibold);
+    line-height: 1.3;
+    flex: 1;
+}
+
+/* Card Content */
+.leadgen-admin .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--leadgen-spacing-md);
+}
+
+/* Feature Status Rows */
+.leadgen-admin .feature-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--leadgen-spacing-md);
+    border-bottom: 1px solid var(--leadgen-color-border-lightest);
+}
+
+.leadgen-admin .feature-status:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.leadgen-admin .feature-name {
+    font-weight: var(--leadgen-font-weight-medium);
+    color: var(--leadgen-color-text);
+}
+
+/* Status Indicators */
+.leadgen-admin .status-indicator {
+    display: inline-block;
+    padding: var(--leadgen-spacing-xs) var(--leadgen-spacing-md);
+    border-radius: var(--leadgen-radius-pill);
+    font-size: var(--leadgen-font-size-xs);
+    font-weight: var(--leadgen-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--leadgen-letter-spacing-tight);
+    white-space: nowrap;
+}
+
+.leadgen-admin .status-indicator.active {
+    background: var(--leadgen-color-success-bg);
+    color: var(--leadgen-color-success-text);
+    border: 1px solid var(--leadgen-color-success-border);
+}
+
+.leadgen-admin .status-indicator.inactive {
+    background: var(--leadgen-color-error-bg);
+    color: var(--leadgen-color-error-text);
+    border: 1px solid var(--leadgen-color-error-border);
+}
+
+.leadgen-admin .status-indicator.warning {
+    background: var(--leadgen-color-warning-bg);
+    color: var(--leadgen-color-warning-text);
+    border: 1px solid var(--leadgen-color-warning-border);
+}
+
+/* Feature Values */
+.leadgen-admin .feature-value {
+    display: inline-block;
+    padding: var(--leadgen-spacing-xs) var(--leadgen-spacing-md);
+    border-radius: var(--leadgen-radius-pill);
+    font-size: var(--leadgen-font-size-xs);
+    font-weight: var(--leadgen-font-weight-semibold);
+}
+
+.leadgen-admin .feature-value.enabled {
+    background: var(--leadgen-color-success-bg);
+    color: var(--leadgen-color-success-text);
+}
+
+.leadgen-admin .feature-value.disabled {
+    background: var(--leadgen-color-error-bg);
+    color: var(--leadgen-color-error-text);
+}
+
+/* Feature List */
+.leadgen-admin .feature-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.leadgen-admin .feature-list li {
+    position: relative;
+    padding: var(--leadgen-spacing-md) 0 var(--leadgen-spacing-md) 24px;
+    border-bottom: 1px solid var(--leadgen-color-border-lightest);
+    font-size: var(--leadgen-font-size-base);
+    color: var(--leadgen-color-text-secondary);
+}
+
+.leadgen-admin .feature-list li:last-child {
+    border-bottom: none;
+}
+
+.leadgen-admin .feature-list li::before {
+    content: "\f147";
+    font-family: dashicons;
+    position: absolute;
+    left: 0;
+    top: var(--leadgen-spacing-md);
+    color: var(--leadgen-color-success);
+    font-size: 16px;
+}
+
+/* Usage Section */
+.leadgen-admin .card-content > h3 {
+    margin: var(--leadgen-spacing-xl) 0 var(--leadgen-spacing-md);
+    font-size: var(--leadgen-font-size-lg);
+    font-weight: var(--leadgen-font-weight-semibold);
+    color: var(--leadgen-color-text);
+}
+
+.leadgen-admin .card-content > h3:first-child {
+    margin-top: 0;
+}
+
+.leadgen-admin .card-content p {
+    margin: var(--leadgen-spacing-sm) 0;
+    font-size: var(--leadgen-font-size-base);
+    color: var(--leadgen-color-text-secondary);
+}
+
+.leadgen-admin .card-content code {
+    display: block;
+    padding: 10px 14px;
+    background: var(--leadgen-color-bg);
+    border: 1px solid var(--leadgen-color-border-light);
+    border-radius: var(--leadgen-radius-sm);
+    font-size: var(--leadgen-font-size-sm);
+    word-break: break-all;
+    margin: var(--leadgen-spacing-sm) 0;
+}
+
+.leadgen-admin .card-content .description {
+    color: var(--leadgen-color-muted);
+    font-style: italic;
+    font-size: var(--leadgen-font-size-sm);
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+
+    .leadgen-admin .status-card {
+        padding: var(--leadgen-spacing-xl);
+    }
+
+    .leadgen-admin .card-header h3 {
+        font-size: var(--leadgen-font-size-lg);
+    }
+}
