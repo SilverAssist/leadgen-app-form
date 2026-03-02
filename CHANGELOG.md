@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Polyform Noncommercial License**: Updated license from GPL v2 to Polyform Noncommercial License 1.0.0
 - **License Documentation**: Updated all license references throughout the project
 
+### Changed - Requirements
+- **PHP 8.2+ Required**: Updated minimum PHP version from 8.0 to 8.2 to support latest dependencies
+
 ## [1.0.6] - 2025-07-31
 
 ### Added - Modular Update System Integration
