@@ -132,16 +132,48 @@ if [ -f "composer.json" ]; then
     cp -r vendor/composer/ "$PLUGIN_DIR/vendor/"
     echo "    ✅ Composer autoloader copied"
     
-    # Copy only silverassist/wp-github-updater package (optimized)
-    if [ -d "vendor/silverassist/wp-github-updater" ]; then
+    # Copy silverassist packages (src/, assets/, composer.json only)
+    if [ -d "vendor/silverassist" ]; then
         mkdir -p "$PLUGIN_DIR/vendor/silverassist"
-        cp -r vendor/silverassist/wp-github-updater "$PLUGIN_DIR/vendor/silverassist/"
-        echo "    ✅ silverassist/wp-github-updater copied"
+        
+        for package_dir in vendor/silverassist/*/; do
+            if [ -d "$package_dir" ]; then
+                package_name=$(basename "$package_dir")
+                dest_dir="$PLUGIN_DIR/vendor/silverassist/$package_name"
+                mkdir -p "$dest_dir"
+
+                # Copy essential files only
+                [ -f "$package_dir/composer.json" ] && cp "$package_dir/composer.json" "$dest_dir/"
+                [ -d "$package_dir/src" ] && cp -r "$package_dir/src" "$dest_dir/"
+
+                # Copy assets directory if it exists (CSS/JS required at runtime)
+                if [ -d "$package_dir/assets" ]; then
+                    cp -r "$package_dir/assets" "$dest_dir/"
+                fi
+
+                echo "    ✅ silverassist/$package_name copied"
+            fi
+        done
     fi
     
     echo -e "${YELLOW}📦 Restoring development dependencies for local environment...${NC}"
     # Restore development dependencies for local environment
     composer install --no-interaction > /dev/null 2>&1
+fi
+
+# Validate vendor package assets (CSS/JS required at runtime)
+if [ -d "$PLUGIN_DIR/vendor" ]; then
+    echo -e "${YELLOW}📦 Validating vendor package assets...${NC}"
+    if [ ! -f "$PLUGIN_DIR/vendor/silverassist/wp-settings-hub/assets/css/settings-hub.css" ]; then
+        echo -e "${RED}⚠️  Settings Hub CSS asset missing: vendor/silverassist/wp-settings-hub/assets/css/settings-hub.css${NC}"
+    else
+        echo "    ✅ Settings Hub CSS asset included"
+    fi
+    if [ ! -f "$PLUGIN_DIR/vendor/silverassist/wp-github-updater/assets/js/check-updates.js" ]; then
+        echo -e "${RED}⚠️  GitHub updater JS asset missing: vendor/silverassist/wp-github-updater/assets/js/check-updates.js${NC}"
+    else
+        echo "    ✅ GitHub updater JS asset included"
+    fi
 fi
 
 echo ""
@@ -179,7 +211,8 @@ echo "   ├── vendor/"
 echo "   │   ├── autoload.php"
 echo "   │   ├── composer/"
 echo "   │   └── silverassist/"
-echo "   │       └── wp-github-updater/"
+echo "   │       ├── wp-github-updater/"
+echo "   │       └── wp-settings-hub/"
 echo "   ├── includes/"
 echo "   │   ├── class-leadgen-form-block.php"
 echo "   │   ├── class-leadgen-app-form-updater.php"
