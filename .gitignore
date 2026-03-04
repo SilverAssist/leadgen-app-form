@@ -42,3 +42,6 @@ temp-package.zip
 
 # Generated files (created by GitHub Actions)
 RELEASE-NOTES.md
+
+# PHPCS cache
+.phpcs-cache
