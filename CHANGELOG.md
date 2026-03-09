@@ -8,15 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.1] - 2026-03-09
 
 ### Changed
+
 - **Release Pipeline**: Add Node.js setup and asset build steps to release workflow for minified assets
+- **Release Pipeline**: Make Node.js steps conditional on `package.json` existence to prevent CI failures
 
 ## [1.2.0] - 2026-03-03
 
 ### Fixed
+
 - **Vendor Assets**: Ensure vendor package assets (CSS/JS) are included in release builds
   - Fixed critical bug: `wp-settings-hub` was missing from release ZIPs
 
 ### Changed - Release Pipeline
+
 - **Unified Build**: Unify release workflow and build script across all plugins
   - Replace `create-release-zip.sh` with unified `build-release.sh`
   - Selective copy strategy with auto-detection of plugin structure
@@ -25,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Generate MD5 + SHA256 checksums
 
 ### Security
+
 - **GitHub Actions**: Pin all dependencies to SHA hashes for supply chain protection
   - `actions/checkout@v4.3.1`
   - `shivammathur/setup-php@v2.36.0`
@@ -33,53 +38,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2026-03-02
 
 ### Added - Security & CI/CD Enhancements
+
 - **CodeQL Security Scanning**: Added automated security scanning workflow for vulnerability detection
 - **SHA-Pinned GitHub Actions**: All GitHub Actions now pinned to specific commit SHAs for supply chain security
 - **Dependabot Integration**: Automated dependency updates for GitHub Actions workflows
 
 ### Changed - Admin Dashboard UI
+
 - **Card-Based Design System**: Refactored admin dashboard UI to align with modern card-based design patterns
 - **Improved Visual Consistency**: Enhanced admin interface styling for better user experience
 - **Workflow Permissions**: Updated GitHub Actions workflows with proper permissions configuration
 
 ### Security - Supply Chain Protection
+
 - **Actions SHA Pinning**: Pinned all GitHub Actions to specific commit SHAs to prevent supply chain attacks
 - **Permission Hardening**: Added explicit permissions to all workflows following security best practices
 - **Dependency Updates**: Bumped github-actions-updates group with 4 security updates
 
 ### Changed - Licensing
+
 - **Polyform Noncommercial License**: Updated license from GPL v2 to Polyform Noncommercial License 1.0.0
 - **License Documentation**: Updated all license references throughout the project
 
 ### Changed - Requirements
+
 - **PHP 8.2+ Required**: Updated minimum PHP version from 8.0 to 8.2 to support latest dependencies
 
 ## [1.0.6] - 2025-07-31
 
 ### Added - Modular Update System Integration
+
 - **silverassist/wp-github-updater Package**: Integrated reusable GitHub updater package (v1.0.1)
 - **Composer Autoloading**: Added PSR-4 compliant Composer autoloading with production optimizations
 - **Build System Enhancement**: Enhanced ZIP creation script with intelligent vendor dependency management
 - **Git Export Control**: Added `.gitattributes` for automatic development file exclusion from exports
 
 ### Changed - Update System Architecture
+
 - **Refactored LeadGenAppFormUpdater**: Reduced from 283 lines to 50 lines (-85% code reduction) using modular approach
 - **Package-Based Design**: Migrated from custom update implementation to reusable package pattern
 - **Production Dependencies**: Optimized build process to include only production Composer dependencies
 - **Vendor Management**: Intelligent vendor directory copying during release build process
 
 ### Removed - Project Structure Cleanup  
+
 - **Redundant Documentation**: Removed `QUICK-RELEASE.md`, `REFACTORING-REPORT.md`, `RELEASE-PROCESS.md`, `UPDATE-SYSTEM.md`
 - **Composer Scripts**: Cleaned `composer.json` scripts section to remove unused commands
 - **Development Overhead**: Eliminated maintenance of duplicate update system code across plugins
 
 ### Enhanced - Development Experience
+
 - **Reusable Components**: Update system now based on tested, reusable silverassist/wp-github-updater package
 - **Simplified Maintenance**: Single source of truth for GitHub update functionality
 - **Better Build Pipeline**: Enhanced release creation with proper dependency management
 - **Documentation Consolidation**: Streamlined documentation structure with essential files only
 
 ### Technical - Code Quality Improvements
+
 - **PSR-4 Autoloading**: Modern PHP namespace organization with Composer autoloader
 - **Dependency Management**: Production-only vendor includes for optimized distribution packages
 - **Modular Architecture**: Update system based on configurable, extensible package design
@@ -88,6 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.5] - 2025-07-30
 
 ### Added - WordPress-Compatible Release System
+
 - **Improved ZIP Creation**: New `create-release-zip.sh` script for proper WordPress plugin structure
 - **WordPress Installation Compatibility**: ZIP files now create clean plugin folders without version numbers
 - **GitHub Actions Integration**: Updated release workflow to use new packaging script
@@ -95,18 +111,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Size Calculation**: Automatic package size calculation with human-readable output
 
 ### Changed - Release Workflow Optimization
+
 - **ZIP Structure**: ZIP filename includes version (`leadgen-app-form-v1.0.5.zip`) but internal folder is clean (`leadgen-app-form/`)
 - **Repository Cleanup**: Removed auto-generated `RELEASE-NOTES.md` from version control
 - **GitHub Actions**: Simplified release workflow using centralized packaging script
 - **Documentation**: Updated scripts README with comprehensive packaging documentation
 
 ### Enhanced - Development Experience
+
 - **Local Testing**: Easy local ZIP creation with `./scripts/create-release-zip.sh`
 - **WordPress Compatibility**: Plugin installs correctly in WordPress without folder name conflicts
 - **Professional Structure**: Clean package structure follows WordPress plugin standards
 - **Automated Exclusions**: Development files automatically excluded from distribution packages
 
 ### Technical - Package Management
+
 - **File Exclusions**: Automatic exclusion of `.git`, `node_modules`, `vendor`, development files
 - **Size Optimization**: ~54KB distribution package with all necessary files
 - **Cross-Platform**: Compatible ZIP creation on macOS and Linux systems
@@ -115,6 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.4] - 2025-07-29
 
 ### Added - PSR-4 Migration & Development Environment
+
 - **PSR-4 Compliance**: Complete migration from WordPress naming convention to PSR-4 standards
 - **Composer Integration**: Full development environment with autoloading and quality tools
 - **GitHub Actions Quality Workflow**: Multi-environment testing (PHP 8.0-8.3, WordPress 6.5-latest)
@@ -124,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Development Tools**: Complete Composer-based development environment
 
 ### Changed - File Structure Modernization
+
 - **File Naming**: Migrated from `class-*.php` to `PascalCase.php` for PSR-4 compliance
   - `class-leadgen-app-form-admin.php` → `LeadGenAppFormAdmin.php`
   - `class-leadgen-app-form-updater.php` → `LeadGenAppFormUpdater.php`
@@ -137,6 +158,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Autoloading**: Composer-managed class loading replaces manual require statements
 
 ### Enhanced - Code Quality & Standards
+
 - **775 Format Issues Fixed**: Automated PSR-12 code formatting improvements
 - **Quality Gates**: Multi-environment compatibility validation
 - **Development Workflow**: Integrated quality checks with `composer run phpcs|phpcbf|lint`
@@ -144,6 +166,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CI/CD Pipeline**: Complete automated quality assurance with GitHub Actions
 
 ### Technical - Development Environment
+
 - **Composer Scripts**: `phpcs`, `phpcbf`, `lint`, `test` commands for quality assurance
 - **Multi-PHP Testing**: Automated compatibility testing across PHP 8.0-8.3
 - **Multi-WordPress Testing**: Compatibility validation with WordPress 6.5-latest
@@ -153,6 +176,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.3] - 2025-07-28
 
 ### Added - Professional Height Control UI
+
 - **Shortcode Height Customization**: Added `desktop-height` and `mobile-height` attributes to `[leadgen_form]` shortcode
 - **Professional UI Controls**: Advanced controls with SelectControl for units and NumberControl/RangeControl inputs
 - **Organized Control Panels**: Clean separation with dividers, headings, and logical grouping in both Gutenberg and Elementor
@@ -165,6 +189,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CSS Transitions**: Smooth height changes with 0.3s ease transitions for professional appearance
 
 ### Enhanced - User Experience Improvements
+
 - **Gutenberg Block UI**: Separate "Placeholder Height Settings" panel with professional SelectControl and RangeControl
 - **Elementor Widget UI**: Organized controls with separators, headings, and NumberControl inputs for precision
 - **Visual Feedback**: Live preview showing current height configuration in both editor interfaces
@@ -173,6 +198,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Intelligent Organization**: Visual grouping with separators and descriptive headings for better UX
 
 ### Enhanced - Technical Improvements
+
 - **SelectControl Integration**: Professional unit selector with descriptive labels for better clarity
 - **RangeControl Implementation**: Smooth slider controls for precise height adjustment in Gutenberg
 - **NumberControl Addition**: Direct numeric input for Elementor widget precision and validation
@@ -183,6 +209,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.2] - 2025-07-28
 
 ### Added - Version Management Automation
+
 - **Automated Version Update Script**: `update-version.sh` - Comprehensive script for updating all plugin file versions simultaneously
 - **Version Consistency Checker**: `check-versions.sh` - Validation tool to ensure version consistency across all files
 - **Interactive Version Updates**: Confirmation prompts and detailed progress reporting during version changes
@@ -193,11 +220,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Safety Validations**: Semantic version format checking and confirmation prompts prevent errors
 
 ### Enhanced - Plugin Structure Documentation
+
 - **Updated Documentation**: README.md and copilot instructions reflect new automation scripts
 - **Complete File Mapping**: Updated plugin structure to include all automation and development tools
 - **Release Workflow Integration**: Version management scripts integrated into release procedures
 
 ### Fixed - Development Experience
+
 - **Streamlined Version Updates**: Eliminates manual version updating across multiple files
 - **Reduced Human Error**: Automated validation prevents version inconsistencies
 - **Improved Developer Productivity**: One-command version updates for efficient release cycles
@@ -205,6 +234,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.1] - 2025-07-27
 
 ### Added - Automatic Update System
+
 - **Custom GitHub Update Integration**: Professional update system using GitHub API for public repositories
 - **WordPress Native Experience**: Updates appear in standard WordPress admin interface alongside core and plugin updates
 - **Admin Settings Page**: Dedicated admin interface at Settings → LeadGen Forms for update management
@@ -217,6 +247,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Professional Distribution**: Automated release packages (~38KB) with optimized file structure
 
 ### Added - GitHub Actions Automation
+
 - **Automated Release Workflow**: Complete release automation via GitHub Actions
 - **Package Size Verification**: Automatic package size calculation and verification for releases
 - **Pull Request Integration**: Package size reporting on pull requests for transparency
@@ -226,6 +257,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Quality Assurance**: Automated syntax checking and code validation
 
 ### Added - Admin Interface & User Experience
+
 - **Settings Page Integration**: Native WordPress admin page with professional styling
 - **Update Status Dashboard**: Clear display of current version, available updates, and system status
 - **User-Friendly Notifications**: Professional update notifications with clear call-to-action
@@ -235,6 +267,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Accessibility Features**: Screen reader compatible and keyboard navigation support
 
 ### Added - Technical Infrastructure
+
 - **Public Repository Architecture**: Optimized for public GitHub repositories without authentication overhead
 - **WordPress Transient Caching**: Efficient caching using WordPress native transient API
 - **Hook Integration**: Seamless integration with WordPress update hooks and filters
@@ -243,6 +276,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Performance Optimization**: Minimal impact on site performance with smart caching
 
 ### Added - Developer Experience
+
 - **Comprehensive Documentation**: Complete update system documentation in UPDATE-SYSTEM.md
 - **Code Quality Standards**: ESLint configuration for WordPress JavaScript development
 - **Header Standards**: Standardized file headers across all plugin files in HEADER-STANDARDS.md
@@ -251,6 +285,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Release Automation**: Scripts for local package size calculation and release preparation
 
 ### Technical Enhancements
+
 - **New PHP Classes**:
   - `LeadGen_App_Form_Updater` - GitHub API integration and update logic
   - `LeadGen_App_Form_Admin` - WordPress admin interface and settings management
@@ -260,6 +295,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **WordPress Integration**: Deep integration with WordPress update infrastructure
 
 ### Update System Features
+
 - **GitHub API Integration**: Direct integration with GitHub releases API for update detection
 - **No Authentication Required**: Works seamlessly with public repositories
 - **Professional Update Flow**: Standard WordPress update experience users expect
@@ -270,6 +306,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-07-21
 
 ### Added - Core Plugin Features
+
 - **WordPress Shortcode System**: `[leadgen_form]` with desktop-id and mobile-id parameters
 - **Gutenberg Block Integration**: Native block editor support with visual interface
 - **Elementor Widget Integration**: Custom Elementor widget for page builder users
@@ -288,6 +325,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Public JavaScript API for manual form control
 
 ### Added - Elementor Integration
+
 - **LeadGen Form Widget**: Custom Elementor widget with native interface
 - **Widget Category**: Organized under "LeadGen Forms" category in Elementor panel
 - **Visual Configuration**: Form ID settings with validation and error prevention
@@ -299,6 +337,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Namespace Organization**: `LeadGenAppForm\Elementor\Widgets` namespace structure
 
 ### Added - Modern PHP 8.0+ Features
+
 - **Namespace Organization**: Clean code structure with `LeadGenAppForm`, `LeadGenAppForm\Block`, and `LeadGenAppForm\Elementor\Widgets` namespaces
 - **Match Expression**: Modern conditional logic replacing complex if/else chains (PHP 8.0+)
 - **Array Spread in Arrays**: Efficient array building using spread operator `...` (PHP 8.0+)
@@ -313,6 +352,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Global Function Calls**: Proper namespace handling with `\` prefix for WordPress functions
 
 ### Added - WordPress Integration & Best Practices
+
 - **Complete PHPDoc and JSDoc Documentation**: Professional-grade code documentation
 - **Modern PHP Syntax**: Short arrays `[]`, double quotes, const usage where applicable
 - **Translation Support**: Full i18n support with text domain `leadgen-app-form`
@@ -324,6 +364,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Organized File Structure**: Maintainable folder structure following WordPress standards
 
 ### Added - Performance Optimizations & UX
+
 - **Minimal User Interaction Pattern**: Forms load only on user engagement (focus, mousemove, scroll, touch)
 - **Intelligent Script Management**: Prevents duplicate external script loading via Set() tracking
 - **Conditional WordPress Asset Enqueuing**: Loads plugin assets only when needed
@@ -334,6 +375,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Performance Monitoring**: Built-in console logging for debugging and performance analysis
 
 ### Added - Architecture & Design Patterns
+
 - **Singleton Pattern Implementation**: Memory-efficient single instance for main plugin class
 - **Block Handler Singleton**: Separate singleton for Gutenberg block management
 - **Server-Side Block Rendering**: Uses existing shortcode system for consistent output
@@ -343,6 +385,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Type-Safe Development**: Leverages PHP 7.4+ typed properties for better code reliability
 
 ### Added - Developer Experience
+
 - **Comprehensive API Documentation**: Complete PHPDoc for all classes and methods
 - **JavaScript Public API**: Extended `window.LeadGenForm` API for advanced integrations
 - **Block Development Standards**: Follows WordPress block development best practices
@@ -351,11 +394,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Code Quality Standards**: Modern PHP syntax with type safety and clear documentation
 
 ### Technical Requirements
+
 - **PHP**: 8.0 or higher (leverages match expressions, array spread, and modern namespaces)
 - **WordPress**: 5.0 or higher (required for Gutenberg block support)
 - **Dependencies**: jQuery (bundled with WordPress), WordPress Block Editor APIs
 
 ### Integration Details
+
 - **External API**: Seamless integration with `https://forms.leadgenapp.io/js/lf.min.js/{id}`
 - **Custom Elements**: Creates `<leadgen-form-{id}>` elements dynamically via external API
 - **Data Flow**: PHP shortcode → wp_localize_script() → JavaScript configuration → External API
