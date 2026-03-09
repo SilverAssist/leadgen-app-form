@@ -6,7 +6,7 @@
  * Integrates with the existing shortcode functionality.
  *
  * @package LeadGenAppForm\Elementor\Widgets
- * @version 1.2.0
+ * @version 1.2.1
  * @since 1.0.0
  * @author Silver Assist
  */

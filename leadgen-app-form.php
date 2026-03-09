@@ -4,7 +4,7 @@
  * Plugin Name: LeadGen App Form Plugin
  * Plugin URI: https://github.com/SilverAssist/leadgen-app-form
  * Description: WordPress plugin that adds a shortcode to display LeadGen App forms with desktop-id and mobile-id parameters.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Silver Assist
  * Author URI: http://silverassist.com/
  * Text Domain: leadgen-app-form
@@ -14,7 +14,7 @@
  * License URI: https://polyformproject.org/licenses/noncommercial/1.0.0/
  *
  * @package LeadGenAppForm
- * @version 1.2.0
+ * @version 1.2.1
  * @author Silver Assist
  */
 
