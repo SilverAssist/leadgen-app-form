@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
 use Elementor\Plugin;
 use Elementor\Elements_Manager;
 use Elementor\Widgets_Manager;
+use SilverAssist\PluginKernel\Interfaces\LoadableInterface;
 
 /**
  * Elementor Widgets Loader
@@ -29,7 +30,7 @@ use Elementor\Widgets_Manager;
  *
  * @since 1.0.0
  */
-class WidgetsLoader {
+class WidgetsLoader implements LoadableInterface {
 
 	/**
 	 * Single instance of the loader
@@ -52,7 +53,7 @@ class WidgetsLoader {
 	 * @static
 	 * @return WidgetsLoader The single instance of the loader
 	 */
-	public static function get_instance(): WidgetsLoader {
+	public static function instance(): WidgetsLoader {
 		if ( self::$instance === null ) {
 			self::$instance = new self();
 		}
@@ -60,21 +61,59 @@ class WidgetsLoader {
 	}
 
 	/**
-	 * Constructor
+	 * Deprecated alias for instance()
 	 *
-	 * Sets up hooks for widget registration and category creation.
-	 * Only initializes if Elementor is active and loaded.
+	 * @deprecated 1.3.0 Use instance() instead.
+	 * @since 1.0.0
+	 * @return WidgetsLoader
+	 */
+	public static function get_instance(): WidgetsLoader {
+		return self::instance();
+	}
+
+	/**
+	 * Constructor
 	 *
 	 * @since 1.0.0
 	 * @access private
 	 */
 	private function __construct() {
-		// Check if Elementor is active before proceeding.
-		if ( ! $this->is_elementor_loaded() ) {
-			return;
-		}
+	}
 
+	/**
+	 * Initialize the component
+	 *
+	 * Sets up hooks for widget registration and category creation.
+	 * Only called when should_load() (Elementor active) is true.
+	 *
+	 * @since 1.3.0
+	 * @access public
+	 * @return void
+	 */
+	public function init(): void {
 		$this->init_hooks();
+	}
+
+	/**
+	 * Get the component loading priority
+	 *
+	 * @since 1.3.0
+	 * @access public
+	 * @return int
+	 */
+	public function get_priority(): int {
+		return 30;
+	}
+
+	/**
+	 * Determine if the component should be loaded
+	 *
+	 * @since 1.3.0
+	 * @access public
+	 * @return bool
+	 */
+	public function should_load(): bool {
+		return $this->is_elementor_loaded();
 	}
 
 	/**
