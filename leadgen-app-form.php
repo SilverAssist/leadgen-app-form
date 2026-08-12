@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: LeadGen App Form Plugin
  * Plugin URI: https://github.com/SilverAssist/leadgen-app-form
@@ -20,17 +19,17 @@
 
 namespace LeadGenAppForm;
 
-// Import WordPress core classes
+// Import WordPress core classes.
 use WP_Post;
-// Import PHP standard classes
+// Import PHP standard classes.
 use Exception;
 
-// Prevent direct access
+// Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Define plugin constants
+// Define plugin constants.
 define( 'LEADGEN_APP_FORM_VERSION', '1.2.0' );
 define( 'LEADGEN_APP_FORM_FILE', __FILE__ );
 define( 'LEADGEN_APP_FORM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -82,7 +81,7 @@ class LeadGen_App_Form {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @throws Exception
+	 * @throws Exception Always -- singletons must never be unserialized.
 	 */
 	public function __wakeup(): void {
 		throw new Exception( 'Cannot unserialize singleton' );
@@ -117,14 +116,14 @@ class LeadGen_App_Form {
 	 * @return void
 	 */
 	private function init(): void {
-		// Load necessary files
+		// Load necessary files.
 		$this->load_dependencies();
 
-		// WordPress hooks
+		// WordPress hooks.
 		add_action( 'init', array( $this, 'init_plugin' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		// Register shortcode
+		// Register shortcode.
 		add_shortcode( 'leadgen_form', array( $this, 'render_shortcode' ) );
 	}
 
@@ -139,20 +138,20 @@ class LeadGen_App_Form {
 	 * @return void
 	 */
 	private function load_dependencies(): void {
-		// Load Composer autoloader for external packages
+		// Load Composer autoloader for external packages.
 		if ( file_exists( LEADGEN_APP_FORM_PLUGIN_PATH . 'vendor/autoload.php' ) ) {
 			require_once LEADGEN_APP_FORM_PLUGIN_PATH . 'vendor/autoload.php';
 		}
 
-		// Load Gutenberg block handler
+		// Load Gutenberg block handler.
 		require_once LEADGEN_APP_FORM_PLUGIN_PATH . 'includes/LeadGenFormBlock.php';
 
-		// Load Elementor widgets loader (only if Elementor is active)
+		// Load Elementor widgets loader (only if Elementor is active).
 		if ( \did_action( 'elementor/loaded' ) || \class_exists( '\\Elementor\\Plugin' ) ) {
 			require_once LEADGEN_APP_FORM_PLUGIN_PATH . 'includes/elementor/WidgetsLoader.php';
 		}
 
-		// Load updater system (only in admin)
+		// Load updater system (only in admin).
 		if ( \is_admin() ) {
 			require_once LEADGEN_APP_FORM_PLUGIN_PATH . 'includes/LeadGenAppFormUpdater.php';
 			require_once LEADGEN_APP_FORM_PLUGIN_PATH . 'includes/LeadGenAppFormAdmin.php';
@@ -172,29 +171,29 @@ class LeadGen_App_Form {
 	 * @return void
 	 */
 	public function init_plugin(): void {
-		// Load textdomain for translations
+		// Load textdomain for translations.
 		\load_plugin_textdomain(
 			'leadgen-app-form',
 			false,
 			dirname( LEADGEN_APP_FORM_PLUGIN_BASENAME ) . '/languages'
 		);
 
-		// Initialize Gutenberg block
+		// Initialize Gutenberg block.
 		if ( \class_exists( 'LeadGenAppForm\\Block\\LeadGenFormBlock' ) ) {
 			Block\LeadGenFormBlock::get_instance();
 		}
 
-		// Initialize Elementor widgets loader
+		// Initialize Elementor widgets loader.
 		if ( \class_exists( 'LeadGenAppForm\\Elementor\\WidgetsLoader' ) ) {
 			Elementor\WidgetsLoader::get_instance();
 		}
 
-		// Initialize updater system (only in admin)
+		// Initialize updater system (only in admin).
 		if ( \is_admin() && \class_exists( 'LeadGenAppForm\\LeadGenAppFormUpdater' ) ) {
-			// Public repository - no authentication required
+			// Public repository - no authentication required.
 			$updater = new LeadGenAppFormUpdater( __FILE__, 'SilverAssist/leadgen-app-form' );
 
-			// Initialize admin page
+			// Initialize admin page.
 			if ( \class_exists( 'LeadGenAppForm\\LeadGenAppFormAdmin' ) ) {
 				new LeadGenAppFormAdmin( $updater );
 			}
@@ -214,7 +213,7 @@ class LeadGen_App_Form {
 	 * @return void
 	 */
 	public function enqueue_scripts(): void {
-		// Register CSS
+		// Register CSS.
 		wp_register_style(
 			'leadgen-app-form-css',
 			LEADGEN_APP_FORM_PLUGIN_URL . 'assets/css/leadgen-app-form.css',
@@ -222,7 +221,7 @@ class LeadGen_App_Form {
 			LEADGEN_APP_FORM_VERSION
 		);
 
-		// Register JavaScript
+		// Register JavaScript.
 		wp_register_script(
 			'leadgen-app-form-js',
 			LEADGEN_APP_FORM_PLUGIN_URL . 'assets/js/leadgen-app-form.js',
@@ -235,24 +234,24 @@ class LeadGen_App_Form {
 		$should_load_scripts = false;
 		$shortcode_instances = array();
 
-		// Check if shortcode is present in post content
+		// Check if shortcode is present in post content.
 		if ( is_a( $post, WP_Post::class ) && has_shortcode( $post->post_content, 'leadgen_form' ) ) {
 			$should_load_scripts = true;
 			$shortcode_instances = $this->extract_shortcode_instances( $post->post_content );
 		}
 
-		// Check if Elementor widgets are present
+		// Check if Elementor widgets are present.
 		if ( ! $should_load_scripts && $this->has_elementor_widgets() ) {
 			$should_load_scripts = true;
 			// For Elementor widgets, we'll let JavaScript handle the initialization
-			// since the widget data is available in the DOM
+			// since the widget data is available in the DOM.
 		}
 
 		if ( $should_load_scripts ) {
 			wp_enqueue_style( 'leadgen-app-form-css' );
 			wp_enqueue_script( 'leadgen-app-form-js' );
 
-			// Localize script with global settings
+			// Localize script with global settings.
 			wp_localize_script(
 				'leadgen-app-form-js',
 				'leadGenAppSettings',
@@ -285,7 +284,7 @@ class LeadGen_App_Form {
 	 * @return string HTML output for the shortcode
 	 */
 	public function render_shortcode( $atts ): string {
-		// Default attributes
+		// Default attributes.
 		$atts = shortcode_atts(
 			array(
 				'desktop-id'     => '',
@@ -297,23 +296,23 @@ class LeadGen_App_Form {
 			'leadgen_form'
 		);
 
-		// Validate that at least one ID is present
+		// Validate that at least one ID is present.
 		if ( empty( $atts['desktop-id'] ) && empty( $atts['mobile-id'] ) ) {
 			return '<div class="leadgen-form-error">' .
 			esc_html__( 'Error: At least one of the desktop-id or mobile-id parameters is required', 'leadgen-app-form' ) .
 			'</div>';
 		}
 
-		// Sanitize attributes using null coalescing
+		// Sanitize attributes using null coalescing.
 		$desktop_id     = \sanitize_text_field( $atts['desktop-id'] ?? '' );
 		$mobile_id      = \sanitize_text_field( $atts['mobile-id'] ?? '' );
 		$desktop_height = \sanitize_text_field( $atts['desktop-height'] ?? '' );
 		$mobile_height  = \sanitize_text_field( $atts['mobile-height'] ?? '' );
 
-		// Detect if mobile device
+		// Detect if mobile device.
 		$is_mobile = \wp_is_mobile();
 
-		// Determine current ID using PHP 8 match expression for cleaner logic
+		// Determine current ID using PHP 8 match expression for cleaner logic.
 		$current_id = match ( true ) {
 			$is_mobile && ! empty( $mobile_id ) => $mobile_id,
 			! empty( $desktop_id ) => $desktop_id,
@@ -321,10 +320,10 @@ class LeadGen_App_Form {
 			default => ''
 		};
 
-		// Create unique ID for this shortcode instance
+		// Create unique ID for this shortcode instance.
 		$instance_id = 'leadgen-form-' . \wp_generate_uuid4();
 
-		// Generate form HTML using output buffering
+		// Generate form HTML using output buffering.
 		ob_start();
 		?>
 	<div class="leadgen-form-container" id="<?php echo \esc_attr( $instance_id ); ?>"
@@ -357,7 +356,7 @@ class LeadGen_App_Form {
 	 *
 	 * @since 1.0.0
 	 * @access private
-	 * @param string $content The post content to parse
+	 * @param string $content The post content to parse.
 	 * @return array {
 	 *     Array of shortcode instances with their configurations.
 	 *
@@ -375,12 +374,12 @@ class LeadGen_App_Form {
 	private function extract_shortcode_instances( $content ): array {
 		$instances = array();
 
-		// Pattern to find leadgen_form shortcodes
+		// Pattern to find leadgen_form shortcodes.
 		$pattern = '/\[leadgen_form\s+([^\]]*)\]/';
 
 		if ( preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER ) ) {
 			foreach ( $matches as $index => $match ) {
-				// Parse shortcode attributes
+				// Parse shortcode attributes.
 				$atts = shortcode_parse_atts( $match[1] );
 
 				if ( $atts ) {
@@ -389,7 +388,7 @@ class LeadGen_App_Form {
 					$desktop_height = \sanitize_text_field( $atts['desktop-height'] ?? '' );
 					$mobile_height  = \sanitize_text_field( $atts['mobile-height'] ?? '' );
 
-					// Only add if at least one ID is present
+					// Only add if at least one ID is present.
 					if ( ! empty( $desktop_id ) || ! empty( $mobile_id ) ) {
 						$instances[] = array(
 							'desktop_id'     => $desktop_id,
@@ -417,7 +416,7 @@ class LeadGen_App_Form {
 	 * @return bool True if Elementor widgets are detected, false otherwise
 	 */
 	private function has_elementor_widgets(): bool {
-		// Early return if Elementor is not active
+		// Early return if Elementor is not active.
 		if ( ! class_exists( '\\Elementor\\Plugin' ) ) {
 			return false;
 		}
@@ -427,21 +426,21 @@ class LeadGen_App_Form {
 			return false;
 		}
 
-		// Check if this is an Elementor page
+		// Check if this is an Elementor page.
 		$elementor_data = get_post_meta( $post->ID, '_elementor_data', true );
 
 		if ( empty( $elementor_data ) ) {
 			return false;
 		}
 
-		// Parse Elementor data (it"s stored as JSON)
+		// Parse Elementor data (it's stored as JSON).
 		$elementor_data = json_decode( $elementor_data, true );
 
 		if ( ! is_array( $elementor_data ) ) {
 			return false;
 		}
 
-		// Recursively search for our widget in the Elementor data
+		// Recursively search for our widget in the Elementor data.
 		return $this->search_elementor_data_for_widget( $elementor_data, 'leadgen-form' );
 	}
 
@@ -453,8 +452,8 @@ class LeadGen_App_Form {
 	 *
 	 * @since 1.0.0
 	 * @access private
-	 * @param array $data The Elementor data array to search
-	 * @param string $widget_name The widget name to search for
+	 * @param array  $data The Elementor data array to search.
+	 * @param string $widget_name The widget name to search for.
 	 * @return bool True if widget is found, false otherwise
 	 */
 	private function search_elementor_data_for_widget( array $data, string $widget_name ): bool {
@@ -463,12 +462,12 @@ class LeadGen_App_Form {
 				continue;
 			}
 
-			// Check if this element is our widget
+			// Check if this element is our widget.
 			if ( isset( $element['widgetType'] ) && $element['widgetType'] === $widget_name ) {
 				return true;
 			}
 
-			// Check elType for backwards compatibility
+			// Check elType for backwards compatibility.
 			if (
 				isset( $element['elType'] ) && $element['elType'] === 'widget' &&
 				isset( $element['widgetType'] ) && $element['widgetType'] === $widget_name
@@ -476,7 +475,7 @@ class LeadGen_App_Form {
 				return true;
 			}
 
-			// Recursively search in elements (for sections, columns, etc.)
+			// Recursively search in elements (for sections, columns, etc.).
 			if ( isset( $element['elements'] ) && is_array( $element['elements'] ) ) {
 				if ( $this->search_elementor_data_for_widget( $element['elements'], $widget_name ) ) {
 					return true;
@@ -501,5 +500,5 @@ function leadgen_app_form_init(): LeadGen_App_Form {
 	return LeadGen_App_Form::get_instance();
 }
 
-// Initialize the plugin when WordPress is ready
+// Initialize the plugin when WordPress is ready.
 \add_action( 'plugins_loaded', 'LeadGenAppForm\\leadgen_app_form_init' );

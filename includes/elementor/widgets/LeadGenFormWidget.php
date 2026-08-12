@@ -321,11 +321,11 @@ class LeadGenFormWidget extends Widget_Base {
 	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 
-		// Get the form IDs from widget settings
+		// Get the form IDs from widget settings.
 		$desktop_id = ! empty( $settings['desktop_id'] ) ? \sanitize_text_field( $settings['desktop_id'] ) : '';
 		$mobile_id  = ! empty( $settings['mobile_id'] ) ? \sanitize_text_field( $settings['mobile_id'] ) : '';
 
-		// Get height settings and combine with unit
+		// Get height settings and combine with unit.
 		$height_unit    = ! empty( $settings['height_unit'] ) ? $settings['height_unit'] : 'px';
 		$desktop_height = '';
 		$mobile_height  = '';
@@ -338,10 +338,10 @@ class LeadGenFormWidget extends Widget_Base {
 			$mobile_height = intval( $settings['mobile_height'] ) . $height_unit;
 		}
 
-		// Validate that at least one ID is present
+		// Validate that at least one ID is present.
 		if ( empty( $desktop_id ) && empty( $mobile_id ) ) {
 			if ( Plugin::$instance->editor->is_edit_mode() ) {
-				// Show error message only in Elementor editor
+				// Show error message only in Elementor editor.
 				echo '<div class="leadgen-form-error elementor-alert elementor-alert-warning">' .
 					'<span class="elementor-alert-title">' . esc_html__( 'LeadGen Form Widget', 'leadgen-app-form' ) . '</span>' .
 					'<span class="elementor-alert-description">' . esc_html__( 'Please configure at least one Form ID (Desktop or Mobile) in the widget settings.', 'leadgen-app-form' ) . '</span>' .
@@ -350,10 +350,10 @@ class LeadGenFormWidget extends Widget_Base {
 			return;
 		}
 
-		// Use the existing shortcode function to render the form
+		// Use the existing shortcode function to render the form.
 		$plugin_instance = \LeadGenAppForm\LeadGen_App_Form::get_instance();
 
-		// Prepare shortcode attributes
+		// Prepare shortcode attributes.
 		$shortcode_atts = array();
 		if ( ! empty( $desktop_id ) ) {
 			$shortcode_atts['desktop-id'] = $desktop_id;
