@@ -351,7 +351,7 @@ class LeadGenFormWidget extends Widget_Base {
 		}
 
 		// Use the existing shortcode function to render the form.
-		$plugin_instance = \LeadGenAppForm\LeadGen_App_Form::get_instance();
+		$shortcode_handler = \LeadGenAppForm\ShortcodeHandler::instance();
 
 		// Prepare shortcode attributes.
 		$shortcode_atts = array();
@@ -370,7 +370,7 @@ class LeadGenFormWidget extends Widget_Base {
 
 		// Render using the shortcode method for consistency.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped inside render_shortcode().
-		echo $plugin_instance->render_shortcode( $shortcode_atts );
+		echo $shortcode_handler->render_shortcode( $shortcode_atts );
 	}
 
 	/**

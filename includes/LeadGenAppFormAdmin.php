@@ -14,6 +14,7 @@
 
 namespace LeadGenAppForm;
 
+use SilverAssist\PluginKernel\Interfaces\LoadableInterface;
 use SilverAssist\SettingsHub\SettingsHub;
 
 // Prevent direct access
@@ -21,32 +22,64 @@ if (!defined("ABSPATH")) {
     exit;
 }
 
-class LeadGenAppFormAdmin
+class LeadGenAppFormAdmin implements LoadableInterface
 {
-  /**
-   * Plugin updater instance
-   * @var LeadGenAppFormUpdater
-   */
-    private LeadGenAppFormUpdater $updater;
+    /**
+     * Single instance of the admin handler
+     *
+     * @var LeadGenAppFormAdmin|null
+     */
+    private static ?LeadGenAppFormAdmin $instance = null;
 
-  /**
-   * Initialize admin functionality
-   *
-   * @param LeadGenAppFormUpdater $updater Updater instance
-   */
-    public function __construct(LeadGenAppFormUpdater $updater)
+    /**
+     * Get the single instance of the admin handler
+     *
+     * @return LeadGenAppFormAdmin
+     */
+    public static function instance(): LeadGenAppFormAdmin
     {
-        $this->updater = $updater;
-        $this->init_hooks();
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
-  /**
-   * Initialize WordPress hooks
-   */
-    private function init_hooks(): void
+    /**
+     * Private constructor to prevent direct instantiation
+     */
+    private function __construct()
+    {
+    }
+
+    /**
+     * Initialize the component
+     *
+     * @return void
+     */
+    public function init(): void
     {
         \add_action("admin_menu", [$this, "register_with_hub"], 4);
         \add_action("admin_enqueue_scripts", [$this, "enqueue_admin_scripts"]);
+    }
+
+    /**
+     * Get the component loading priority
+     *
+     * @return int
+     */
+    public function get_priority(): int
+    {
+        return 30;
+    }
+
+    /**
+     * Determine if the component should be loaded
+     *
+     * @return bool
+     */
+    public function should_load(): bool
+    {
+        return \is_admin();
     }
 
   /**
@@ -117,8 +150,14 @@ class LeadGenAppFormAdmin
    */
     public function render_update_check_script(): void
     {
+        $updater = Plugin::instance()->get_updater();
+
+        if (!$updater) {
+            return;
+        }
+
         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Inline JavaScript from wp-github-updater
-        echo $this->updater->enqueueCheckUpdatesScript();
+        echo $updater->enqueueCheckUpdatesScript();
     }
 
   /**

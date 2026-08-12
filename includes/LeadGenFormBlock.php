@@ -13,6 +13,8 @@
 
 namespace LeadGenAppForm\Block;
 
+use SilverAssist\PluginKernel\Interfaces\LoadableInterface;
+
 // Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  * @package LeadGenAppForm\Block
  */
-class LeadGenFormBlock {
+class LeadGenFormBlock implements LoadableInterface {
 
 	/**
 	 * Single instance of the block handler
@@ -46,7 +48,6 @@ class LeadGenFormBlock {
 	 * @access private
 	 */
 	private function __construct() {
-		$this->init();
 	}
 
 	/**
@@ -80,7 +81,7 @@ class LeadGenFormBlock {
 	 * @static
 	 * @return LeadGenFormBlock The single instance of the block handler
 	 */
-	public static function get_instance(): LeadGenFormBlock {
+	public static function instance(): LeadGenFormBlock {
 		if ( self::$instance === null ) {
 			self::$instance = new self();
 		}
@@ -88,18 +89,50 @@ class LeadGenFormBlock {
 	}
 
 	/**
-	 * Initialize the block handler
+	 * Deprecated alias for instance()
+	 *
+	 * @deprecated 1.3.0 Use instance() instead.
+	 * @since 1.0.0
+	 * @return LeadGenFormBlock
+	 */
+	public static function get_instance(): LeadGenFormBlock {
+		return self::instance();
+	}
+
+	/**
+	 * Initialize the component
 	 *
 	 * Sets up hooks for block registration and script loading.
-	 * Called from the constructor.
 	 *
-	 * @since 1.0.0
-	 * @access private
+	 * @since 1.3.0
+	 * @access public
 	 * @return void
 	 */
-	private function init(): void {
+	public function init(): void {
 		\add_action( 'init', array( $this, 'register_block' ) );
 		\add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+	}
+
+	/**
+	 * Get the component loading priority
+	 *
+	 * @since 1.3.0
+	 * @access public
+	 * @return int
+	 */
+	public function get_priority(): int {
+		return 20;
+	}
+
+	/**
+	 * Determine if the component should be loaded
+	 *
+	 * @since 1.3.0
+	 * @access public
+	 * @return bool
+	 */
+	public function should_load(): bool {
+		return true;
 	}
 
 	/**
