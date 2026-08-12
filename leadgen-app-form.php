@@ -433,7 +433,7 @@ class LeadGen_App_Form {
 			return false;
 		}
 
-		// Parse Elementor data (it"s stored as JSON).
+		// Parse Elementor data (it's stored as JSON).
 		$elementor_data = json_decode( $elementor_data, true );
 
 		if ( ! is_array( $elementor_data ) ) {
