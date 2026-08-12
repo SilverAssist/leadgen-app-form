@@ -69,7 +69,7 @@ class WidgetsLoader {
 	 * @access private
 	 */
 	private function __construct() {
-		// Check if Elementor is active before proceeding
+		// Check if Elementor is active before proceeding.
 		if ( ! $this->is_elementor_loaded() ) {
 			return;
 		}
@@ -91,7 +91,7 @@ class WidgetsLoader {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @throws \Exception
+	 * @throws \Exception Always -- singletons must never be unserialized.
 	 */
 	public function __wakeup(): void {
 		throw new \Exception( 'Cannot unserialize singleton' );
@@ -119,13 +119,13 @@ class WidgetsLoader {
 	 * @return void
 	 */
 	private function init_hooks(): void {
-		// Register widgets when Elementor widgets are registered
+		// Register widgets when Elementor widgets are registered.
 		\add_action( 'elementor/widgets/register', array( $this, 'register_widgets' ) );
 
-		// Register widget category
+		// Register widget category.
 		\add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_category' ) );
 
-		// Register frontend scripts and styles
+		// Register frontend scripts and styles.
 		\add_action( 'elementor/frontend/after_register_scripts', array( $this, 'register_frontend_scripts' ) );
 	}
 
@@ -175,7 +175,7 @@ class WidgetsLoader {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @param Elements_Manager $elements_manager The Elementor elements manager
+	 * @param Elements_Manager $elements_manager The Elementor elements manager.
 	 * @return void
 	 */
 	public function register_widget_category( Elements_Manager $elements_manager ): void {
@@ -196,14 +196,14 @@ class WidgetsLoader {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @param Widgets_Manager $widgets_manager Elementor widgets manager
+	 * @param Widgets_Manager $widgets_manager Elementor widgets manager.
 	 * @return void
 	 */
 	public function register_widgets( Widgets_Manager $widgets_manager ): void {
-		// Include widget files
+		// Include widget files.
 		$this->include_widget_files();
 
-		// Register widgets
+		// Register widgets.
 		$widget_list = self::get_widget_list();
 
 		foreach ( $widget_list as $widget_key => $widget_class ) {
@@ -226,7 +226,7 @@ class WidgetsLoader {
 	 * @return void
 	 */
 	public function register_frontend_scripts(): void {
-		// Register CSS for Elementor specific styles
+		// Register CSS for Elementor specific styles.
 		\wp_register_style(
 			'leadgen-elementor-css',
 			LEADGEN_APP_FORM_PLUGIN_URL . 'assets/css/leadgen-elementor.css',
@@ -235,7 +235,7 @@ class WidgetsLoader {
 		);
 
 		// The main plugin scripts are already registered in the main class
-		// We just need to ensure they're available for Elementor widgets
+		// We just need to ensure they're available for Elementor widgets.
 	}
 
 	/**

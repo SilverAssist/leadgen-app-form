@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LeadGen Form Gutenberg Block Handler
  *
@@ -14,7 +13,7 @@
 
 namespace LeadGenAppForm\Block;
 
-// Prevent direct access
+// Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -64,7 +63,7 @@ class LeadGenFormBlock {
 	 *
 	 * @since 1.0.0
 	 * @access public
-	 * @throws \Exception
+	 * @throws \Exception Always -- singletons must never be unserialized.
 	 */
 	public function __wakeup(): void {
 		throw new \Exception( 'Cannot unserialize singleton' );
@@ -114,7 +113,7 @@ class LeadGenFormBlock {
 	 * @return void
 	 */
 	public function register_block(): void {
-		// Register the block using block.json
+		// Register the block using block.json.
 		\register_block_type(
 			LEADGEN_APP_FORM_PLUGIN_PATH . 'blocks/leadgen-form/block.json',
 			array(
@@ -134,7 +133,7 @@ class LeadGenFormBlock {
 	 * @return void
 	 */
 	public function enqueue_block_editor_assets(): void {
-		// Enqueue block editor CSS
+		// Enqueue block editor CSS.
 		\wp_enqueue_style(
 			'leadgen-form-block-editor',
 			LEADGEN_APP_FORM_PLUGIN_URL . 'blocks/leadgen-form/editor.css',
@@ -142,7 +141,7 @@ class LeadGenFormBlock {
 			LEADGEN_APP_FORM_VERSION
 		);
 
-		// Enqueue block JavaScript
+		// Enqueue block JavaScript.
 		\wp_enqueue_script(
 			'leadgen-form-block-js',
 			LEADGEN_APP_FORM_PLUGIN_URL . 'blocks/leadgen-form/block.js',
@@ -171,20 +170,20 @@ class LeadGenFormBlock {
 	 * @return string HTML output for the block
 	 */
 	public function render_block( array $attributes ): string {
-		// Extract and sanitize attributes
+		// Extract and sanitize attributes.
 		$desktop_id     = \sanitize_text_field( $attributes['desktopId'] ?? '' );
 		$mobile_id      = \sanitize_text_field( $attributes['mobileId'] ?? '' );
 		$desktop_height = \sanitize_text_field( $attributes['desktopHeight'] ?? '' );
 		$mobile_height  = \sanitize_text_field( $attributes['mobileHeight'] ?? '' );
 
-		// Validate that at least one ID is present
+		// Validate that at least one ID is present.
 		if ( empty( $desktop_id ) && empty( $mobile_id ) ) {
 			return '<div class="leadgen-form-error">' .
 			\esc_html__( 'Error: At least one of the desktop or mobile form ID is required', 'leadgen-app-form' ) .
 			'</div>';
 		}
 
-		// Build shortcode attributes array
+		// Build shortcode attributes array.
 		$shortcode_atts = array();
 
 		if ( ! empty( $desktop_id ) ) {
@@ -203,7 +202,7 @@ class LeadGenFormBlock {
 			$shortcode_atts['mobile-height'] = $mobile_height;
 		}
 
-		// Convert attributes array to shortcode string
+		// Convert attributes array to shortcode string.
 		$shortcode_parts = array();
 		foreach ( $shortcode_atts as $key => $value ) {
 			$shortcode_parts[] = "{$key}=\"{$value}\"";
@@ -211,7 +210,7 @@ class LeadGenFormBlock {
 
 		$shortcode_string = '[leadgen_form ' . implode( ' ', $shortcode_parts ) . ']';
 
-		// Use WordPress do_shortcode to render
+		// Use WordPress do_shortcode to render.
 		return \do_shortcode( $shortcode_string );
 	}
 

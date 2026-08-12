@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LeadGen App Form Updater - GitHub Updates Integration
  *
@@ -14,7 +13,7 @@
 
 namespace LeadGenAppForm;
 
-// Prevent direct access
+// Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -33,8 +32,8 @@ class LeadGenAppFormUpdater extends GitHubUpdater {
 	/**
 	 * Initialize the LeadGen App Form updater with specific configuration
 	 *
-	 * @param string $plugin_file   Path to main plugin file
-	 * @param string $github_repo   GitHub repository (username/repository)
+	 * @param string $plugin_file   Path to main plugin file.
+	 * @param string $github_repo   GitHub repository (username/repository).
 	 */
 	public function __construct( string $plugin_file, string $github_repo ) {
 		$config = new UpdaterConfig(
