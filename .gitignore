@@ -45,3 +45,4 @@ RELEASE-NOTES.md
 
 # PHPCS cache
 .phpcs-cache
+.phpunit.result.cache
