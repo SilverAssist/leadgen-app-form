@@ -8,29 +8,37 @@ WordPress plugin for embedding LeadGen App forms via shortcode, Gutenberg block,
 |------------------|--------------------------------|
 | Namespace        | `LeadGenAppForm`               |
 | Text Domain      | `leadgen-app-form`             |
-| Version          | 1.0.3                         |
-| Requires PHP     | 8.0                           |
+| Version          | 1.3.1                         |
+| Requires PHP     | 8.2                           |
 | License          | Polyform Noncommercial 1.0.0  |
 | GitHub Repo      | `SilverAssist/leadgen-app-form`|
 
 ## Differences from Global Standards
 
 - **Double quotes** everywhere (PHP and JS) — not single quotes
-- **PHP 8.0** minimum — not 8.2
-- **Singleton pattern** (`get_instance()`) — not LoadableInterface
 - **No activation/deactivation hooks** — plugin doesn't modify WP internals
-- PSR-4 autoloading via `require_once` in `load_dependencies()`, not a DI container
 
 ## Architecture
 
+Built on `silverassist/wp-plugin-kernel`'s `AbstractPlugin`/`LoadableInterface`
+pattern — singleton access (`instance()`), priority-ordered component loading,
+and per-component error isolation are inherited from `AbstractPlugin`; `Plugin`
+only declares `get_components()` and `init_hooks()`. Bootstrapped on `init`
+(not `plugins_loaded` — see the docblock on the `add_action` call in the main
+file: `WidgetsLoader::should_load()` depends on
+`did_action('elementor/loaded')`, unreliable before every plugin's own
+`plugins_loaded` has run).
+
 ```
-leadgen-app-form.php              # Entry point (Singleton)
+leadgen-app-form.php              # Entry point — wires Plugin::instance()->init() on "init"
 includes/
-├── LeadGenFormBlock.php          # Gutenberg block handler
-├── LeadGenAppFormUpdater.php     # GitHub updater (extends silverassist/wp-github-updater)
-├── LeadGenAppFormAdmin.php       # Admin interface (Settings → LeadGen Forms)
+├── Plugin.php                    # extends AbstractPlugin — get_components(), init_hooks()
+├── ShortcodeHandler.php          # LoadableInterface component
+├── LeadGenFormBlock.php          # Gutenberg block handler, LoadableInterface component
+├── LeadGenAppFormAdmin.php       # Admin interface (Settings → LeadGen Forms), LoadableInterface component
+├── LeadGenAppFormUpdater.php     # GitHub updater (extends silverassist/wp-github-updater), constructed directly in Plugin::init_hooks()
 └── elementor/
-    ├── WidgetsLoader.php         # Conditional loader (only when Elementor active)
+    ├── WidgetsLoader.php         # LoadableInterface component — should_load() gates on Elementor
     └── widgets/
         └── LeadGenFormWidget.php # Elementor widget
 blocks/leadgen-form/              # Gutenberg block assets (block.json, block.js, editor.css)
@@ -78,7 +86,7 @@ Uses `silverassist/wp-github-updater` package. `LeadGenAppFormUpdater` extends `
 
 | File | Role |
 |------|------|
-| `leadgen-app-form.php` | Main plugin file (Singleton) |
+| `leadgen-app-form.php` | Main plugin file (thin bootstrap) |
 | `includes/LeadGenFormBlock.php` | Gutenberg block handler |
 | `includes/LeadGenAppFormUpdater.php` | GitHub updater |
 | `includes/LeadGenAppFormAdmin.php` | Admin settings page |
