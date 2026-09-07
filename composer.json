@@ -51,7 +51,10 @@
     "phpcs": "phpcs",
     "phpcbf": "phpcbf",
     "phpstan": "phpstan analyse --memory-limit=512M",
-    "lint": "find . -name '*.php' -not -path './vendor/*' -exec php -l {} \\;"
+    "lint": "find . -name '*.php' -not -path './vendor/*' -exec php -l {} \\;",
+    "setup-hooks": "git config core.hooksPath .githooks",
+    "post-install-cmd": "@setup-hooks",
+    "post-update-cmd": "@setup-hooks"
   },
   "support": {
     "issues": "https://github.com/SilverAssist/leadgen-app-form/issues",
