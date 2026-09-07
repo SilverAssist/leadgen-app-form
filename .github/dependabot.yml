@@ -1,26 +1,65 @@
 # Dependabot configuration for automated dependency updates
-# This configuration enables automatic updates for GitHub Actions
-# with SHA pinning support for enhanced security
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# Standardized across all SilverAssist WordPress plugins — see paubox-cf7 for
+# the reference copy. Only patch/minor updates are grouped for auto-merge;
+# majors always get their own PR for manual review.
 
 version: 2
 updates:
-  # GitHub Actions dependency updates
-  - package-ecosystem: "github-actions"
+  # Composer dependencies (PHP packages)
+  - package-ecosystem: "composer"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
       timezone: "America/Mexico_City"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "composer"
+      - "automated"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps"
+      include: "scope"
+    groups:
+      composer-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # PHPUnit 10+ incompatible with WordPress Test Suite (WP_UnitTestCase);
+      # the test suite still requires PHPUnit 9.x.
+      - dependency-name: "phpunit/phpunit"
+        update-types: ["version-update:semver-major"]
+      # Internal SilverAssist packages — major bumps get manual review.
+      - dependency-name: "silverassist/wp-settings-hub"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "silverassist/wp-github-updater"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "silverassist/wp-plugin-kernel"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:30"
+      timezone: "America/Mexico_City"
+    open-pull-requests-limit: 3
     labels:
       - "dependencies"
       - "github-actions"
       - "automated"
-    reviewers:
-      - "copilot"
-    open-pull-requests-limit: 10
-    
-    # Group all GitHub Actions updates together
+    commit-message:
+      prefix: "ci"
+      include: "scope"
     groups:
       github-actions-updates:
         patterns:
@@ -28,14 +67,3 @@ updates:
         update-types:
           - "minor"
           - "patch"
-    
-    # Ignore major updates for critical actions (manual review required)
-    ignore:
-      - dependency-name: "actions/checkout"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "shivammathur/setup-php"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "actions/upload-artifact"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "actions/github-script"
-        update-types: ["version-update:semver-major"]
