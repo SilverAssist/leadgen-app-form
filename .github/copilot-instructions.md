@@ -8,7 +8,7 @@ WordPress plugin for embedding LeadGen App forms via shortcode, Gutenberg block,
 |------------------|--------------------------------|
 | Namespace        | `LeadGenAppForm`               |
 | Text Domain      | `leadgen-app-form`             |
-| Version          | 1.3.1                         |
+| Version          | 1.3.2                         |
 | Requires PHP     | 8.2                           |
 | License          | Polyform Noncommercial 1.0.0  |
 | GitHub Repo      | `SilverAssist/leadgen-app-form`|
